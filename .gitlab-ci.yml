@@ -1,0 +1,30 @@
+image: golang:alpine
+before_script:
+  - pwd
+  - export WORK_DIR=/home/infra/sources/galaxy
+
+stages:
+  # - test
+  - deploy
+
+# test:
+#   stage: test
+#   image: golang:alpine
+#   script:
+#     - git --work-tree=$WORK_DIR checkout -f origin/master
+#     - go test ./...
+
+deplop:
+  stage: deploy
+
+  tags:
+    - prod-b
+
+  only:
+    - master
+
+  script:
+    - git --work-tree=$WORK_DIR checkout -f origin/master
+    - docker build . -t galaxy
+    - docker-compose stop
+    - docker-compose up -d

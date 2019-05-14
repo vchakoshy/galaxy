@@ -1,0 +1,9 @@
+version: '2.1'
+
+services:
+  galaxy:
+    image: galaxy
+    build: .
+    restart: always
+    ports: 
+      - 8091:80
