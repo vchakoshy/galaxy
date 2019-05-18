@@ -62,18 +62,19 @@ func PageBlank(c *gin.Context) {
 	componenets := make([]flexComponent, 0)
 
 	for _, comp := range fpc {
-		com := flexComponent{
-			Type:         "HL_BOOKS_ARTICLE",
-			ResourceType: "BOOK",
-		}
 
 		cs := flexComponentSettings{}
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
 		if cs.Settings.DataProvider == "BOOK" {
+
 			set := cs.Settings.Setup.Book
 			log.Println("data provider is book")
 			// spew.Dump(set)
 			if set.Type == "STATIC" && set.Mapping == "id" {
+				com := flexComponent{
+					Type:         "HL_BOOKS_ARTICLE",
+					ResourceType: "BOOK",
+				}
 				idis := set.Ids
 				for _, id := range idis {
 					b, err := models.Books(qm.Where("id=?", id)).OneG(context.Background())
@@ -121,10 +122,11 @@ func PageBlank(c *gin.Context) {
 					com.Data.Items.Generic = append(com.Data.Items.Generic, fb)
 
 				}
+				componenets = append(componenets, com)
 			}
 
 		}
-		componenets = append(componenets, com)
+
 	}
 
 	for index, tabs := range settings.Tabs {
