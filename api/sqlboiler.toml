@@ -6,4 +6,4 @@
   pass    = "j3AhwCj4SqVQI62Y"
   sslmode = "false"
 
-whitelist = ["author", "flex_pages", "flex_components", "flex_page_components"]
+whitelist = ["author", "flex_pages", "flex_components", "flex_page_components", "book"]

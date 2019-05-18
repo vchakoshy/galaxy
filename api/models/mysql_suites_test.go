@@ -8,6 +8,8 @@ import "testing"
 func TestUpsert(t *testing.T) {
 	t.Run("Authors", testAuthorsUpsert)
 
+	t.Run("Books", testBooksUpsert)
+
 	t.Run("FlexComponents", testFlexComponentsUpsert)
 
 	t.Run("FlexPageComponents", testFlexPageComponentsUpsert)

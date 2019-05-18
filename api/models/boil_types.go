@@ -51,6 +51,62 @@ func makeCacheKey(cols boil.Columns, nzDefaults []string) string {
 	return str
 }
 
+// Enum values for book.format
+const (
+	BookFormatEPUB  = "EPUB"
+	BookFormatPDF   = "PDF"
+	BookFormatAUDIO = "AUDIO"
+	BookFormatVIDEO = "VIDEO"
+)
+
+// Enum values for book.content_type
+const (
+	BookContentTypeBook        = "book"
+	BookContentTypeMagazine    = "magazine"
+	BookContentTypeNewspaper   = "newspaper"
+	BookContentTypeReport      = "report"
+	BookContentTypePackage     = "package"
+	BookContentTypeMicrobook   = "microbook"
+	BookContentTypeComic       = "comic"
+	BookContentTypePodcast     = "podcast"
+	BookContentTypeMusic       = "music"
+	BookContentTypeArticle     = "article"
+	BookContentTypeSingleVideo = "single_video"
+)
+
+// Enum values for book.language
+const (
+	BookLanguageFARSI      = "FARSI"
+	BookLanguageARABIC     = "ARABIC"
+	BookLanguageENGLISH    = "ENGLISH"
+	BookLanguageGERMAN     = "GERMAN"
+	BookLanguageSPANISH    = "SPANISH"
+	BookLanguageFRENCH     = "FRENCH"
+	BookLanguageITALIAN    = "ITALIAN"
+	BookLanguagePORTUGUESE = "PORTUGUESE"
+)
+
+// Enum values for book.base_price
+const (
+	BookBasePriceFIXED  = "FIXED"
+	BookBasePriceTOMAN  = "TOMAN"
+	BookBasePriceDOLLAR = "DOLLAR"
+)
+
+// Enum values for book.provider
+const (
+	BookProviderFIDIBO = "FIDIBO"
+	BookProviderWILEY  = "WILEY"
+	BookProviderTAYLOR = "TAYLOR"
+)
+
+// Enum values for book.suitable_for
+const (
+	BookSuitableForMEN   = "MEN"
+	BookSuitableForWOMEN = "WOMEN"
+	BookSuitableForBOTH  = "BOTH"
+)
+
 // Enum values for flex_components.view_type
 const (
 	FlexComponentsViewTypeSINGLE   = "SINGLE"

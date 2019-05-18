@@ -122,10 +122,29 @@ var AuthorWhere = struct {
 
 // AuthorRels is where relationship names are stored.
 var AuthorRels = struct {
-}{}
+	Books            string
+	TranslatorBooks  string
+	Author2Books     string
+	Author3Books     string
+	Translator2Books string
+	Translator3Books string
+}{
+	Books:            "Books",
+	TranslatorBooks:  "TranslatorBooks",
+	Author2Books:     "Author2Books",
+	Author3Books:     "Author3Books",
+	Translator2Books: "Translator2Books",
+	Translator3Books: "Translator3Books",
+}
 
 // authorR is where relationships are stored.
 type authorR struct {
+	Books            BookSlice
+	TranslatorBooks  BookSlice
+	Author2Books     BookSlice
+	Author3Books     BookSlice
+	Translator2Books BookSlice
+	Translator3Books BookSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -436,6 +455,1608 @@ func (q authorQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (boo
 	}
 
 	return count > 0, nil
+}
+
+// Books retrieves all the book's Books with an executor.
+func (o *Author) Books(mods ...qm.QueryMod) bookQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`book`.`author_id`=?", o.ID),
+	)
+
+	query := Books(queryMods...)
+	queries.SetFrom(query.Query, "`book`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// TranslatorBooks retrieves all the book's Books with an executor via translator_id column.
+func (o *Author) TranslatorBooks(mods ...qm.QueryMod) bookQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`book`.`translator_id`=?", o.ID),
+	)
+
+	query := Books(queryMods...)
+	queries.SetFrom(query.Query, "`book`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// Author2Books retrieves all the book's Books with an executor via author2_id column.
+func (o *Author) Author2Books(mods ...qm.QueryMod) bookQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`book`.`author2_id`=?", o.ID),
+	)
+
+	query := Books(queryMods...)
+	queries.SetFrom(query.Query, "`book`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// Author3Books retrieves all the book's Books with an executor via author3_id column.
+func (o *Author) Author3Books(mods ...qm.QueryMod) bookQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`book`.`author3_id`=?", o.ID),
+	)
+
+	query := Books(queryMods...)
+	queries.SetFrom(query.Query, "`book`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// Translator2Books retrieves all the book's Books with an executor via translator2_id column.
+func (o *Author) Translator2Books(mods ...qm.QueryMod) bookQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`book`.`translator2_id`=?", o.ID),
+	)
+
+	query := Books(queryMods...)
+	queries.SetFrom(query.Query, "`book`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// Translator3Books retrieves all the book's Books with an executor via translator3_id column.
+func (o *Author) Translator3Books(mods ...qm.QueryMod) bookQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`book`.`translator3_id`=?", o.ID),
+	)
+
+	query := Books(queryMods...)
+	queries.SetFrom(query.Query, "`book`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// LoadBooks allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadBooks(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book`), qm.WhereIn(`author_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load book")
+	}
+
+	var resultSlice []*Book
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on book")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.Books = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &bookR{}
+			}
+			foreign.R.Author = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.AuthorID) {
+				local.R.Books = append(local.R.Books, foreign)
+				if foreign.R == nil {
+					foreign.R = &bookR{}
+				}
+				foreign.R.Author = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadTranslatorBooks allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadTranslatorBooks(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book`), qm.WhereIn(`translator_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load book")
+	}
+
+	var resultSlice []*Book
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on book")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.TranslatorBooks = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &bookR{}
+			}
+			foreign.R.Translator = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.TranslatorID) {
+				local.R.TranslatorBooks = append(local.R.TranslatorBooks, foreign)
+				if foreign.R == nil {
+					foreign.R = &bookR{}
+				}
+				foreign.R.Translator = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadAuthor2Books allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadAuthor2Books(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book`), qm.WhereIn(`author2_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load book")
+	}
+
+	var resultSlice []*Book
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on book")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.Author2Books = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &bookR{}
+			}
+			foreign.R.Author2 = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.Author2ID) {
+				local.R.Author2Books = append(local.R.Author2Books, foreign)
+				if foreign.R == nil {
+					foreign.R = &bookR{}
+				}
+				foreign.R.Author2 = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadAuthor3Books allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadAuthor3Books(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book`), qm.WhereIn(`author3_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load book")
+	}
+
+	var resultSlice []*Book
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on book")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.Author3Books = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &bookR{}
+			}
+			foreign.R.Author3 = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.Author3ID) {
+				local.R.Author3Books = append(local.R.Author3Books, foreign)
+				if foreign.R == nil {
+					foreign.R = &bookR{}
+				}
+				foreign.R.Author3 = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadTranslator2Books allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadTranslator2Books(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book`), qm.WhereIn(`translator2_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load book")
+	}
+
+	var resultSlice []*Book
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on book")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.Translator2Books = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &bookR{}
+			}
+			foreign.R.Translator2 = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.Translator2ID) {
+				local.R.Translator2Books = append(local.R.Translator2Books, foreign)
+				if foreign.R == nil {
+					foreign.R = &bookR{}
+				}
+				foreign.R.Translator2 = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadTranslator3Books allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadTranslator3Books(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book`), qm.WhereIn(`translator3_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load book")
+	}
+
+	var resultSlice []*Book
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on book")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.Translator3Books = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &bookR{}
+			}
+			foreign.R.Translator3 = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.Translator3ID) {
+				local.R.Translator3Books = append(local.R.Translator3Books, foreign)
+				if foreign.R == nil {
+					foreign.R = &bookR{}
+				}
+				foreign.R.Translator3 = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// AddBooksG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Books.
+// Sets related.R.Author appropriately.
+// Uses the global database handle.
+func (o *Author) AddBooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.AddBooks(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddBooks adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Books.
+// Sets related.R.Author appropriately.
+func (o *Author) AddBooks(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.AuthorID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `book` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"author_id"}),
+				strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.AuthorID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			Books: related,
+		}
+	} else {
+		o.R.Books = append(o.R.Books, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &bookR{
+				Author: o,
+			}
+		} else {
+			rel.R.Author = o
+		}
+	}
+	return nil
+}
+
+// SetBooksG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author's Books accordingly.
+// Replaces o.R.Books with related.
+// Sets related.R.Author's Books accordingly.
+// Uses the global database handle.
+func (o *Author) SetBooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.SetBooks(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetBooks removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author's Books accordingly.
+// Replaces o.R.Books with related.
+// Sets related.R.Author's Books accordingly.
+func (o *Author) SetBooks(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	query := "update `book` set `author_id` = null where `author_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.Books {
+			queries.SetScanner(&rel.AuthorID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Author = nil
+		}
+
+		o.R.Books = nil
+	}
+	return o.AddBooks(ctx, exec, insert, related...)
+}
+
+// RemoveBooksG relationships from objects passed in.
+// Removes related items from R.Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author.
+// Uses the global database handle.
+func (o *Author) RemoveBooksG(ctx context.Context, related ...*Book) error {
+	return o.RemoveBooks(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveBooks relationships from objects passed in.
+// Removes related items from R.Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author.
+func (o *Author) RemoveBooks(ctx context.Context, exec boil.ContextExecutor, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.AuthorID, nil)
+		if rel.R != nil {
+			rel.R.Author = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("author_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.Books {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.Books)
+			if ln > 1 && i < ln-1 {
+				o.R.Books[i] = o.R.Books[ln-1]
+			}
+			o.R.Books = o.R.Books[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddTranslatorBooksG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.TranslatorBooks.
+// Sets related.R.Translator appropriately.
+// Uses the global database handle.
+func (o *Author) AddTranslatorBooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.AddTranslatorBooks(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddTranslatorBooks adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.TranslatorBooks.
+// Sets related.R.Translator appropriately.
+func (o *Author) AddTranslatorBooks(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.TranslatorID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `book` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"translator_id"}),
+				strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.TranslatorID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			TranslatorBooks: related,
+		}
+	} else {
+		o.R.TranslatorBooks = append(o.R.TranslatorBooks, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &bookR{
+				Translator: o,
+			}
+		} else {
+			rel.R.Translator = o
+		}
+	}
+	return nil
+}
+
+// SetTranslatorBooksG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator's TranslatorBooks accordingly.
+// Replaces o.R.TranslatorBooks with related.
+// Sets related.R.Translator's TranslatorBooks accordingly.
+// Uses the global database handle.
+func (o *Author) SetTranslatorBooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.SetTranslatorBooks(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetTranslatorBooks removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator's TranslatorBooks accordingly.
+// Replaces o.R.TranslatorBooks with related.
+// Sets related.R.Translator's TranslatorBooks accordingly.
+func (o *Author) SetTranslatorBooks(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	query := "update `book` set `translator_id` = null where `translator_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.TranslatorBooks {
+			queries.SetScanner(&rel.TranslatorID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Translator = nil
+		}
+
+		o.R.TranslatorBooks = nil
+	}
+	return o.AddTranslatorBooks(ctx, exec, insert, related...)
+}
+
+// RemoveTranslatorBooksG relationships from objects passed in.
+// Removes related items from R.TranslatorBooks (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator.
+// Uses the global database handle.
+func (o *Author) RemoveTranslatorBooksG(ctx context.Context, related ...*Book) error {
+	return o.RemoveTranslatorBooks(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveTranslatorBooks relationships from objects passed in.
+// Removes related items from R.TranslatorBooks (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator.
+func (o *Author) RemoveTranslatorBooks(ctx context.Context, exec boil.ContextExecutor, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.TranslatorID, nil)
+		if rel.R != nil {
+			rel.R.Translator = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("translator_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.TranslatorBooks {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.TranslatorBooks)
+			if ln > 1 && i < ln-1 {
+				o.R.TranslatorBooks[i] = o.R.TranslatorBooks[ln-1]
+			}
+			o.R.TranslatorBooks = o.R.TranslatorBooks[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddAuthor2BooksG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Author2Books.
+// Sets related.R.Author2 appropriately.
+// Uses the global database handle.
+func (o *Author) AddAuthor2BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.AddAuthor2Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddAuthor2Books adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Author2Books.
+// Sets related.R.Author2 appropriately.
+func (o *Author) AddAuthor2Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.Author2ID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `book` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"author2_id"}),
+				strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.Author2ID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			Author2Books: related,
+		}
+	} else {
+		o.R.Author2Books = append(o.R.Author2Books, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &bookR{
+				Author2: o,
+			}
+		} else {
+			rel.R.Author2 = o
+		}
+	}
+	return nil
+}
+
+// SetAuthor2BooksG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author2's Author2Books accordingly.
+// Replaces o.R.Author2Books with related.
+// Sets related.R.Author2's Author2Books accordingly.
+// Uses the global database handle.
+func (o *Author) SetAuthor2BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.SetAuthor2Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetAuthor2Books removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author2's Author2Books accordingly.
+// Replaces o.R.Author2Books with related.
+// Sets related.R.Author2's Author2Books accordingly.
+func (o *Author) SetAuthor2Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	query := "update `book` set `author2_id` = null where `author2_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.Author2Books {
+			queries.SetScanner(&rel.Author2ID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Author2 = nil
+		}
+
+		o.R.Author2Books = nil
+	}
+	return o.AddAuthor2Books(ctx, exec, insert, related...)
+}
+
+// RemoveAuthor2BooksG relationships from objects passed in.
+// Removes related items from R.Author2Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author2.
+// Uses the global database handle.
+func (o *Author) RemoveAuthor2BooksG(ctx context.Context, related ...*Book) error {
+	return o.RemoveAuthor2Books(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveAuthor2Books relationships from objects passed in.
+// Removes related items from R.Author2Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author2.
+func (o *Author) RemoveAuthor2Books(ctx context.Context, exec boil.ContextExecutor, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.Author2ID, nil)
+		if rel.R != nil {
+			rel.R.Author2 = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("author2_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.Author2Books {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.Author2Books)
+			if ln > 1 && i < ln-1 {
+				o.R.Author2Books[i] = o.R.Author2Books[ln-1]
+			}
+			o.R.Author2Books = o.R.Author2Books[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddAuthor3BooksG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Author3Books.
+// Sets related.R.Author3 appropriately.
+// Uses the global database handle.
+func (o *Author) AddAuthor3BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.AddAuthor3Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddAuthor3Books adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Author3Books.
+// Sets related.R.Author3 appropriately.
+func (o *Author) AddAuthor3Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.Author3ID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `book` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"author3_id"}),
+				strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.Author3ID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			Author3Books: related,
+		}
+	} else {
+		o.R.Author3Books = append(o.R.Author3Books, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &bookR{
+				Author3: o,
+			}
+		} else {
+			rel.R.Author3 = o
+		}
+	}
+	return nil
+}
+
+// SetAuthor3BooksG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author3's Author3Books accordingly.
+// Replaces o.R.Author3Books with related.
+// Sets related.R.Author3's Author3Books accordingly.
+// Uses the global database handle.
+func (o *Author) SetAuthor3BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.SetAuthor3Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetAuthor3Books removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author3's Author3Books accordingly.
+// Replaces o.R.Author3Books with related.
+// Sets related.R.Author3's Author3Books accordingly.
+func (o *Author) SetAuthor3Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	query := "update `book` set `author3_id` = null where `author3_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.Author3Books {
+			queries.SetScanner(&rel.Author3ID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Author3 = nil
+		}
+
+		o.R.Author3Books = nil
+	}
+	return o.AddAuthor3Books(ctx, exec, insert, related...)
+}
+
+// RemoveAuthor3BooksG relationships from objects passed in.
+// Removes related items from R.Author3Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author3.
+// Uses the global database handle.
+func (o *Author) RemoveAuthor3BooksG(ctx context.Context, related ...*Book) error {
+	return o.RemoveAuthor3Books(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveAuthor3Books relationships from objects passed in.
+// Removes related items from R.Author3Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author3.
+func (o *Author) RemoveAuthor3Books(ctx context.Context, exec boil.ContextExecutor, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.Author3ID, nil)
+		if rel.R != nil {
+			rel.R.Author3 = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("author3_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.Author3Books {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.Author3Books)
+			if ln > 1 && i < ln-1 {
+				o.R.Author3Books[i] = o.R.Author3Books[ln-1]
+			}
+			o.R.Author3Books = o.R.Author3Books[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddTranslator2BooksG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Translator2Books.
+// Sets related.R.Translator2 appropriately.
+// Uses the global database handle.
+func (o *Author) AddTranslator2BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.AddTranslator2Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddTranslator2Books adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Translator2Books.
+// Sets related.R.Translator2 appropriately.
+func (o *Author) AddTranslator2Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.Translator2ID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `book` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"translator2_id"}),
+				strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.Translator2ID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			Translator2Books: related,
+		}
+	} else {
+		o.R.Translator2Books = append(o.R.Translator2Books, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &bookR{
+				Translator2: o,
+			}
+		} else {
+			rel.R.Translator2 = o
+		}
+	}
+	return nil
+}
+
+// SetTranslator2BooksG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator2's Translator2Books accordingly.
+// Replaces o.R.Translator2Books with related.
+// Sets related.R.Translator2's Translator2Books accordingly.
+// Uses the global database handle.
+func (o *Author) SetTranslator2BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.SetTranslator2Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetTranslator2Books removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator2's Translator2Books accordingly.
+// Replaces o.R.Translator2Books with related.
+// Sets related.R.Translator2's Translator2Books accordingly.
+func (o *Author) SetTranslator2Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	query := "update `book` set `translator2_id` = null where `translator2_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.Translator2Books {
+			queries.SetScanner(&rel.Translator2ID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Translator2 = nil
+		}
+
+		o.R.Translator2Books = nil
+	}
+	return o.AddTranslator2Books(ctx, exec, insert, related...)
+}
+
+// RemoveTranslator2BooksG relationships from objects passed in.
+// Removes related items from R.Translator2Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator2.
+// Uses the global database handle.
+func (o *Author) RemoveTranslator2BooksG(ctx context.Context, related ...*Book) error {
+	return o.RemoveTranslator2Books(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveTranslator2Books relationships from objects passed in.
+// Removes related items from R.Translator2Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator2.
+func (o *Author) RemoveTranslator2Books(ctx context.Context, exec boil.ContextExecutor, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.Translator2ID, nil)
+		if rel.R != nil {
+			rel.R.Translator2 = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("translator2_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.Translator2Books {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.Translator2Books)
+			if ln > 1 && i < ln-1 {
+				o.R.Translator2Books[i] = o.R.Translator2Books[ln-1]
+			}
+			o.R.Translator2Books = o.R.Translator2Books[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddTranslator3BooksG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Translator3Books.
+// Sets related.R.Translator3 appropriately.
+// Uses the global database handle.
+func (o *Author) AddTranslator3BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.AddTranslator3Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddTranslator3Books adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.Translator3Books.
+// Sets related.R.Translator3 appropriately.
+func (o *Author) AddTranslator3Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.Translator3ID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `book` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"translator3_id"}),
+				strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.Translator3ID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			Translator3Books: related,
+		}
+	} else {
+		o.R.Translator3Books = append(o.R.Translator3Books, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &bookR{
+				Translator3: o,
+			}
+		} else {
+			rel.R.Translator3 = o
+		}
+	}
+	return nil
+}
+
+// SetTranslator3BooksG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator3's Translator3Books accordingly.
+// Replaces o.R.Translator3Books with related.
+// Sets related.R.Translator3's Translator3Books accordingly.
+// Uses the global database handle.
+func (o *Author) SetTranslator3BooksG(ctx context.Context, insert bool, related ...*Book) error {
+	return o.SetTranslator3Books(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetTranslator3Books removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator3's Translator3Books accordingly.
+// Replaces o.R.Translator3Books with related.
+// Sets related.R.Translator3's Translator3Books accordingly.
+func (o *Author) SetTranslator3Books(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+	query := "update `book` set `translator3_id` = null where `translator3_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.Translator3Books {
+			queries.SetScanner(&rel.Translator3ID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Translator3 = nil
+		}
+
+		o.R.Translator3Books = nil
+	}
+	return o.AddTranslator3Books(ctx, exec, insert, related...)
+}
+
+// RemoveTranslator3BooksG relationships from objects passed in.
+// Removes related items from R.Translator3Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator3.
+// Uses the global database handle.
+func (o *Author) RemoveTranslator3BooksG(ctx context.Context, related ...*Book) error {
+	return o.RemoveTranslator3Books(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveTranslator3Books relationships from objects passed in.
+// Removes related items from R.Translator3Books (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator3.
+func (o *Author) RemoveTranslator3Books(ctx context.Context, exec boil.ContextExecutor, related ...*Book) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.Translator3ID, nil)
+		if rel.R != nil {
+			rel.R.Translator3 = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("translator3_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.Translator3Books {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.Translator3Books)
+			if ln > 1 && i < ln-1 {
+				o.R.Translator3Books[i] = o.R.Translator3Books[ln-1]
+			}
+			o.R.Translator3Books = o.R.Translator3Books[:ln-1]
+			break
+		}
+	}
+
+	return nil
 }
 
 // Authors retrieves all the records using an executor.

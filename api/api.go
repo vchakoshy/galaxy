@@ -13,6 +13,8 @@ import (
 // Run runs api
 func Run() {
 
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	mysqlDNS := "reader:j3AhwCj4SqVQI62Y@tcp(79.175.173.69:3306)/fidibo1_fidibo?autocommit=true&parseTime=true"
 	db, err := sqlx.Open("mysql", mysqlDNS)
 	if err != nil {

@@ -2,6 +2,8 @@ module gitlab.fidibo.com/backend/galaxy
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/davecgh/go-spew v1.1.1
+	github.com/ericlagergren/decimal v0.0.0-20190507143103-cc8cbe209b64 // indirect
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect

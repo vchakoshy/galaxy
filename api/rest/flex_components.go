@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/volatiletech/sqlboiler/queries/qm"
@@ -13,35 +15,103 @@ import (
 
 type reqData struct {
 	PageName string `json:"pageName"`
+	PageID   string `json:"pageId"`
 }
 
 func PageBlank(c *gin.Context) {
-	pageID := c.Param("id")
-
 	req, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	var rd reqData
 
+	var rd reqData
 	err = json.Unmarshal(req, &rd)
 	if err != nil {
 		log.Println(err.Error())
 	}
 
 	var q qm.QueryMod
-	if pageID != "" {
-		q = qm.Where("id=?", pageID)
+	if rd.PageID != "" {
+		pageIDInt, _ := strconv.Atoi(rd.PageID)
+		q = qm.Where("id=?", pageIDInt)
 	} else {
 		q = qm.Where("name=?", rd.PageName)
 	}
 	log.Println(q)
 
-	fp, err := models.FlexPages(q).
-		OneG(context.Background())
-
+	fp, err := models.FlexPages(q).OneG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
+	}
+
+	qComponent := qm.Where("page_id=?", fp.ID)
+	log.Println(qComponent)
+	fpc, err := models.FlexPageComponents(qComponent, qm.OrderBy("crud_order asc")).
+		AllG(context.Background())
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	componenets := make([]flexComponent, 0)
+
+	for _, comp := range fpc {
+		cs := flexComponentSettings{}
+		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
+		if cs.Settings.DataProvider == "BOOK" {
+			set := cs.Settings.Setup.Book
+			log.Println("data provider is book")
+			// spew.Dump(set)
+			if set.Type == "STATIC" && set.Mapping == "id" {
+				idis := set.Ids
+				for _, id := range idis {
+					b, err := models.Books(qm.Where("id=?", id)).OneG(context.Background())
+					if err != nil {
+						log.Println(err.Error())
+					}
+					bookIDStr := strconv.Itoa(b.ID)
+					fb := flexGenericBook{
+						Title:       b.Title,
+						SubTitle:    b.SubTitle.String,
+						BookID:      bookIDStr,
+						Image:       "/images/books/" + strings.Replace(b.ImageName.String, ".jpg", "_normal.jpg", 1),
+						Format:      b.Format,
+						ContentType: b.ContentType,
+						Action: flexGenericChildAction{
+							Type: "book",
+							Input: []flexActionInput{
+								flexActionInput{
+									Key:   "bookId",
+									Value: bookIDStr,
+								},
+								flexActionInput{
+									Key:   "pageName",
+									Value: "BOOK_OVERVIEW_PAGE",
+								},
+							},
+							Method: "/book/" + bookIDStr + "/get",
+						},
+						ChildAction: flexGenericChildAction{
+							Type: "book",
+							Input: []flexActionInput{
+								flexActionInput{
+									Key:   "bookId",
+									Value: bookIDStr,
+								},
+								flexActionInput{
+									Key:   "pageName",
+									Value: "BOOK_OVERVIEW_PAGE",
+								},
+							},
+							Method: "/book/" + bookIDStr + "/get",
+						},
+					}
+					com := flexComponent{}
+					com.Data.Items.Generic = append(com.Data.Items.Generic, fb)
+					componenets = append(componenets, com)
+				}
+			}
+
+		}
 	}
 
 	settings := flexSetting{}
@@ -66,7 +136,7 @@ func PageBlank(c *gin.Context) {
 
 	fs := flexStruct{
 		Output: flexOutput{
-			Components: []flexComponent{},
+			Components: componenets,
 			FlexErrors: []string{},
 			Setting:    settings,
 			Title:      fp.Title,

@@ -5,11 +5,13 @@ package models
 
 var TableNames = struct {
 	Author             string
+	Book               string
 	FlexComponents     string
 	FlexPageComponents string
 	FlexPages          string
 }{
 	Author:             "author",
+	Book:               "book",
 	FlexComponents:     "flex_components",
 	FlexPageComponents: "flex_page_components",
 	FlexPages:          "flex_pages",
