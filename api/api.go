@@ -28,8 +28,8 @@ func Run() {
 	r.GET("/api/v1/authors/item/:id/", rest.AuthorItem)
 	r.GET("/api/v1/authors/list/", rest.AuthorList)
 
-	r.GET("/api/v1/flex/page/blank/:id/", rest.PageBlank)
-	r.POST("/api/v1/flex/page/blank/", rest.PageBlank)
+	r.GET("/api/v1/flex/page/blank/:id", rest.PageBlank)
+	r.POST("/api/v1/flex/page/blank", rest.PageBlank)
 
 	err = r.Run("0.0.0.0:8080")
 	log.Println(err.Error())
