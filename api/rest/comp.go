@@ -1,22 +1,16 @@
-package rest 
+package rest
 
 import (
+	"context"
 	"encoding/json"
 	"log"
-	"context"
-	"gitlab.fidibo.com/backend/galaxy/api/models"
+
 	"github.com/volatiletech/sqlboiler/queries/qm"
+	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
-
-
-
-
-
 
 func makeComponent(pageID int) []flexComponent {
 	qComponent := qm.Where("page_id=?", pageID)
-
-
 
 	fpc, err := models.FlexPageComponents(
 		qComponent,
@@ -75,7 +69,5 @@ func makeComponent(pageID int) []flexComponent {
 
 	}
 
-
-	
 	return componenets
 }

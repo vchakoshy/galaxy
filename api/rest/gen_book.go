@@ -1,13 +1,15 @@
-package rest 
+package rest
 
 import (
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
-	
-	"strconv"
-	"log"
+
 	"context"
+	"log"
+
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
+
+	"strconv"
 )
 
 type flexGenericChildAction struct {
@@ -36,14 +38,13 @@ type flexGenericBook struct {
 
 func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 
-	res:= make([]flexGenericBook,0)
-	
+	res := make([]flexGenericBook, 0)
 
-	books , err := models.Books(queries...).AllG(context.Background())
+	books, err := models.Books(queries...).AllG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
 	}
-	for _,b:=range books{
+	for _, b := range books {
 		bookIDStr := strconv.Itoa(b.ID)
 		fb := flexGenericBook{
 			Title:       b.Title,
@@ -84,7 +85,6 @@ func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 		}
 		res = append(res, fb)
 	}
-
 
 	return res
 }

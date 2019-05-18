@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"github.com/volatiletech/sqlboiler/boil"
@@ -26,6 +27,7 @@ func Run() {
 	boil.SetDB(db)
 
 	r := gin.Default()
+	r.Use(corsConfig())
 
 	v1 := r.Group("/api/v1/")
 	{
@@ -41,4 +43,11 @@ func Run() {
 
 	err = r.Run("0.0.0.0:8080")
 	log.Println(err.Error())
+}
+
+func corsConfig() gin.HandlerFunc {
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization"}
+	return cors.New(config)
 }
