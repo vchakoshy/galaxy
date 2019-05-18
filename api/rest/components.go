@@ -9,8 +9,20 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
-func makeComponent(pageID int) []flexComponent {
-	qComponent := qm.Where("page_id=?", pageID)
+// Component for flex
+type Component struct {
+	queries []qm.QueryMod
+	pageID  int
+}
+
+func NewComponentByPage(pageID int) *Component {
+	return &Component{
+		pageID: pageID,
+	}
+}
+
+func (c *Component) getData() []flexComponent {
+	qComponent := qm.Where("page_id=?", c.pageID)
 
 	fpc, err := models.FlexPageComponents(
 		qComponent,
