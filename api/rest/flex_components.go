@@ -52,6 +52,13 @@ func PageBlank(c *gin.Context) {
 		log.Println(err.Error())
 	}
 
+	settings := flexSetting{}
+
+	err = json.Unmarshal([]byte(fp.SettingData), &settings)
+	if err != nil {
+		log.Println(err.Error())
+	}
+
 	componenets := make([]flexComponent, 0)
 
 	for _, comp := range fpc {
@@ -105,20 +112,18 @@ func PageBlank(c *gin.Context) {
 							Method: "/book/" + bookIDStr + "/get",
 						},
 					}
-					com := flexComponent{}
+
+					com := flexComponent{
+						Type:         "HL_BOOKS_ARTICLE",
+						ResourceType: "BOOK",
+					}
+
 					com.Data.Items.Generic = append(com.Data.Items.Generic, fb)
 					componenets = append(componenets, com)
 				}
 			}
 
 		}
-	}
-
-	settings := flexSetting{}
-
-	err = json.Unmarshal([]byte(fp.SettingData), &settings)
-	if err != nil {
-		log.Println(err.Error())
 	}
 
 	for index, tabs := range settings.Tabs {
