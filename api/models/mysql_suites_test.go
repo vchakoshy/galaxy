@@ -7,4 +7,8 @@ import "testing"
 
 func TestUpsert(t *testing.T) {
 	t.Run("Authors", testAuthorsUpsert)
+
+	t.Run("FlexComponents", testFlexComponentsUpsert)
+
+	t.Run("FlexPages", testFlexPagesUpsert)
 }

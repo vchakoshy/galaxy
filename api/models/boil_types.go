@@ -50,3 +50,15 @@ func makeCacheKey(cols boil.Columns, nzDefaults []string) string {
 	strmangle.PutBuffer(buf)
 	return str
 }
+
+// Enum values for flex_components.view_type
+const (
+	FlexComponentsViewTypeSINGLE   = "SINGLE"
+	FlexComponentsViewTypeMULTIPLE = "MULTIPLE"
+)
+
+// Enum values for flex_pages.type
+const (
+	FlexPagesTypeSTATIC  = "STATIC"
+	FlexPagesTypeDYNAMIC = "DYNAMIC"
+)

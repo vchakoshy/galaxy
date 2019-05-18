@@ -611,9 +611,6 @@ func (o *Author) Update(ctx context.Context, exec boil.ContextExecutor, columns 
 			authorPrimaryKeyColumns,
 		)
 
-		if !columns.IsWhitelist() {
-			wl = strmangle.SetComplement(wl, []string{"created_at"})
-		}
 		if len(wl) == 0 {
 			return 0, errors.New("models: unable to update author, could not build whitelist")
 		}

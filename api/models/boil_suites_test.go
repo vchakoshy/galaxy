@@ -13,51 +13,77 @@ import "testing"
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
 	t.Run("Authors", testAuthors)
+	t.Run("FlexComponents", testFlexComponents)
+	t.Run("FlexPages", testFlexPages)
 }
 
 func TestDelete(t *testing.T) {
 	t.Run("Authors", testAuthorsDelete)
+	t.Run("FlexComponents", testFlexComponentsDelete)
+	t.Run("FlexPages", testFlexPagesDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
 	t.Run("Authors", testAuthorsQueryDeleteAll)
+	t.Run("FlexComponents", testFlexComponentsQueryDeleteAll)
+	t.Run("FlexPages", testFlexPagesQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
 	t.Run("Authors", testAuthorsSliceDeleteAll)
+	t.Run("FlexComponents", testFlexComponentsSliceDeleteAll)
+	t.Run("FlexPages", testFlexPagesSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
 	t.Run("Authors", testAuthorsExists)
+	t.Run("FlexComponents", testFlexComponentsExists)
+	t.Run("FlexPages", testFlexPagesExists)
 }
 
 func TestFind(t *testing.T) {
 	t.Run("Authors", testAuthorsFind)
+	t.Run("FlexComponents", testFlexComponentsFind)
+	t.Run("FlexPages", testFlexPagesFind)
 }
 
 func TestBind(t *testing.T) {
 	t.Run("Authors", testAuthorsBind)
+	t.Run("FlexComponents", testFlexComponentsBind)
+	t.Run("FlexPages", testFlexPagesBind)
 }
 
 func TestOne(t *testing.T) {
 	t.Run("Authors", testAuthorsOne)
+	t.Run("FlexComponents", testFlexComponentsOne)
+	t.Run("FlexPages", testFlexPagesOne)
 }
 
 func TestAll(t *testing.T) {
 	t.Run("Authors", testAuthorsAll)
+	t.Run("FlexComponents", testFlexComponentsAll)
+	t.Run("FlexPages", testFlexPagesAll)
 }
 
 func TestCount(t *testing.T) {
 	t.Run("Authors", testAuthorsCount)
+	t.Run("FlexComponents", testFlexComponentsCount)
+	t.Run("FlexPages", testFlexPagesCount)
 }
 
 func TestHooks(t *testing.T) {
 	t.Run("Authors", testAuthorsHooks)
+	t.Run("FlexComponents", testFlexComponentsHooks)
+	t.Run("FlexPages", testFlexPagesHooks)
 }
 
 func TestInsert(t *testing.T) {
 	t.Run("Authors", testAuthorsInsert)
 	t.Run("Authors", testAuthorsInsertWhitelist)
+	t.Run("FlexComponents", testFlexComponentsInsert)
+	t.Run("FlexComponents", testFlexComponentsInsertWhitelist)
+	t.Run("FlexPages", testFlexPagesInsert)
+	t.Run("FlexPages", testFlexPagesInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
@@ -102,20 +128,30 @@ func TestToManyRemove(t *testing.T) {}
 
 func TestReload(t *testing.T) {
 	t.Run("Authors", testAuthorsReload)
+	t.Run("FlexComponents", testFlexComponentsReload)
+	t.Run("FlexPages", testFlexPagesReload)
 }
 
 func TestReloadAll(t *testing.T) {
 	t.Run("Authors", testAuthorsReloadAll)
+	t.Run("FlexComponents", testFlexComponentsReloadAll)
+	t.Run("FlexPages", testFlexPagesReloadAll)
 }
 
 func TestSelect(t *testing.T) {
 	t.Run("Authors", testAuthorsSelect)
+	t.Run("FlexComponents", testFlexComponentsSelect)
+	t.Run("FlexPages", testFlexPagesSelect)
 }
 
 func TestUpdate(t *testing.T) {
 	t.Run("Authors", testAuthorsUpdate)
+	t.Run("FlexComponents", testFlexComponentsUpdate)
+	t.Run("FlexPages", testFlexPagesUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
 	t.Run("Authors", testAuthorsSliceUpdateAll)
+	t.Run("FlexComponents", testFlexComponentsSliceUpdateAll)
+	t.Run("FlexPages", testFlexPagesSliceUpdateAll)
 }
