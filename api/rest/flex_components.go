@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/volatiletech/sqlboiler/queries/qm"
@@ -66,61 +65,17 @@ func PageBlank(c *gin.Context) {
 		cs := flexComponentSettings{}
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
 		if cs.Settings.DataProvider == "BOOK" {
-
 			set := cs.Settings.Setup.Book
-			log.Println("data provider is book")
-			// spew.Dump(set)
-			if set.Type == "STATIC" && set.Mapping == "id" {
+
+			if set.Type == "STATIC" {
 				com := flexComponent{
 					Type:         "HL_BOOKS_ARTICLE",
 					ResourceType: "BOOK",
 				}
-				idis := set.Ids
-				for _, id := range idis {
-					b, err := models.Books(qm.Where("id=?", id)).OneG(context.Background())
-					if err != nil {
-						log.Println(err.Error())
-					}
-					bookIDStr := strconv.Itoa(b.ID)
-					fb := flexGenericBook{
-						Title:       b.Title,
-						SubTitle:    b.SubTitle.String,
-						BookID:      bookIDStr,
-						Image:       "/images/books/" + strings.Replace(b.ImageName.String, ".jpg", "_normal.jpg", 1),
-						Format:      b.Format,
-						ContentType: b.ContentType,
-						Action: flexGenericChildAction{
-							Type: "book",
-							Input: []flexActionInput{
-								flexActionInput{
-									Key:   "bookId",
-									Value: bookIDStr,
-								},
-								flexActionInput{
-									Key:   "pageName",
-									Value: "BOOK_OVERVIEW_PAGE",
-								},
-							},
-							Method: "/book/" + bookIDStr + "/get",
-						},
-						ChildAction: flexGenericChildAction{
-							Type: "book",
-							Input: []flexActionInput{
-								flexActionInput{
-									Key:   "bookId",
-									Value: bookIDStr,
-								},
-								flexActionInput{
-									Key:   "pageName",
-									Value: "BOOK_OVERVIEW_PAGE",
-								},
-							},
-							Method: "/book/" + bookIDStr + "/get",
-						},
-					}
 
+				for _, id := range set.Ids {
+					fb := newGenericBookByID(id)
 					com.Data.Items.Generic = append(com.Data.Items.Generic, fb)
-
 				}
 				componenets = append(componenets, com)
 			}

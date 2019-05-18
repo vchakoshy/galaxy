@@ -28,6 +28,8 @@ func Run() {
 	r := gin.Default()
 
 	r.GET("/api/v1/authors/item/:id/", rest.AuthorItem)
+	r.PUT("/api/v1/authors/item/:id/", rest.AuthorItemUpdate)
+	r.DELETE("/api/v1/authors/item/:id/", rest.AuthorItemDelete)
 	r.GET("/api/v1/authors/list/", rest.AuthorList)
 
 	r.GET("/api/v1/flex/page/blank/:id", rest.PageBlank)
