@@ -5,7 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
-	"gitlab.fidibo.com/backend/galaxy/api/model"
+	"github.com/volatiletech/sqlboiler/boil"
+
 	"gitlab.fidibo.com/backend/galaxy/api/rest"
 )
 
@@ -20,11 +21,13 @@ func Run() {
 	}
 	defer db.Close()
 
-	model.SetDB(db)
+	boil.SetDB(db)
 
 	r := gin.Default()
 
-	r.GET("/api/v1/author/", rest.AuthorItem)
+	r.GET("/api/v1/authors/item/:id/", rest.AuthorItem)
+	r.GET("/api/v1/authors/list/", rest.AuthorList)
 
-	r.Run("0.0.0.0:80")
+	err = r.Run("0.0.0.0:8080")
+	log.Println(err.Error())
 }

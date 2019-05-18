@@ -1,0 +1,9 @@
+[mysql]
+  dbname  = "fidibo1_fidibo"
+  host    = "79.175.173.69"
+  port    = 3306
+  user    = "reader"
+  pass    = "j3AhwCj4SqVQI62Y"
+  sslmode = "false"
+
+whitelist = ["author"]
