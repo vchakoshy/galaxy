@@ -64,21 +64,42 @@ func PageBlank(c *gin.Context) {
 
 		cs := flexComponentSettings{}
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
+
+		log.Println(cs.Settings.DataProvider)
+
 		if cs.Settings.DataProvider == "BOOK" {
 			set := cs.Settings.Setup.Book
 
-			if set.Type == "STATIC" {
-				com := flexComponent{
-					Type:         "HL_BOOKS_ARTICLE",
-					ResourceType: "BOOK",
-				}
+			queries := make([]qm.QueryMod, 0)
 
-				for _, id := range set.Ids {
-					fb := newGenericBookByID(id)
-					com.Data.Items.Generic = append(com.Data.Items.Generic, fb)
-				}
-				componenets = append(componenets, com)
+			qidis := make([]interface{}, len(set.Ids))
+			for _, id := range set.Ids {
+				qidis = append(qidis, id)
 			}
+
+			if len(qidis) > 0 {
+				queries = append(queries, qm.WhereIn("id in ?", qidis...))
+			}
+
+			queries = append(queries, qm.Limit(30))
+
+			// if set.Type == "STATIC" {
+			com := flexComponent{
+				Type:         "HL_BOOKS_ARTICLE",
+				ResourceType: "BOOK",
+			}
+
+			log.Println(queries)
+
+			res := newGenericBookByQuery(queries)
+
+			com.Data.Items.Generic = make([]interface{}, len(res))
+			for i, v := range res {
+				com.Data.Items.Generic[i] = v
+			}
+
+			componenets = append(componenets, com)
+			// }
 
 		}
 

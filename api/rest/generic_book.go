@@ -35,48 +35,57 @@ type flexGenericBook struct {
 	BookID string                 `json:"bookId"`
 }
 
-func newGenericBookByID(bookID string) flexGenericBook {
-	b, err := models.Books(qm.Where("id=?", bookID)).OneG(context.Background())
+func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
+
+	res:= make([]flexGenericBook,0)
+	
+
+	books , err := models.Books(queries...).AllG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
 	}
-	bookIDStr := strconv.Itoa(b.ID)
-	fb := flexGenericBook{
-		Title:       b.Title,
-		SubTitle:    b.SubTitle.String,
-		BookID:      bookIDStr,
-		Image:       modext.GetBookNormalImage(b),
-		Icon:        modext.GetBookNormalImage(b),
-		Format:      b.Format,
-		ContentType: b.ContentType,
-		Action: flexGenericChildAction{
-			Type: "book",
-			Input: []flexActionInput{
-				flexActionInput{
-					Key:   "bookId",
-					Value: bookIDStr,
+	for _,b:=range books{
+		bookIDStr := strconv.Itoa(b.ID)
+		fb := flexGenericBook{
+			Title:       b.Title,
+			SubTitle:    b.SubTitle.String,
+			BookID:      bookIDStr,
+			Image:       modext.GetBookNormalImage(b),
+			Icon:        modext.GetBookNormalImage(b),
+			Format:      b.Format,
+			ContentType: b.ContentType,
+			Action: flexGenericChildAction{
+				Type: "book",
+				Input: []flexActionInput{
+					flexActionInput{
+						Key:   "bookId",
+						Value: bookIDStr,
+					},
+					flexActionInput{
+						Key:   "pageName",
+						Value: "BOOK_OVERVIEW_PAGE",
+					},
 				},
-				flexActionInput{
-					Key:   "pageName",
-					Value: "BOOK_OVERVIEW_PAGE",
-				},
+				Method: "/book/" + bookIDStr + "/get",
 			},
-			Method: "/book/" + bookIDStr + "/get",
-		},
-		ChildAction: flexGenericChildAction{
-			Type: "book",
-			Input: []flexActionInput{
-				flexActionInput{
-					Key:   "bookId",
-					Value: bookIDStr,
+			ChildAction: flexGenericChildAction{
+				Type: "book",
+				Input: []flexActionInput{
+					flexActionInput{
+						Key:   "bookId",
+						Value: bookIDStr,
+					},
+					flexActionInput{
+						Key:   "pageName",
+						Value: "BOOK_OVERVIEW_PAGE",
+					},
 				},
-				flexActionInput{
-					Key:   "pageName",
-					Value: "BOOK_OVERVIEW_PAGE",
-				},
+				Method: "/book/" + bookIDStr + "/get",
 			},
-			Method: "/book/" + bookIDStr + "/get",
-		},
+		}
+		res = append(res, fb)
 	}
-	return fb 
+
+
+	return res
 }
