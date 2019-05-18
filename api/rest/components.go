@@ -39,19 +39,8 @@ func (c *Component) getData() []flexComponent {
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
 
 		if cs.Settings.DataProvider == "BOOK" {
-			set := cs.Settings.Setup.Book
 
-			queries := make([]qm.QueryMod, 0)
-
-			qidis := make([]interface{}, len(set.Ids))
-			for _, id := range set.Ids {
-				qidis = append(qidis, id)
-			}
-
-			if len(qidis) > 0 {
-				queries = append(queries, qm.WhereIn("id in ?", qidis...))
-			}
-
+			queries := cs.Settings.Setup.getQueries()
 			queries = append(queries, qm.Limit(8))
 
 			com := flexComponent{
@@ -61,10 +50,7 @@ func (c *Component) getData() []flexComponent {
 
 			log.Println(cs.Settings.Setup.Sort)
 
-			switch cs.Settings.Setup.Sort.Value {
-			case "RECENT":
-				queries = append(queries, qm.OrderBy("id DESC"))
-			}
+			queries = append(queries, cs.Settings.Setup.getSort()...)
 
 			log.Println(queries)
 

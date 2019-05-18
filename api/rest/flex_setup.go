@@ -1,5 +1,9 @@
 package rest
 
+import (
+	"github.com/volatiletech/sqlboiler/queries/qm"
+)
+
 type ProviderSetup struct {
 	Type    string   `json:"type"`
 	Mapping string   `json:"mapping"`
@@ -7,6 +11,46 @@ type ProviderSetup struct {
 	Setup   struct {
 	} `json:"setup"`
 	DataProvider string `json:"dataProvider"`
+}
+
+func (ps ProviderSetup) getQuery() []qm.QueryMod {
+	queries := make([]qm.QueryMod, 0)
+
+	qidis := make([]interface{}, len(ps.Ids))
+	for _, id := range ps.Ids {
+		qidis = append(qidis, id)
+	}
+
+	if len(qidis) > 0 {
+		queries = append(queries, qm.WhereIn("id in ?", qidis...))
+	}
+
+	return queries
+}
+
+func (s Setup) getQueries() []qm.QueryMod {
+	q := make([]qm.QueryMod, 0)
+
+	q = append(q, s.Book.getQuery()...)
+	q = append(q, s.Author.getQuery()...)
+	q = append(q, s.Category.getQuery()...)
+	q = append(q, s.Channel.getQuery()...)
+	q = append(q, s.Publisher.getQuery()...)
+	q = append(q, s.ProposedList.getQuery()...)
+	q = append(q, s.Tag.getQuery()...)
+
+	return q
+}
+
+func (s Setup) getSort() []qm.QueryMod {
+	q := make([]qm.QueryMod, 0)
+
+	switch s.Sort.Value {
+	case "RECENT":
+		q = append(q, qm.OrderBy("id DESC"))
+	}
+
+	return q
 }
 
 type Setup struct {
