@@ -57,7 +57,7 @@ func PageBlank(c *gin.Context) {
 			Type:   "flex_blank_page",
 			Input: []flexActionInput{
 				flexActionInput{
-					Key:   "pageID",
+					Key:   "pageId",
 					Value: tabs.PageID,
 				},
 			},

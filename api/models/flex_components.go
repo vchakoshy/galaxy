@@ -114,10 +114,14 @@ var FlexComponentWhere = struct {
 
 // FlexComponentRels is where relationship names are stored.
 var FlexComponentRels = struct {
-}{}
+	ComponentFlexPageComponents string
+}{
+	ComponentFlexPageComponents: "ComponentFlexPageComponents",
+}
 
 // flexComponentR is where relationships are stored.
 type flexComponentR struct {
+	ComponentFlexPageComponents FlexPageComponentSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -428,6 +432,184 @@ func (q flexComponentQuery) Exists(ctx context.Context, exec boil.ContextExecuto
 	}
 
 	return count > 0, nil
+}
+
+// ComponentFlexPageComponents retrieves all the flex_page_component's FlexPageComponents with an executor via component_id column.
+func (o *FlexComponent) ComponentFlexPageComponents(mods ...qm.QueryMod) flexPageComponentQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`flex_page_components`.`component_id`=?", o.ID),
+	)
+
+	query := FlexPageComponents(queryMods...)
+	queries.SetFrom(query.Query, "`flex_page_components`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`flex_page_components`.*"})
+	}
+
+	return query
+}
+
+// LoadComponentFlexPageComponents allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (flexComponentL) LoadComponentFlexPageComponents(ctx context.Context, e boil.ContextExecutor, singular bool, maybeFlexComponent interface{}, mods queries.Applicator) error {
+	var slice []*FlexComponent
+	var object *FlexComponent
+
+	if singular {
+		object = maybeFlexComponent.(*FlexComponent)
+	} else {
+		slice = *maybeFlexComponent.(*[]*FlexComponent)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &flexComponentR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &flexComponentR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`flex_page_components`), qm.WhereIn(`component_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load flex_page_components")
+	}
+
+	var resultSlice []*FlexPageComponent
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice flex_page_components")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on flex_page_components")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for flex_page_components")
+	}
+
+	if len(flexPageComponentAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.ComponentFlexPageComponents = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &flexPageComponentR{}
+			}
+			foreign.R.Component = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.ComponentID {
+				local.R.ComponentFlexPageComponents = append(local.R.ComponentFlexPageComponents, foreign)
+				if foreign.R == nil {
+					foreign.R = &flexPageComponentR{}
+				}
+				foreign.R.Component = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// AddComponentFlexPageComponentsG adds the given related objects to the existing relationships
+// of the flex_component, optionally inserting them as new records.
+// Appends related to o.R.ComponentFlexPageComponents.
+// Sets related.R.Component appropriately.
+// Uses the global database handle.
+func (o *FlexComponent) AddComponentFlexPageComponentsG(ctx context.Context, insert bool, related ...*FlexPageComponent) error {
+	return o.AddComponentFlexPageComponents(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddComponentFlexPageComponents adds the given related objects to the existing relationships
+// of the flex_component, optionally inserting them as new records.
+// Appends related to o.R.ComponentFlexPageComponents.
+// Sets related.R.Component appropriately.
+func (o *FlexComponent) AddComponentFlexPageComponents(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*FlexPageComponent) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.ComponentID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `flex_page_components` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"component_id"}),
+				strmangle.WhereClause("`", "`", 0, flexPageComponentPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.ComponentID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &flexComponentR{
+			ComponentFlexPageComponents: related,
+		}
+	} else {
+		o.R.ComponentFlexPageComponents = append(o.R.ComponentFlexPageComponents, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &flexPageComponentR{
+				Component: o,
+			}
+		} else {
+			rel.R.Component = o
+		}
+	}
+	return nil
 }
 
 // FlexComponents retrieves all the records using an executor.

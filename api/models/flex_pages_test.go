@@ -494,6 +494,160 @@ func testFlexPagesInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testFlexPageToManyPageFlexPageComponents(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a FlexPage
+	var b, c FlexPageComponent
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, flexPageDBTypes, true, flexPageColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize FlexPage struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, flexPageComponentDBTypes, false, flexPageComponentColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, flexPageComponentDBTypes, false, flexPageComponentColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.PageID = a.ID
+	c.PageID = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.PageFlexPageComponents().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.PageID == b.PageID {
+			bFound = true
+		}
+		if v.PageID == c.PageID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := FlexPageSlice{&a}
+	if err = a.L.LoadPageFlexPageComponents(ctx, tx, false, (*[]*FlexPage)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.PageFlexPageComponents); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.PageFlexPageComponents = nil
+	if err = a.L.LoadPageFlexPageComponents(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.PageFlexPageComponents); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testFlexPageToManyAddOpPageFlexPageComponents(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a FlexPage
+	var b, c, d, e FlexPageComponent
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, flexPageDBTypes, false, strmangle.SetComplement(flexPagePrimaryKeyColumns, flexPageColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*FlexPageComponent{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, flexPageComponentDBTypes, false, strmangle.SetComplement(flexPageComponentPrimaryKeyColumns, flexPageComponentColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*FlexPageComponent{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddPageFlexPageComponents(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.PageID {
+			t.Error("foreign key was wrong value", a.ID, first.PageID)
+		}
+		if a.ID != second.PageID {
+			t.Error("foreign key was wrong value", a.ID, second.PageID)
+		}
+
+		if first.R.Page != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Page != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.PageFlexPageComponents[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.PageFlexPageComponents[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.PageFlexPageComponents().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+
 func testFlexPagesReload(t *testing.T) {
 	t.Parallel()
 
