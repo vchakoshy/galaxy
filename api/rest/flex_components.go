@@ -62,6 +62,11 @@ func PageBlank(c *gin.Context) {
 	componenets := make([]flexComponent, 0)
 
 	for _, comp := range fpc {
+		com := flexComponent{
+			Type:         "HL_BOOKS_ARTICLE",
+			ResourceType: "BOOK",
+		}
+
 		cs := flexComponentSettings{}
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
 		if cs.Settings.DataProvider == "BOOK" {
@@ -113,17 +118,13 @@ func PageBlank(c *gin.Context) {
 						},
 					}
 
-					com := flexComponent{
-						Type:         "HL_BOOKS_ARTICLE",
-						ResourceType: "BOOK",
-					}
-
 					com.Data.Items.Generic = append(com.Data.Items.Generic, fb)
-					componenets = append(componenets, com)
+
 				}
 			}
 
 		}
+		componenets = append(componenets, com)
 	}
 
 	for index, tabs := range settings.Tabs {
