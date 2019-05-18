@@ -89,6 +89,13 @@ func PageBlank(c *gin.Context) {
 				ResourceType: "BOOK",
 			}
 
+			log.Println(cs.Settings.Setup.Sort)
+
+			switch cs.Settings.Setup.Sort.Value {
+			case "RECENT":
+				queries = append(queries, qm.OrderBy("id DESC"))
+			}
+
 			log.Println(queries)
 
 			res := newGenericBookByQuery(queries)
