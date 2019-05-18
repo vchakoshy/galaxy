@@ -81,7 +81,7 @@ func PageBlank(c *gin.Context) {
 				queries = append(queries, qm.WhereIn("id in ?", qidis...))
 			}
 
-			queries = append(queries, qm.Limit(30))
+			queries = append(queries, qm.Limit(8))
 
 			// if set.Type == "STATIC" {
 			com := flexComponent{
