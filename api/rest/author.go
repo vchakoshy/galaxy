@@ -45,6 +45,18 @@ func AuthorItemDelete(c *gin.Context) {
 
 }
 
+func AuthorItemPost(c *gin.Context) {
+	id := c.Param("id")
+	log.Println(id)
+	author, err := models.Authors(qm.Where("id=?", id)).
+		OneG(context.Background())
+	if err != nil {
+		log.Println(err.Error())
+	}
+	c.JSON(200, author)
+
+}
+
 func AuthorList(c *gin.Context) {
 	authors, err := models.
 		Authors(

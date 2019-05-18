@@ -29,6 +29,7 @@ func Run() {
 
 	r.GET("/api/v1/authors/item/:id/", rest.AuthorItem)
 	r.PUT("/api/v1/authors/item/:id/", rest.AuthorItemUpdate)
+	r.POST("/api/v1/authors/item/:id/", rest.AuthorItemPost)
 	r.DELETE("/api/v1/authors/item/:id/", rest.AuthorItemDelete)
 	r.GET("/api/v1/authors/list/", rest.AuthorList)
 
