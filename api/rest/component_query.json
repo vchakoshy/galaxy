@@ -1,0 +1,236 @@
+{
+    "settings": {
+        "type": "DYNAMIC",
+        "setup": {
+            "book": {
+                "type": "NONE",
+                "mapping": "id",
+                "ids": [],
+                "setup": {},
+                "dataProvider": "BOOK"
+            },
+            "author": {
+                "type": "NONE",
+                "mapping": "id",
+                "ids": [],
+                "setup": {},
+                "dataProvider": "AUTHOR"
+            },
+            "category": {
+                "type": "NONE",
+                "mapping": "id",
+                "ids": [],
+                "setup": {},
+                "dataProvider": "CATEGORY"
+            },
+            "channel": {
+                "type": "NONE",
+                "mapping": "id",
+                "ids": [],
+                "setup": {},
+                "dataProvider": "CHANNEL"
+            },
+            "publisher": {
+                "type": "NONE",
+                "mapping": "id",
+                "ids": [],
+                "setup": {},
+                "dataProvider": "PUBLISHER"
+            },
+            "proposedList": {
+                "type": "NONE",
+                "mapping": "id",
+                "ids": [],
+                "setup": {},
+                "dataProvider": "PROPOSED_LIST"
+            },
+            "tag": {
+                "type": "NONE",
+                "mapping": "id",
+                "ids": [],
+                "setup": {},
+                "dataProvider": "TAG"
+            },
+            "sort": {
+                "dataProvider": null,
+                "type": "ENUM",
+                "value": "WEEK_BESTSELLER"
+            },
+            "query": {
+                "dataProvider": null,
+                "type": "QUERY",
+                "fields": []
+            },
+            "contentType": {
+                "dataProvider": null,
+                "type": "ENUM",
+                "value": [
+                    "BOOK",
+                    "PODCAST"
+                ]
+            },
+            "format": {
+                "dataProvider": null,
+                "type": "ENUM",
+                "value": [
+                    "AUDIO",
+                    "EPUB",
+                    "PDF"
+                ]
+            },
+            "free": {
+                "dataProvider": null,
+                "type": "CUSTOM",
+                "value": ""
+            },
+            "subscription": {
+                "dataProvider": null,
+                "type": "CUSTOM",
+                "value": ""
+            },
+            "size": {
+                "dataProvider": null,
+                "type": "CUSTOM",
+                "value": ""
+            },
+            "filter": {
+                "dataProvider": null,
+                "type": "ENUM",
+                "value": ""
+            }
+        },
+        "dataProvider": "BOOK"
+    },
+    "elements": {
+        "title": {
+            "value": {
+                "settingType": "STATIC",
+                "static": "\u06a9\u062a\u0627\u0628\u0647\u0627\u06cc \u0635\u0648\u062a\u06cc \u0648 \u063a\u06cc\u0631 \u0635\u0648\u062a\u06cc \u067e\u0631 \u0641\u0631\u0648\u0634"
+            },
+            "setup": [
+                {
+                    "value": "\u06a9\u062a\u0627\u0628\u0647\u0627\u06cc \u0635\u0648\u062a\u06cc \u0648 \u063a\u06cc\u0631 \u0635\u0648\u062a\u06cc \u067e\u0631 \u0641\u0631\u0648\u0634",
+                    "type": "STATIC",
+                    "setup": {
+                        "value": "\u06a9\u062a\u0627\u0628\u0647\u0627\u06cc \u0635\u0648\u062a\u06cc \u0648 \u063a\u06cc\u0631 \u0635\u0648\u062a\u06cc \u067e\u0631 \u0641\u0631\u0648\u0634"
+                    }
+                }
+            ],
+            "action": {}
+        },
+        "subTitle": {
+            "value": {
+                "settingType": "STATIC"
+            },
+            "setup": [
+                {
+                    "type": "STATIC",
+                    "setup": {}
+                }
+            ],
+            "action": {}
+        },
+        "moreTitle": {
+            "value": "\u0628\u06cc\u0634\u062a\u0631",
+            "setup": [
+                {
+                    "type": "STATIC",
+                    "value": "\u0628\u06cc\u0634\u062a\u0631",
+                    "setup": {
+                        "value": "\u0628\u06cc\u0634\u062a\u0631"
+                    }
+                }
+            ],
+            "action": {
+                "type": "CONTENT_LIST",
+                "setup": {
+                    "category": {
+                        "type": "STATIC",
+                        "mapping": "id",
+                        "ids": [
+                            "10036",
+                            "10221"
+                        ],
+                        "setup": {},
+                        "dataProvider": "CATEGORY"
+                    },
+                    "author": {
+                        "type": "NONE",
+                        "mapping": "id",
+                        "ids": [],
+                        "setup": {},
+                        "dataProvider": "AUTHOR"
+                    },
+                    "publisher": {
+                        "type": "NONE",
+                        "mapping": "id",
+                        "ids": [],
+                        "setup": {},
+                        "dataProvider": "PUBLISHER"
+                    },
+                    "channel": {
+                        "type": "NONE",
+                        "mapping": "id",
+                        "ids": [],
+                        "setup": {},
+                        "dataProvider": "CHANNEL"
+                    },
+                    "proposedList": {
+                        "type": "NONE",
+                        "mapping": "id",
+                        "ids": [],
+                        "setup": {},
+                        "dataProvider": "PROPOSED_LIST"
+                    },
+                    "contentType": {
+                        "dataProvider": null,
+                        "type": "ENUM",
+                        "value": ""
+                    },
+                    "format": {
+                        "dataProvider": null,
+                        "type": "ENUM",
+                        "value": ""
+                    },
+                    "free": {
+                        "dataProvider": null,
+                        "type": "CUSTOM",
+                        "value": false
+                    },
+                    "subscription": {
+                        "dataProvider": null,
+                        "type": "CUSTOM",
+                        "value": false
+                    },
+                    "bookFilter": {
+                        "dataProvider": null,
+                        "type": "ENUM",
+                        "value": ""
+                    },
+                    "sort": {
+                        "dataProvider": null,
+                        "type": "ENUM",
+                        "value": ""
+                    },
+                    "pageTitle": {
+                        "extraData": {
+                            "type": "NONE"
+                        },
+                        "type": "DYNAMIC_TEXT",
+                        "setup": []
+                    },
+                    "size": {
+                        "dataProvider": null,
+                        "type": "CUSTOM",
+                        "value": ""
+                    },
+                    "query": {
+                        "dataProvider": null,
+                        "type": "QUERY",
+                        "fields": []
+                    }
+                }
+            }
+        }
+    }
+}
