@@ -5,12 +5,11 @@ import (
 )
 
 type ProviderSetup struct {
-	Type    string   `json:"type"`
-	Mapping string   `json:"mapping"`
-	Ids     []string `json:"ids"`
-	Setup   struct {
-	} `json:"setup"`
-	DataProvider string `json:"dataProvider"`
+	Type         string   `json:"type"`
+	Mapping      string   `json:"mapping"`
+	Ids          []string `json:"ids"`
+	Setup        struct{} `json:"setup"`
+	DataProvider string   `json:"dataProvider"`
 }
 
 func (ps ProviderSetup) getQuery() []qm.QueryMod {

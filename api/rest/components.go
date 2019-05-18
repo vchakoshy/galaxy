@@ -48,8 +48,6 @@ func (c *Component) getData() []flexComponent {
 				ResourceType: "BOOK",
 			}
 
-			log.Println(cs.Settings.Setup.Sort)
-
 			queries = append(queries, cs.Settings.Setup.getSort()...)
 
 			log.Println(queries)
