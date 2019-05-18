@@ -27,14 +27,16 @@ func Run() {
 
 	r := gin.Default()
 
-	r.GET("/api/v1/authors/item/:id/", rest.AuthorItem)
-	r.PUT("/api/v1/authors/item/:id/", rest.AuthorItemUpdate)
-	r.POST("/api/v1/authors/item/:id/", rest.AuthorItemPost)
-	r.DELETE("/api/v1/authors/item/:id/", rest.AuthorItemDelete)
-	r.GET("/api/v1/authors/list/", rest.AuthorList)
+	v1 := r.Group("/api/v1/")
+	{
+		v1.GET("/authors/item/:id/", rest.AuthorItem)
+		v1.PUT("/authors/item/:id/", rest.AuthorItemUpdate)
+		v1.POST("/authors/item/:id/", rest.AuthorItemPost)
+		v1.DELETE("/authors/item/:id/", rest.AuthorItemDelete)
+		v1.GET("/authors/list/", rest.AuthorList)
 
-	r.GET("/api/v1/flex/page/blank/:id", rest.PageBlank)
-	r.POST("/api/v1/flex/page/blank", rest.PageBlank)
+		v1.POST("/flex/page/blank", rest.PageBlank)
+	}
 
 	err = r.Run("0.0.0.0:8080")
 	log.Println(err.Error())
