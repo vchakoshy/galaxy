@@ -33,6 +33,7 @@ func Run() {
 		v1.PUT("/authors/item/:id/", rest.AuthorItemUpdate)
 		v1.POST("/authors/item/:id/", rest.AuthorItemPost)
 		v1.DELETE("/authors/item/:id/", rest.AuthorItemDelete)
+
 		v1.GET("/authors/list/", rest.AuthorList)
 
 		v1.POST("/flex/page/blank", rest.PageBlank)

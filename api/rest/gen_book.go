@@ -10,7 +10,6 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
-
 type flexGenericChildAction struct {
 	Type      string            `json:"type"`
 	Input     []flexActionInput `json:"input"`
