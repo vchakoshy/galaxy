@@ -28,7 +28,7 @@ func Run() {
 
 	r := gin.Default()
 
-	r.Use(corsMiddleware())
+	// r.Use(corsMiddleware())
 
 	v1 := r.Group("/api/v1/")
 	{
