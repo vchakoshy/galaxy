@@ -1,8 +1,11 @@
 package rest
 
 import (
+	// "golang.org/x/tools/go/analysis/passes/unmarshal"
 	"context"
+	"encoding/json"
 	"log"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/volatiletech/sqlboiler/queries/qm"
@@ -57,11 +60,24 @@ func AuthorItemPost(c *gin.Context) {
 
 }
 
+type sortMap []string
+
+func NewSortMapByGinContext(c *gin.Context) string {
+	sm := sortMap{}
+	sorts := c.Query("sort")
+	json.Unmarshal([]byte(sorts), &sm)
+	sortQueryText := strings.Join(sm, " ")
+	return sortQueryText
+}
+
 func AuthorList(c *gin.Context) {
+
+	sortQueryText := NewSortMapByGinContext(c)
+
 	authors, err := models.
 		Authors(
 			qm.Limit(30),
-			qm.OrderBy("id desc")).
+			qm.OrderBy(sortQueryText)).
 		AllG(context.Background())
 
 	if err != nil {

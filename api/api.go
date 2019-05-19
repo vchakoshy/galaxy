@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"github.com/volatiletech/sqlboiler/boil"
@@ -39,6 +40,8 @@ func Run() {
 
 		v1.POST("/flex/page/blank", rest.PageBlank)
 	}
+
+	r.Use(cors.Default())
 
 	err = r.Run("0.0.0.0:8080")
 	log.Println(err.Error())
