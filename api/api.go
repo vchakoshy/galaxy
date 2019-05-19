@@ -49,6 +49,7 @@ func Run() {
 		v1.DELETE("/authors/item/:id/", rest.AuthorItemDelete)
 
 		v1.GET("/authors/list/", rest.AuthorList)
+		v1.OPTIONS("/authors/list/", rest.AuthorList)
 
 		v1.POST("/flex/page/blank", rest.PageBlank)
 	}
