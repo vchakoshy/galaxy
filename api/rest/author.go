@@ -61,12 +61,21 @@ func AuthorItemPost(c *gin.Context) {
 
 type sortMap []string
 
-func NewSortMapByGinContext(c *gin.Context) string {
+func NewSortMapByGinContext(c *gin.Context) (sqt string) {
 	sm := sortMap{}
 	sorts := c.Query("sort")
+
+	if sorts == "" {
+		return "id desc"
+	}
+
 	json.Unmarshal([]byte(sorts), &sm)
-	sortQueryText := strings.Join(sm, " ")
-	return sortQueryText
+
+	if len(sm) == 2 {
+		sqt = strings.Join(sm, " ")
+	}
+	log.Println(sqt)
+	return sqt
 }
 
 func AuthorList(c *gin.Context) {
