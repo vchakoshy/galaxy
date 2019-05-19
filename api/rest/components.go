@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"log"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -43,11 +42,30 @@ func (c *Component) getData() []flexComponent {
 			queries := cs.Settings.Setup.getQueries()
 			queries = append(queries, qm.Limit(8))
 
-			spew.Dump(cs.Elements.Title)
 			com := flexComponent{
 				Type:         "HL_BOOKS_ARTICLE",
 				ResourceType: "BOOK",
 				Title:        cs.Elements.Title.Value.Static,
+				Action: flexBaseAction{
+					Type: "content_list",
+					Input: []flexComponentAction{
+						{
+							Key:        "categoryId",
+							ArrayValue: []string{"10036", "10221"},
+						},
+						{
+							Key:   "free",
+							Value: false,
+						},
+						{
+							Key:   "subscription",
+							Value: false,
+						},
+					},
+					ExtraData: nil,
+					Method:    "/v2/general/list/book",
+				},
+				ActionTitle: "more",
 			}
 
 			queries = append(queries, cs.Settings.Setup.getSort()...)

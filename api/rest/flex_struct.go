@@ -57,6 +57,19 @@ type flexSetting struct {
 	Tabs []flexTabs `json:"tabs"`
 }
 
+type flexComponentAction struct {
+	Key        string   `json:"key"`
+	ArrayValue []string `json:"arrayValue,omitempty"`
+	Value      bool     `json:"value,omitempty"`
+}
+
+type flexBaseAction struct {
+	Type      string                `json:"type"`
+	Input     []flexComponentAction `json:"input"`
+	ExtraData interface{}           `json:"extraData"`
+	Method    string                `json:"method"`
+}
+
 type flexComponent struct {
 	Title string `json:"title,omitempty"`
 	Icon  string `json:"icon,omitempty"`
@@ -65,19 +78,10 @@ type flexComponent struct {
 			Generic []interface{} `json:"generic"`
 		} `json:"items"`
 	} `json:"data"`
-	Type         string `json:"type"`
-	ResourceType string `json:"resource_type"`
-	Action       struct {
-		Type  string `json:"type"`
-		Input []struct {
-			Key        string   `json:"key"`
-			ArrayValue []string `json:"arrayValue,omitempty"`
-			Value      bool     `json:"value,omitempty"`
-		} `json:"input"`
-		ExtraData interface{} `json:"extraData"`
-		Method    string      `json:"method"`
-	} `json:"action,omitempty"`
-	ActionTitle string `json:"actionTitle,omitempty"`
+	Type         string         `json:"type"`
+	ResourceType string         `json:"resource_type"`
+	Action       flexBaseAction `json:"action,omitempty"`
+	ActionTitle  string         `json:"actionTitle,omitempty"`
 }
 
 type flexOutput struct {
