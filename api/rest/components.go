@@ -46,6 +46,7 @@ func (c *Component) getData() []flexComponent {
 			com := flexComponent{
 				Type:         "HL_BOOKS_ARTICLE",
 				ResourceType: "BOOK",
+				Title:        "عنوان",
 			}
 
 			queries = append(queries, cs.Settings.Setup.getSort()...)
@@ -60,10 +61,7 @@ func (c *Component) getData() []flexComponent {
 			}
 
 			componenets = append(componenets, com)
-
 		}
-
 	}
-
 	return componenets
 }
