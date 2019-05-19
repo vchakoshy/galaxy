@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"strings"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
@@ -47,7 +48,7 @@ func (c *Component) getData() []flexComponent {
 				ResourceType: "BOOK",
 				Title:        cs.Elements.Title.Value.Static,
 				Action: flexBaseAction{
-					Type: "content_list",
+					Type: strings.ToLower(cs.Elements.MoreTitle.Action.Type),
 					Input: []flexComponentAction{
 						{
 							Key:        "categoryId",
