@@ -66,7 +66,10 @@ func (c *Component) getData() []flexComponent {
 					ExtraData: nil,
 					Method:    "/v2/general/list/book",
 				},
-				ActionTitle: "more",
+			}
+
+			if cs.Elements.MoreTitle.Value != "" {
+				com.ActionTitle = cs.Elements.MoreTitle.Value
 			}
 
 			queries = append(queries, cs.Settings.Setup.getSort()...)
