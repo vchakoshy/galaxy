@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -39,14 +40,14 @@ func (c *Component) getData() []flexComponent {
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
 
 		if cs.Settings.DataProvider == "BOOK" {
-
 			queries := cs.Settings.Setup.getQueries()
 			queries = append(queries, qm.Limit(8))
 
+			spew.Dump(cs.Elements.Title)
 			com := flexComponent{
 				Type:         "HL_BOOKS_ARTICLE",
 				ResourceType: "BOOK",
-				Title:        "عنوان",
+				Title:        cs.Elements.Title.Value.Static,
 			}
 
 			queries = append(queries, cs.Settings.Setup.getSort()...)

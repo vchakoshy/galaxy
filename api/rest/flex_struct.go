@@ -10,6 +10,7 @@ type flexComponentSettings struct {
 		Title struct {
 			Value struct {
 				SettingType string `json:"settingType"`
+				Static      string `json:"static"`
 			} `json:"value"`
 			Setup []struct {
 				Type  string `json:"type"`
