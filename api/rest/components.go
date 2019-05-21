@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"strings"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
+	"gitlab.fidibo.com/backend/galaxy/api/flex"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
@@ -77,8 +77,9 @@ func (c *Component) getData() []flexComponent {
 }
 
 func (c *Component) getAction(typ string) flexBaseAction {
+	action := flex.GetActionByPanelType(typ)
 	return flexBaseAction{
-		Type: strings.ToLower(typ),
+		Type: action.ClientType,
 		Input: []flexComponentAction{
 			{
 				Key:        "categoryId",
@@ -94,6 +95,6 @@ func (c *Component) getAction(typ string) flexBaseAction {
 			},
 		},
 		ExtraData: nil,
-		Method:    "/v2/general/list/book",
+		Method:    action.Method,
 	}
 }
