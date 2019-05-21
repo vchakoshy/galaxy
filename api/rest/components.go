@@ -53,25 +53,7 @@ func (c *Component) getData() []flexComponent {
 				Type:         compModel.Type,
 				ResourceType: "BOOK",
 				Title:        cs.Elements.Title.Value.Static,
-				Action: flexBaseAction{
-					Type: strings.ToLower(cs.Elements.MoreTitle.Action.Type),
-					Input: []flexComponentAction{
-						{
-							Key:        "categoryId",
-							ArrayValue: []string{"10036", "10221"},
-						},
-						{
-							Key:   "free",
-							Value: false,
-						},
-						{
-							Key:   "subscription",
-							Value: false,
-						},
-					},
-					ExtraData: nil,
-					Method:    "/v2/general/list/book",
-				},
+				Action:       c.getAction(cs.Elements.MoreTitle.Action.Type),
 			}
 
 			if cs.Elements.MoreTitle.Value != "" {
@@ -93,4 +75,26 @@ func (c *Component) getData() []flexComponent {
 		}
 	}
 	return componenets
+}
+
+func (c *Component) getAction(typ string) flexBaseAction {
+	return flexBaseAction{
+		Type: strings.ToLower(typ),
+		Input: []flexComponentAction{
+			{
+				Key:        "categoryId",
+				ArrayValue: []string{"10036", "10221"},
+			},
+			{
+				Key:   "free",
+				Value: false,
+			},
+			{
+				Key:   "subscription",
+				Value: false,
+			},
+		},
+		ExtraData: nil,
+		Method:    "/v2/general/list/book",
+	}
 }
