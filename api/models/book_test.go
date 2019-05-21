@@ -606,6 +606,159 @@ func testBookOneToOneSetOpBookStatUsingBookStat(t *testing.T) {
 	}
 }
 
+func testBookToManyBookCategoryAssigns(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Book
+	var b, c BookCategoryAssign
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, bookDBTypes, true, bookColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Book struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, bookCategoryAssignDBTypes, false, bookCategoryAssignColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, bookCategoryAssignDBTypes, false, bookCategoryAssignColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.BookID = a.ID
+	c.BookID = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.BookCategoryAssigns().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.BookID == b.BookID {
+			bFound = true
+		}
+		if v.BookID == c.BookID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := BookSlice{&a}
+	if err = a.L.LoadBookCategoryAssigns(ctx, tx, false, (*[]*Book)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.BookCategoryAssigns); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.BookCategoryAssigns = nil
+	if err = a.L.LoadBookCategoryAssigns(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.BookCategoryAssigns); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testBookToManyAddOpBookCategoryAssigns(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Book
+	var b, c, d, e BookCategoryAssign
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, bookDBTypes, false, strmangle.SetComplement(bookPrimaryKeyColumns, bookColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*BookCategoryAssign{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, bookCategoryAssignDBTypes, false, strmangle.SetComplement(bookCategoryAssignPrimaryKeyColumns, bookCategoryAssignColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*BookCategoryAssign{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddBookCategoryAssigns(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.BookID {
+			t.Error("foreign key was wrong value", a.ID, first.BookID)
+		}
+		if a.ID != second.BookID {
+			t.Error("foreign key was wrong value", a.ID, second.BookID)
+		}
+
+		if first.R.Book != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Book != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.BookCategoryAssigns[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.BookCategoryAssigns[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.BookCategoryAssigns().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
 func testBookToOneAuthorUsingAuthor(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))

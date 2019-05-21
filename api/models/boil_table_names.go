@@ -6,6 +6,8 @@ package models
 var TableNames = struct {
 	Author             string
 	Book               string
+	BookCategory       string
+	BookCategoryAssign string
 	BookStats          string
 	FlexComponents     string
 	FlexPageComponents string
@@ -13,6 +15,8 @@ var TableNames = struct {
 }{
 	Author:             "author",
 	Book:               "book",
+	BookCategory:       "book_category",
+	BookCategoryAssign: "book_category_assign",
 	BookStats:          "book_stats",
 	FlexComponents:     "flex_components",
 	FlexPageComponents: "flex_page_components",
