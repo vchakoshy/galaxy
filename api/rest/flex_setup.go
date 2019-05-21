@@ -15,7 +15,7 @@ type ProviderSetup struct {
 func (ps ProviderSetup) getQuery() []qm.QueryMod {
 	queries := make([]qm.QueryMod, 0)
 
-	qidis := make([]interface{}, len(ps.Ids))
+	qidis := make([]interface{}, 0)
 	for _, id := range ps.Ids {
 		qidis = append(qidis, id)
 	}
@@ -61,7 +61,8 @@ func (s Setup) getSort() []qm.QueryMod {
 	case "LOWEST_PRICE":
 		q = append(q, qm.OrderBy("book.price ASC"))
 	case "MOST_COMMENTED":
-		q = append(q, qm.InnerJoin("comment.book_id = book.id AND comment.publish = 1"))
+		q = append(q, qm.InnerJoin("comment ON comment.book_id = book.id"))
+		q = append(q, qm.Where("comment.publish = 1"))
 		q = append(q, qm.OrderBy("COUNT(comment.id) DESC"))
 	}
 
