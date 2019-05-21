@@ -1,1 +1,1 @@
-sqlboiler mysql --add-global-variants --no-auto-timestamps
+sqlboiler mysql --add-global-variants --no-auto-timestamps --wipe
