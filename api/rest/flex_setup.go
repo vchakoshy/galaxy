@@ -13,6 +13,7 @@ type ProviderSetup struct {
 }
 
 func (ps ProviderSetup) getQuery() []qm.QueryMod {
+
 	queries := make([]qm.QueryMod, 0)
 
 	qidis := make([]interface{}, 0)

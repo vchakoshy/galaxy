@@ -684,32 +684,35 @@ var BookWhere = struct {
 
 // BookRels is where relationship names are stored.
 var BookRels = struct {
-	Author      string
-	Translator  string
-	Author2     string
-	Author3     string
-	Translator2 string
-	Translator3 string
-	BookStat    string
+	Author              string
+	Translator          string
+	Author2             string
+	Author3             string
+	Translator2         string
+	Translator3         string
+	BookStat            string
+	BookCategoryAssigns string
 }{
-	Author:      "Author",
-	Translator:  "Translator",
-	Author2:     "Author2",
-	Author3:     "Author3",
-	Translator2: "Translator2",
-	Translator3: "Translator3",
-	BookStat:    "BookStat",
+	Author:              "Author",
+	Translator:          "Translator",
+	Author2:             "Author2",
+	Author3:             "Author3",
+	Translator2:         "Translator2",
+	Translator3:         "Translator3",
+	BookStat:            "BookStat",
+	BookCategoryAssigns: "BookCategoryAssigns",
 }
 
 // bookR is where relationships are stored.
 type bookR struct {
-	Author      *Author
-	Translator  *Author
-	Author2     *Author
-	Author3     *Author
-	Translator2 *Author
-	Translator3 *Author
-	BookStat    *BookStat
+	Author              *Author
+	Translator          *Author
+	Author2             *Author
+	Author3             *Author
+	Translator2         *Author
+	Translator3         *Author
+	BookStat            *BookStat
+	BookCategoryAssigns BookCategoryAssignSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -1116,6 +1119,27 @@ func (o *Book) BookStat(mods ...qm.QueryMod) bookStatQuery {
 
 	query := BookStats(queryMods...)
 	queries.SetFrom(query.Query, "`book_stats`")
+
+	return query
+}
+
+// BookCategoryAssigns retrieves all the book_category_assign's BookCategoryAssigns with an executor.
+func (o *Book) BookCategoryAssigns(mods ...qm.QueryMod) bookCategoryAssignQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`book_category_assign`.`book_id`=?", o.ID),
+	)
+
+	query := BookCategoryAssigns(queryMods...)
+	queries.SetFrom(query.Query, "`book_category_assign`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`book_category_assign`.*"})
+	}
 
 	return query
 }
@@ -1848,6 +1872,101 @@ func (bookL) LoadBookStat(ctx context.Context, e boil.ContextExecutor, singular 
 	return nil
 }
 
+// LoadBookCategoryAssigns allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (bookL) LoadBookCategoryAssigns(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBook interface{}, mods queries.Applicator) error {
+	var slice []*Book
+	var object *Book
+
+	if singular {
+		object = maybeBook.(*Book)
+	} else {
+		slice = *maybeBook.(*[]*Book)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &bookR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &bookR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book_category_assign`), qm.WhereIn(`book_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load book_category_assign")
+	}
+
+	var resultSlice []*BookCategoryAssign
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book_category_assign")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on book_category_assign")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book_category_assign")
+	}
+
+	if len(bookCategoryAssignAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.BookCategoryAssigns = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &bookCategoryAssignR{}
+			}
+			foreign.R.Book = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.BookID {
+				local.R.BookCategoryAssigns = append(local.R.BookCategoryAssigns, foreign)
+				if foreign.R == nil {
+					foreign.R = &bookCategoryAssignR{}
+				}
+				foreign.R.Book = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
 // SetAuthorG of the book to the related item.
 // Sets o.R.Author to related.
 // Adds o to related.R.Books.
@@ -2467,6 +2586,68 @@ func (o *Book) SetBookStat(ctx context.Context, exec boil.ContextExecutor, inser
 		}
 	} else {
 		related.R.Book = o
+	}
+	return nil
+}
+
+// AddBookCategoryAssignsG adds the given related objects to the existing relationships
+// of the book, optionally inserting them as new records.
+// Appends related to o.R.BookCategoryAssigns.
+// Sets related.R.Book appropriately.
+// Uses the global database handle.
+func (o *Book) AddBookCategoryAssignsG(ctx context.Context, insert bool, related ...*BookCategoryAssign) error {
+	return o.AddBookCategoryAssigns(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddBookCategoryAssigns adds the given related objects to the existing relationships
+// of the book, optionally inserting them as new records.
+// Appends related to o.R.BookCategoryAssigns.
+// Sets related.R.Book appropriately.
+func (o *Book) AddBookCategoryAssigns(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*BookCategoryAssign) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.BookID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `book_category_assign` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"book_id"}),
+				strmangle.WhereClause("`", "`", 0, bookCategoryAssignPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.BookID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &bookR{
+			BookCategoryAssigns: related,
+		}
+	} else {
+		o.R.BookCategoryAssigns = append(o.R.BookCategoryAssigns, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &bookCategoryAssignR{
+				Book: o,
+			}
+		} else {
+			rel.R.Book = o
+		}
 	}
 	return nil
 }

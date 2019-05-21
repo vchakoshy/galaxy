@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"gitlab.fidibo.com/backend/galaxy/api/flex"
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
 
 	"context"
@@ -28,13 +29,9 @@ type flexGenericBook struct {
 	Image       string                 `json:"image"`
 	Format      string                 `json:"format"`
 	ContentType string                 `json:"content_type"`
-	Badge       struct {
-		Text     string `json:"text"`
-		BgColor  string `json:"bg_color"`
-		TxtColor string `json:"txt_color"`
-	} `json:"badge"`
-	Action flexGenericChildAction `json:"action"`
-	BookID string                 `json:"bookId"`
+	Badge       flex.Badge             `json:"badge"`
+	Action      flexGenericChildAction `json:"action"`
+	BookID      string                 `json:"bookId"`
 }
 
 func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {

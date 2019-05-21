@@ -47,9 +47,6 @@ func (c *Component) getData() []flexComponent {
 		log.Println(cs.Settings.DataProvider)
 
 		if cs.Settings.DataProvider == "BOOK" {
-			queries := cs.Settings.Setup.getQueries()
-			queries = append(queries, qm.Limit(8))
-
 			com := flexComponent{
 				Type:         compModel.Type,
 				ResourceType: "BOOK",
@@ -61,6 +58,8 @@ func (c *Component) getData() []flexComponent {
 				com.ActionTitle = cs.Elements.MoreTitle.Value
 			}
 
+			queries := cs.Settings.Setup.getQueries()
+			queries = append(queries, qm.Limit(8))
 			queries = append(queries, cs.Settings.Setup.getSort()...)
 
 			res := newGenericBookByQuery(queries)

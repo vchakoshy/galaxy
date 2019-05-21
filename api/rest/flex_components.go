@@ -3,42 +3,23 @@ package rest
 import (
 	"context"
 	"encoding/json"
-	"io/ioutil"
 	"log"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
-type reqData struct {
-	PageName string `json:"pageName"`
-	PageID   string `json:"pageId"`
-}
-
 func PageBlank(c *gin.Context) {
-	req, err := ioutil.ReadAll(c.Request.Body)
+	rq, err := NewPageReqDataFromRequestBody(c)
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(400, gin.H{"error": "bad data"})
+		return
 	}
 
-	var rd reqData
-	err = json.Unmarshal(req, &rd)
-	if err != nil {
-		log.Println(err.Error())
-	}
-
-	var q qm.QueryMod
-	if rd.PageID != "" {
-		pageIDInt, _ := strconv.Atoi(rd.PageID)
-		q = qm.Where("id=?", pageIDInt)
-	} else {
-		q = qm.Where("name=?", rd.PageName)
-	}
-	log.Println(q)
-
-	fp, err := models.FlexPages(q).OneG(context.Background())
+	fp, err := models.
+		FlexPages(rq.getPageQuery()).
+		OneG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
 	}

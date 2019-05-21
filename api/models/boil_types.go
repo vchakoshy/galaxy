@@ -107,6 +107,13 @@ const (
 	BookSuitableForBOTH  = "BOTH"
 )
 
+// Enum values for book_category.content_format
+const (
+	BookCategoryContentFormatEPUB  = "EPUB"
+	BookCategoryContentFormatPDF   = "PDF"
+	BookCategoryContentFormatAUDIO = "AUDIO"
+)
+
 // Enum values for flex_components.view_type
 const (
 	FlexComponentsViewTypeSINGLE   = "SINGLE"
