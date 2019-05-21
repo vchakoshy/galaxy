@@ -48,11 +48,21 @@ func (s Setup) getSort() []qm.QueryMod {
 	case "RECENT":
 		q = append(q, qm.OrderBy("id DESC"))
 	case "BESTSELLER":
-		// ->innerJoin("BookStats ON BookStats.book_id=Book.id")
-		// ->orderBy("BookStats.all_sales_count DESC");
 		q = append(q, qm.InnerJoin("book_stats ON book_stats.book_id=book.id"))
 		q = append(q, qm.OrderBy("book_stats.all_sales_count DESC"))
-
+	case "WEEK_BESTSELLER":
+		q = append(q, qm.InnerJoin("book_stats ON book_stats.book_id=book.id"))
+		q = append(q, qm.OrderBy("book_stats.week_sales_count DESC"))
+	case "RECENT_PUBLISH":
+		q = append(q, qm.OrderBy("book.publish_date DESC"))
+	case "POPULAR":
+		q = append(q, qm.InnerJoin("book_stats ON book_stats.book_id=book.id"))
+		q = append(q, qm.OrderBy("book_stats.month_download_count DESC"))
+	case "LOWEST_PRICE":
+		q = append(q, qm.OrderBy("book.price ASC"))
+	case "MOST_COMMENTED":
+		q = append(q, qm.InnerJoin("comment.book_id = book.id AND comment.publish = 1"))
+		q = append(q, qm.OrderBy("COUNT(comment.id) DESC"))
 	}
 
 	return q
