@@ -6,7 +6,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -48,8 +47,6 @@ func (c *Component) getData() []flexComponent {
 		log.Println(cs.Settings.DataProvider)
 
 		if cs.Settings.DataProvider == "BOOK" {
-			spew.Dump(cs.Settings.Setup)
-
 			com := flexComponent{
 				Type:         compModel.Type,
 				ResourceType: "BOOK",
