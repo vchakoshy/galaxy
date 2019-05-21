@@ -44,6 +44,7 @@ func (c *Component) getData() []flexComponent {
 
 		cs := flexComponentSettings{}
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
+		log.Println(cs.Settings.DataProvider)
 
 		if cs.Settings.DataProvider == "BOOK" {
 			queries := cs.Settings.Setup.getQueries()
@@ -61,8 +62,6 @@ func (c *Component) getData() []flexComponent {
 			}
 
 			queries = append(queries, cs.Settings.Setup.getSort()...)
-
-			// log.Println(queries)
 
 			res := newGenericBookByQuery(queries)
 

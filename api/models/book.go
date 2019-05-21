@@ -108,6 +108,7 @@ type Book struct {
 	Canonical                             null.String   `boil:"canonical" json:"canonical,omitempty" toml:"canonical" yaml:"canonical,omitempty"`
 	SeoFrontShow                          bool          `boil:"seo_front_show" json:"seo_front_show" toml:"seo_front_show" yaml:"seo_front_show"`
 	Extradata                             null.String   `boil:"extradata" json:"extradata,omitempty" toml:"extradata" yaml:"extradata,omitempty"`
+	LastUpdate                            null.Time     `boil:"last_update" json:"last_update,omitempty" toml:"last_update" yaml:"last_update,omitempty"`
 
 	R *bookR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L bookL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -197,6 +198,7 @@ var BookColumns = struct {
 	Canonical                             string
 	SeoFrontShow                          string
 	Extradata                             string
+	LastUpdate                            string
 }{
 	ID:                                    "id",
 	Title:                                 "title",
@@ -281,6 +283,7 @@ var BookColumns = struct {
 	Canonical:                             "canonical",
 	SeoFrontShow:                          "seo_front_show",
 	Extradata:                             "extradata",
+	LastUpdate:                            "last_update",
 }
 
 // Generated where
@@ -591,6 +594,7 @@ var BookWhere = struct {
 	Canonical                             whereHelpernull_String
 	SeoFrontShow                          whereHelperbool
 	Extradata                             whereHelpernull_String
+	LastUpdate                            whereHelpernull_Time
 }{
 	ID:                                    whereHelperint{field: `id`},
 	Title:                                 whereHelperstring{field: `title`},
@@ -675,6 +679,7 @@ var BookWhere = struct {
 	Canonical:                             whereHelpernull_String{field: `canonical`},
 	SeoFrontShow:                          whereHelperbool{field: `seo_front_show`},
 	Extradata:                             whereHelpernull_String{field: `extradata`},
+	LastUpdate:                            whereHelpernull_Time{field: `last_update`},
 }
 
 // BookRels is where relationship names are stored.
@@ -685,6 +690,7 @@ var BookRels = struct {
 	Author3     string
 	Translator2 string
 	Translator3 string
+	BookStat    string
 }{
 	Author:      "Author",
 	Translator:  "Translator",
@@ -692,6 +698,7 @@ var BookRels = struct {
 	Author3:     "Author3",
 	Translator2: "Translator2",
 	Translator3: "Translator3",
+	BookStat:    "BookStat",
 }
 
 // bookR is where relationships are stored.
@@ -702,6 +709,7 @@ type bookR struct {
 	Author3     *Author
 	Translator2 *Author
 	Translator3 *Author
+	BookStat    *BookStat
 }
 
 // NewStruct creates a new relationship struct
@@ -713,9 +721,9 @@ func (*bookR) NewStruct() *bookR {
 type bookL struct{}
 
 var (
-	bookColumns               = []string{"id", "title", "sub_title", "slug", "format", "content_type", "password", "password2", "publisher_id", "publish_date", "language", "author_id", "author2_id", "author3_id", "translator_id", "translator2_id", "translator3_id", "isbn", "isbn_int", "volume", "paper_price", "apply_paper_price", "price", "main_price", "multiple_price", "price_tmp", "base_price", "price2", "package_discount_publisher_participation", "free", "upload_time", "filename", "sample_filename", "image_name", "image_square", "original_title", "original_publisher_id", "description", "publish", "publish_time", "check_time", "bugs", "crc", "sample_crc", "keywords", "su", "sales", "sales_time", "sales_tmp", "sales_time_tmp", "rate", "rate_count", "new", "featured", "last_goodreads_check", "filesize", "sample_filesize", "bk_crc", "bk_sample_crc", "page_count", "provider", "narrator_id", "narrator2_id", "narrator3_id", "duration", "old_crc", "old_filesize", "crc_done", "suitable_for", "from_age", "to_age", "flag", "encrypted", "image_check", "encrypt_check", "sample_check", "seo_title", "seo_description", "tmp_title", "seo_problem", "canonical", "seo_front_show", "extradata"}
+	bookColumns               = []string{"id", "title", "sub_title", "slug", "format", "content_type", "password", "password2", "publisher_id", "publish_date", "language", "author_id", "author2_id", "author3_id", "translator_id", "translator2_id", "translator3_id", "isbn", "isbn_int", "volume", "paper_price", "apply_paper_price", "price", "main_price", "multiple_price", "price_tmp", "base_price", "price2", "package_discount_publisher_participation", "free", "upload_time", "filename", "sample_filename", "image_name", "image_square", "original_title", "original_publisher_id", "description", "publish", "publish_time", "check_time", "bugs", "crc", "sample_crc", "keywords", "su", "sales", "sales_time", "sales_tmp", "sales_time_tmp", "rate", "rate_count", "new", "featured", "last_goodreads_check", "filesize", "sample_filesize", "bk_crc", "bk_sample_crc", "page_count", "provider", "narrator_id", "narrator2_id", "narrator3_id", "duration", "old_crc", "old_filesize", "crc_done", "suitable_for", "from_age", "to_age", "flag", "encrypted", "image_check", "encrypt_check", "sample_check", "seo_title", "seo_description", "tmp_title", "seo_problem", "canonical", "seo_front_show", "extradata", "last_update"}
 	bookColumnsWithoutDefault = []string{"title", "sub_title", "slug", "format", "password", "password2", "publisher_id", "publish_date", "language", "author_id", "author2_id", "author3_id", "translator_id", "translator2_id", "translator3_id", "isbn", "isbn_int", "volume", "paper_price", "apply_paper_price", "price", "main_price", "price_tmp", "price2", "package_discount_publisher_participation", "free", "upload_time", "filename", "sample_filename", "image_name", "image_square", "original_title", "original_publisher_id", "description", "publish", "publish_time", "check_time", "bugs", "crc", "sample_crc", "keywords", "su", "sales_tmp", "sales_time_tmp", "last_goodreads_check", "filesize", "sample_filesize", "bk_crc", "bk_sample_crc", "page_count", "narrator_id", "narrator2_id", "narrator3_id", "duration", "old_crc", "old_filesize", "from_age", "to_age", "flag", "image_check", "encrypt_check", "sample_check", "seo_title", "seo_description", "tmp_title", "canonical", "seo_front_show", "extradata"}
-	bookColumnsWithDefault    = []string{"id", "content_type", "multiple_price", "base_price", "sales", "sales_time", "rate", "rate_count", "new", "featured", "provider", "crc_done", "suitable_for", "encrypted", "seo_problem"}
+	bookColumnsWithDefault    = []string{"id", "content_type", "multiple_price", "base_price", "sales", "sales_time", "rate", "rate_count", "new", "featured", "provider", "crc_done", "suitable_for", "encrypted", "seo_problem", "last_update"}
 	bookPrimaryKeyColumns     = []string{"id"}
 )
 
@@ -1094,6 +1102,20 @@ func (o *Book) Translator3(mods ...qm.QueryMod) authorQuery {
 
 	query := Authors(queryMods...)
 	queries.SetFrom(query.Query, "`author`")
+
+	return query
+}
+
+// BookStat pointed to by the foreign key.
+func (o *Book) BookStat(mods ...qm.QueryMod) bookStatQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("book_id=?", o.ID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := BookStats(queryMods...)
+	queries.SetFrom(query.Query, "`book_stats`")
 
 	return query
 }
@@ -1728,6 +1750,104 @@ func (bookL) LoadTranslator3(ctx context.Context, e boil.ContextExecutor, singul
 	return nil
 }
 
+// LoadBookStat allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-1 relationship.
+func (bookL) LoadBookStat(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBook interface{}, mods queries.Applicator) error {
+	var slice []*Book
+	var object *Book
+
+	if singular {
+		object = maybeBook.(*Book)
+	} else {
+		slice = *maybeBook.(*[]*Book)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &bookR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &bookR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`book_stats`), qm.WhereIn(`book_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load BookStat")
+	}
+
+	var resultSlice []*BookStat
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice BookStat")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for book_stats")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book_stats")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.BookStat = foreign
+		if foreign.R == nil {
+			foreign.R = &bookStatR{}
+		}
+		foreign.R.Book = object
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if local.ID == foreign.BookID {
+				local.R.BookStat = foreign
+				if foreign.R == nil {
+					foreign.R = &bookStatR{}
+				}
+				foreign.R.Book = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
 // SetAuthorG of the book to the related item.
 // Sets o.R.Author to related.
 // Adds o to related.R.Books.
@@ -2288,6 +2408,65 @@ func (o *Book) RemoveTranslator3(ctx context.Context, exec boil.ContextExecutor,
 		}
 		related.R.Translator3Books = related.R.Translator3Books[:ln-1]
 		break
+	}
+	return nil
+}
+
+// SetBookStatG of the book to the related item.
+// Sets o.R.BookStat to related.
+// Adds o to related.R.Book.
+// Uses the global database handle.
+func (o *Book) SetBookStatG(ctx context.Context, insert bool, related *BookStat) error {
+	return o.SetBookStat(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetBookStat of the book to the related item.
+// Sets o.R.BookStat to related.
+// Adds o to related.R.Book.
+func (o *Book) SetBookStat(ctx context.Context, exec boil.ContextExecutor, insert bool, related *BookStat) error {
+	var err error
+
+	if insert {
+		related.BookID = o.ID
+
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	} else {
+		updateQuery := fmt.Sprintf(
+			"UPDATE `book_stats` SET %s WHERE %s",
+			strmangle.SetParamNames("`", "`", 0, []string{"book_id"}),
+			strmangle.WhereClause("`", "`", 0, bookStatPrimaryKeyColumns),
+		)
+		values := []interface{}{o.ID, related.BookID}
+
+		if boil.DebugMode {
+			fmt.Fprintln(boil.DebugWriter, updateQuery)
+			fmt.Fprintln(boil.DebugWriter, values)
+		}
+
+		if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+			return errors.Wrap(err, "failed to update foreign table")
+		}
+
+		related.BookID = o.ID
+
+	}
+
+	if o.R == nil {
+		o.R = &bookR{
+			BookStat: related,
+		}
+	} else {
+		o.R.BookStat = related
+	}
+
+	if related.R == nil {
+		related.R = &bookStatR{
+			Book: o,
+		}
+	} else {
+		related.R.Book = o
 	}
 	return nil
 }

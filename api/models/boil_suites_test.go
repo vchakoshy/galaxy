@@ -14,6 +14,7 @@ import "testing"
 func TestParent(t *testing.T) {
 	t.Run("Authors", testAuthors)
 	t.Run("Books", testBooks)
+	t.Run("BookStats", testBookStats)
 	t.Run("FlexComponents", testFlexComponents)
 	t.Run("FlexPageComponents", testFlexPageComponents)
 	t.Run("FlexPages", testFlexPages)
@@ -22,6 +23,7 @@ func TestParent(t *testing.T) {
 func TestDelete(t *testing.T) {
 	t.Run("Authors", testAuthorsDelete)
 	t.Run("Books", testBooksDelete)
+	t.Run("BookStats", testBookStatsDelete)
 	t.Run("FlexComponents", testFlexComponentsDelete)
 	t.Run("FlexPageComponents", testFlexPageComponentsDelete)
 	t.Run("FlexPages", testFlexPagesDelete)
@@ -30,6 +32,7 @@ func TestDelete(t *testing.T) {
 func TestQueryDeleteAll(t *testing.T) {
 	t.Run("Authors", testAuthorsQueryDeleteAll)
 	t.Run("Books", testBooksQueryDeleteAll)
+	t.Run("BookStats", testBookStatsQueryDeleteAll)
 	t.Run("FlexComponents", testFlexComponentsQueryDeleteAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsQueryDeleteAll)
 	t.Run("FlexPages", testFlexPagesQueryDeleteAll)
@@ -38,6 +41,7 @@ func TestQueryDeleteAll(t *testing.T) {
 func TestSliceDeleteAll(t *testing.T) {
 	t.Run("Authors", testAuthorsSliceDeleteAll)
 	t.Run("Books", testBooksSliceDeleteAll)
+	t.Run("BookStats", testBookStatsSliceDeleteAll)
 	t.Run("FlexComponents", testFlexComponentsSliceDeleteAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsSliceDeleteAll)
 	t.Run("FlexPages", testFlexPagesSliceDeleteAll)
@@ -46,6 +50,7 @@ func TestSliceDeleteAll(t *testing.T) {
 func TestExists(t *testing.T) {
 	t.Run("Authors", testAuthorsExists)
 	t.Run("Books", testBooksExists)
+	t.Run("BookStats", testBookStatsExists)
 	t.Run("FlexComponents", testFlexComponentsExists)
 	t.Run("FlexPageComponents", testFlexPageComponentsExists)
 	t.Run("FlexPages", testFlexPagesExists)
@@ -54,6 +59,7 @@ func TestExists(t *testing.T) {
 func TestFind(t *testing.T) {
 	t.Run("Authors", testAuthorsFind)
 	t.Run("Books", testBooksFind)
+	t.Run("BookStats", testBookStatsFind)
 	t.Run("FlexComponents", testFlexComponentsFind)
 	t.Run("FlexPageComponents", testFlexPageComponentsFind)
 	t.Run("FlexPages", testFlexPagesFind)
@@ -62,6 +68,7 @@ func TestFind(t *testing.T) {
 func TestBind(t *testing.T) {
 	t.Run("Authors", testAuthorsBind)
 	t.Run("Books", testBooksBind)
+	t.Run("BookStats", testBookStatsBind)
 	t.Run("FlexComponents", testFlexComponentsBind)
 	t.Run("FlexPageComponents", testFlexPageComponentsBind)
 	t.Run("FlexPages", testFlexPagesBind)
@@ -70,6 +77,7 @@ func TestBind(t *testing.T) {
 func TestOne(t *testing.T) {
 	t.Run("Authors", testAuthorsOne)
 	t.Run("Books", testBooksOne)
+	t.Run("BookStats", testBookStatsOne)
 	t.Run("FlexComponents", testFlexComponentsOne)
 	t.Run("FlexPageComponents", testFlexPageComponentsOne)
 	t.Run("FlexPages", testFlexPagesOne)
@@ -78,6 +86,7 @@ func TestOne(t *testing.T) {
 func TestAll(t *testing.T) {
 	t.Run("Authors", testAuthorsAll)
 	t.Run("Books", testBooksAll)
+	t.Run("BookStats", testBookStatsAll)
 	t.Run("FlexComponents", testFlexComponentsAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsAll)
 	t.Run("FlexPages", testFlexPagesAll)
@@ -86,6 +95,7 @@ func TestAll(t *testing.T) {
 func TestCount(t *testing.T) {
 	t.Run("Authors", testAuthorsCount)
 	t.Run("Books", testBooksCount)
+	t.Run("BookStats", testBookStatsCount)
 	t.Run("FlexComponents", testFlexComponentsCount)
 	t.Run("FlexPageComponents", testFlexPageComponentsCount)
 	t.Run("FlexPages", testFlexPagesCount)
@@ -94,6 +104,7 @@ func TestCount(t *testing.T) {
 func TestHooks(t *testing.T) {
 	t.Run("Authors", testAuthorsHooks)
 	t.Run("Books", testBooksHooks)
+	t.Run("BookStats", testBookStatsHooks)
 	t.Run("FlexComponents", testFlexComponentsHooks)
 	t.Run("FlexPageComponents", testFlexPageComponentsHooks)
 	t.Run("FlexPages", testFlexPagesHooks)
@@ -104,6 +115,8 @@ func TestInsert(t *testing.T) {
 	t.Run("Authors", testAuthorsInsertWhitelist)
 	t.Run("Books", testBooksInsert)
 	t.Run("Books", testBooksInsertWhitelist)
+	t.Run("BookStats", testBookStatsInsert)
+	t.Run("BookStats", testBookStatsInsertWhitelist)
 	t.Run("FlexComponents", testFlexComponentsInsert)
 	t.Run("FlexComponents", testFlexComponentsInsertWhitelist)
 	t.Run("FlexPageComponents", testFlexPageComponentsInsert)
@@ -121,13 +134,16 @@ func TestToOne(t *testing.T) {
 	t.Run("BookToAuthorUsingAuthor3", testBookToOneAuthorUsingAuthor3)
 	t.Run("BookToAuthorUsingTranslator2", testBookToOneAuthorUsingTranslator2)
 	t.Run("BookToAuthorUsingTranslator3", testBookToOneAuthorUsingTranslator3)
+	t.Run("BookStatToBookUsingBook", testBookStatToOneBookUsingBook)
 	t.Run("FlexPageComponentToFlexComponentUsingComponent", testFlexPageComponentToOneFlexComponentUsingComponent)
 	t.Run("FlexPageComponentToFlexPageUsingPage", testFlexPageComponentToOneFlexPageUsingPage)
 }
 
 // TestOneToOne tests cannot be run in parallel
 // or deadlocks can occur.
-func TestOneToOne(t *testing.T) {}
+func TestOneToOne(t *testing.T) {
+	t.Run("BookToBookStatUsingBookStat", testBookOneToOneBookStatUsingBookStat)
+}
 
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
@@ -151,6 +167,7 @@ func TestToOneSet(t *testing.T) {
 	t.Run("BookToAuthorUsingAuthor3Books", testBookToOneSetOpAuthorUsingAuthor3)
 	t.Run("BookToAuthorUsingTranslator2Books", testBookToOneSetOpAuthorUsingTranslator2)
 	t.Run("BookToAuthorUsingTranslator3Books", testBookToOneSetOpAuthorUsingTranslator3)
+	t.Run("BookStatToBookUsingBookStat", testBookStatToOneSetOpBookUsingBook)
 	t.Run("FlexPageComponentToFlexComponentUsingComponentFlexPageComponents", testFlexPageComponentToOneSetOpFlexComponentUsingComponent)
 	t.Run("FlexPageComponentToFlexPageUsingPageFlexPageComponents", testFlexPageComponentToOneSetOpFlexPageUsingPage)
 }
@@ -168,7 +185,9 @@ func TestToOneRemove(t *testing.T) {
 
 // TestOneToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
-func TestOneToOneSet(t *testing.T) {}
+func TestOneToOneSet(t *testing.T) {
+	t.Run("BookToBookStatUsingBookStat", testBookOneToOneSetOpBookStatUsingBookStat)
+}
 
 // TestOneToOneRemove tests cannot be run in parallel
 // or deadlocks can occur.
@@ -212,6 +231,7 @@ func TestToManyRemove(t *testing.T) {
 func TestReload(t *testing.T) {
 	t.Run("Authors", testAuthorsReload)
 	t.Run("Books", testBooksReload)
+	t.Run("BookStats", testBookStatsReload)
 	t.Run("FlexComponents", testFlexComponentsReload)
 	t.Run("FlexPageComponents", testFlexPageComponentsReload)
 	t.Run("FlexPages", testFlexPagesReload)
@@ -220,6 +240,7 @@ func TestReload(t *testing.T) {
 func TestReloadAll(t *testing.T) {
 	t.Run("Authors", testAuthorsReloadAll)
 	t.Run("Books", testBooksReloadAll)
+	t.Run("BookStats", testBookStatsReloadAll)
 	t.Run("FlexComponents", testFlexComponentsReloadAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsReloadAll)
 	t.Run("FlexPages", testFlexPagesReloadAll)
@@ -228,6 +249,7 @@ func TestReloadAll(t *testing.T) {
 func TestSelect(t *testing.T) {
 	t.Run("Authors", testAuthorsSelect)
 	t.Run("Books", testBooksSelect)
+	t.Run("BookStats", testBookStatsSelect)
 	t.Run("FlexComponents", testFlexComponentsSelect)
 	t.Run("FlexPageComponents", testFlexPageComponentsSelect)
 	t.Run("FlexPages", testFlexPagesSelect)
@@ -236,6 +258,7 @@ func TestSelect(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	t.Run("Authors", testAuthorsUpdate)
 	t.Run("Books", testBooksUpdate)
+	t.Run("BookStats", testBookStatsUpdate)
 	t.Run("FlexComponents", testFlexComponentsUpdate)
 	t.Run("FlexPageComponents", testFlexPageComponentsUpdate)
 	t.Run("FlexPages", testFlexPagesUpdate)
@@ -244,6 +267,7 @@ func TestUpdate(t *testing.T) {
 func TestSliceUpdateAll(t *testing.T) {
 	t.Run("Authors", testAuthorsSliceUpdateAll)
 	t.Run("Books", testBooksSliceUpdateAll)
+	t.Run("BookStats", testBookStatsSliceUpdateAll)
 	t.Run("FlexComponents", testFlexComponentsSliceUpdateAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsSliceUpdateAll)
 	t.Run("FlexPages", testFlexPagesSliceUpdateAll)

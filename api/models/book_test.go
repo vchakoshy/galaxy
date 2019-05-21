@@ -494,6 +494,118 @@ func testBooksInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testBookOneToOneBookStatUsingBookStat(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var foreign BookStat
+	var local Book
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &foreign, bookStatDBTypes, true, bookStatColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize BookStat struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &local, bookDBTypes, true, bookColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Book struct: %s", err)
+	}
+
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreign.BookID = local.ID
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.BookStat().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if check.BookID != foreign.BookID {
+		t.Errorf("want: %v, got %v", foreign.BookID, check.BookID)
+	}
+
+	slice := BookSlice{&local}
+	if err = local.L.LoadBookStat(ctx, tx, false, (*[]*Book)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.BookStat == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.BookStat = nil
+	if err = local.L.LoadBookStat(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.BookStat == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testBookOneToOneSetOpBookStatUsingBookStat(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Book
+	var b, c BookStat
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, bookDBTypes, false, strmangle.SetComplement(bookPrimaryKeyColumns, bookColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, bookStatDBTypes, false, strmangle.SetComplement(bookStatPrimaryKeyColumns, bookStatColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, bookStatDBTypes, false, strmangle.SetComplement(bookStatPrimaryKeyColumns, bookStatColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*BookStat{&b, &c} {
+		err = a.SetBookStat(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.BookStat != x {
+			t.Error("relationship struct not set to correct value")
+		}
+		if x.R.Book != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+
+		if a.ID != x.BookID {
+			t.Error("foreign key was wrong value", a.ID)
+		}
+
+		if exists, err := BookStatExists(ctx, tx, x.BookID); err != nil {
+			t.Fatal(err)
+		} else if !exists {
+			t.Error("want 'x' to exist")
+		}
+
+		if a.ID != x.BookID {
+			t.Error("foreign key was wrong value", a.ID, x.BookID)
+		}
+
+		if _, err = x.Delete(ctx, tx); err != nil {
+			t.Fatal("failed to delete x", err)
+		}
+	}
+}
+
 func testBookToOneAuthorUsingAuthor(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -1528,7 +1640,7 @@ func testBooksSelect(t *testing.T) {
 }
 
 var (
-	bookDBTypes = map[string]string{`ID`: `int`, `Title`: `varchar`, `SubTitle`: `varchar`, `Slug`: `varchar`, `Format`: `enum('EPUB','PDF','AUDIO','VIDEO')`, `ContentType`: `enum('book','magazine','newspaper','report','package','microbook','comic','podcast','music','article','single_video')`, `Password`: `varchar`, `Password2`: `varchar`, `PublisherID`: `int`, `PublishDate`: `date`, `Language`: `enum('FARSI','ARABIC','ENGLISH','GERMAN','SPANISH','FRENCH','ITALIAN','PORTUGUESE')`, `AuthorID`: `int`, `Author2ID`: `int`, `Author3ID`: `int`, `TranslatorID`: `int`, `Translator2ID`: `int`, `Translator3ID`: `int`, `Isbn`: `varchar`, `IsbnInt`: `varchar`, `Volume`: `int`, `PaperPrice`: `float`, `ApplyPaperPrice`: `tinyint`, `Price`: `int`, `MainPrice`: `int`, `MultiplePrice`: `tinyint`, `PriceTMP`: `int`, `BasePrice`: `enum('FIXED','TOMAN','DOLLAR')`, `Price2`: `decimal`, `PackageDiscountPublisherParticipation`: `int`, `Free`: `tinyint`, `UploadTime`: `datetime`, `Filename`: `varchar`, `SampleFilename`: `varchar`, `ImageName`: `varchar`, `ImageSquare`: `varchar`, `OriginalTitle`: `varchar`, `OriginalPublisherID`: `int`, `Description`: `text`, `Publish`: `tinyint`, `PublishTime`: `datetime`, `CheckTime`: `datetime`, `Bugs`: `set`, `CRC`: `int`, `SampleCRC`: `int`, `Keywords`: `varchar`, `Su`: `tinyint`, `Sales`: `int`, `SalesTime`: `int`, `SalesTMP`: `int`, `SalesTimeTMP`: `int`, `Rate`: `double`, `RateCount`: `int`, `New`: `tinyint`, `Featured`: `tinyint`, `LastGoodreadsCheck`: `datetime`, `Filesize`: `bigint`, `SampleFilesize`: `int`, `BKCRC`: `int`, `BKSampleCRC`: `int`, `PageCount`: `int`, `Provider`: `enum('FIDIBO','WILEY','TAYLOR')`, `NarratorID`: `int`, `Narrator2ID`: `int`, `Narrator3ID`: `int`, `Duration`: `int`, `OldCRC`: `int`, `OldFilesize`: `int`, `CRCDone`: `tinyint`, `SuitableFor`: `enum('MEN','WOMEN','BOTH')`, `FromAge`: `tinyint`, `ToAge`: `tinyint`, `Flag`: `int`, `Encrypted`: `tinyint`, `ImageCheck`: `int`, `EncryptCheck`: `int`, `SampleCheck`: `int`, `SeoTitle`: `varchar`, `SeoDescription`: `text`, `TMPTitle`: `varchar`, `SeoProblem`: `tinyint`, `Canonical`: `varchar`, `SeoFrontShow`: `tinyint`, `Extradata`: `text`}
+	bookDBTypes = map[string]string{`ID`: `int`, `Title`: `varchar`, `SubTitle`: `varchar`, `Slug`: `varchar`, `Format`: `enum('EPUB','PDF','AUDIO','VIDEO')`, `ContentType`: `enum('book','magazine','newspaper','report','package','microbook','comic','podcast','music','article','single_video')`, `Password`: `varchar`, `Password2`: `varchar`, `PublisherID`: `int`, `PublishDate`: `date`, `Language`: `enum('FARSI','ARABIC','ENGLISH','GERMAN','SPANISH','FRENCH','ITALIAN','PORTUGUESE')`, `AuthorID`: `int`, `Author2ID`: `int`, `Author3ID`: `int`, `TranslatorID`: `int`, `Translator2ID`: `int`, `Translator3ID`: `int`, `Isbn`: `varchar`, `IsbnInt`: `varchar`, `Volume`: `int`, `PaperPrice`: `float`, `ApplyPaperPrice`: `tinyint`, `Price`: `int`, `MainPrice`: `int`, `MultiplePrice`: `tinyint`, `PriceTMP`: `int`, `BasePrice`: `enum('FIXED','TOMAN','DOLLAR')`, `Price2`: `decimal`, `PackageDiscountPublisherParticipation`: `int`, `Free`: `tinyint`, `UploadTime`: `datetime`, `Filename`: `varchar`, `SampleFilename`: `varchar`, `ImageName`: `varchar`, `ImageSquare`: `varchar`, `OriginalTitle`: `varchar`, `OriginalPublisherID`: `int`, `Description`: `text`, `Publish`: `tinyint`, `PublishTime`: `datetime`, `CheckTime`: `datetime`, `Bugs`: `set`, `CRC`: `int`, `SampleCRC`: `int`, `Keywords`: `varchar`, `Su`: `tinyint`, `Sales`: `int`, `SalesTime`: `int`, `SalesTMP`: `int`, `SalesTimeTMP`: `int`, `Rate`: `double`, `RateCount`: `int`, `New`: `tinyint`, `Featured`: `tinyint`, `LastGoodreadsCheck`: `datetime`, `Filesize`: `bigint`, `SampleFilesize`: `int`, `BKCRC`: `int`, `BKSampleCRC`: `int`, `PageCount`: `int`, `Provider`: `enum('FIDIBO','WILEY','TAYLOR')`, `NarratorID`: `int`, `Narrator2ID`: `int`, `Narrator3ID`: `int`, `Duration`: `int`, `OldCRC`: `int`, `OldFilesize`: `int`, `CRCDone`: `tinyint`, `SuitableFor`: `enum('MEN','WOMEN','BOTH')`, `FromAge`: `tinyint`, `ToAge`: `tinyint`, `Flag`: `int`, `Encrypted`: `tinyint`, `ImageCheck`: `int`, `EncryptCheck`: `int`, `SampleCheck`: `int`, `SeoTitle`: `varchar`, `SeoDescription`: `text`, `TMPTitle`: `varchar`, `SeoProblem`: `tinyint`, `Canonical`: `varchar`, `SeoFrontShow`: `tinyint`, `Extradata`: `text`, `LastUpdate`: `timestamp`}
 	_           = bytes.MinRead
 )
 
