@@ -36,6 +36,12 @@ func (c *Component) getData() []flexComponent {
 	componenets := make([]flexComponent, 0)
 
 	for _, comp := range fpc {
+
+		compModel, err := models.FlexComponents(qm.Where("id=?", comp.ComponentID)).OneG(context.Background())
+		if err != nil {
+			log.Println(err.Error(), comp.ComponentID)
+		}
+
 		cs := flexComponentSettings{}
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
 
@@ -44,7 +50,7 @@ func (c *Component) getData() []flexComponent {
 			queries = append(queries, qm.Limit(8))
 
 			com := flexComponent{
-				Type:         "HL_BOOKS_ARTICLE",
+				Type:         compModel.Type,
 				ResourceType: "BOOK",
 				Title:        cs.Elements.Title.Value.Static,
 				Action: flexBaseAction{

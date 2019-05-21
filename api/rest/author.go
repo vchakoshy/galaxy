@@ -61,21 +61,25 @@ func AuthorItemPost(c *gin.Context) {
 
 type sortMap []string
 
-func NewSortMapByGinContext(c *gin.Context) (sqt string) {
+const (
+	defaultSort = "id desc"
+)
+
+func NewSortMapByGinContext(c *gin.Context) string {
 	sm := sortMap{}
 	sorts := c.Query("sort")
 
 	if sorts == "" {
-		return "id desc"
+		return defaultSort
 	}
 
 	json.Unmarshal([]byte(sorts), &sm)
 
 	if len(sm) == 2 {
-		sqt = strings.Join(sm, " ")
+		return strings.Join(sm, " ")
 	}
-	log.Println(sqt)
-	return sqt
+
+	return defaultSort
 }
 
 func AuthorList(c *gin.Context) {
