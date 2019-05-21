@@ -80,7 +80,7 @@ func (c *Component) getData() []flexComponent {
 
 			queries = append(queries, cs.Settings.Setup.getSort()...)
 
-			log.Println(queries)
+			// log.Println(queries)
 
 			res := newGenericBookByQuery(queries)
 
