@@ -47,6 +47,12 @@ func (s Setup) getSort() []qm.QueryMod {
 	switch s.Sort.Value {
 	case "RECENT":
 		q = append(q, qm.OrderBy("id DESC"))
+	case "BESTSELLER":
+		// ->innerJoin("BookStats ON BookStats.book_id=Book.id")
+		// ->orderBy("BookStats.all_sales_count DESC");
+		q = append(q, qm.InnerJoin("book_stats ON book_stats.book_id=book.id"))
+		q = append(q, qm.OrderBy("book_stats.all_sales_count DESC"))
+
 	}
 
 	return q
