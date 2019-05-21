@@ -22,6 +22,8 @@ func PageBlank(c *gin.Context) {
 		OneG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(400, gin.H{"error": "bad data"})
+		return
 	}
 
 	settings := flexSetting{}
@@ -29,6 +31,8 @@ func PageBlank(c *gin.Context) {
 	err = json.Unmarshal([]byte(fp.SettingData), &settings)
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(400, gin.H{"error": "bad data"})
+		return
 	}
 
 	for index, tabs := range settings.Tabs {

@@ -18,6 +18,8 @@ func AuthorItem(c *gin.Context) {
 		OneG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(400, gin.H{"error": "bad data"})
+		return
 	}
 	c.JSON(200, author)
 
@@ -30,6 +32,8 @@ func AuthorItemUpdate(c *gin.Context) {
 		OneG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(400, gin.H{"error": "bad data"})
+		return
 	}
 	c.JSON(200, author)
 
@@ -42,6 +46,8 @@ func AuthorItemDelete(c *gin.Context) {
 		OneG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(400, gin.H{"error": "bad data"})
+		return
 	}
 	c.JSON(200, author)
 
@@ -54,6 +60,8 @@ func AuthorItemPost(c *gin.Context) {
 		OneG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(400, gin.H{"error": "bad data"})
+		return
 	}
 	c.JSON(200, author)
 

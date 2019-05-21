@@ -6,6 +6,12 @@ type Action struct {
 	Method     string
 }
 
+// Action types definition
+const (
+	ActionContentListPanelType = "CONTENT_LIST"
+	ActionBookPanelType        = "BOOK_PAGE"
+)
+
 func ContentListAction() Action {
 	return Action{
 		PanelType:  "CONTENT_LIST",
@@ -24,9 +30,9 @@ func BookAction() Action {
 
 func GetActionByPanelType(t string) (action Action) {
 	switch t {
-	case ContentListAction().PanelType:
+	case ActionContentListPanelType:
 		action = ContentListAction()
-	case BookAction().PanelType:
+	case ActionBookPanelType:
 		action = BookAction()
 	default:
 		action = Action{}
