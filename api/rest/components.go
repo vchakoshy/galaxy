@@ -51,7 +51,7 @@ func (c *Component) getData() []flexComponent {
 				Type:         compModel.Type,
 				ResourceType: "BOOK",
 				Title:        cs.Elements.Title.Value.Static,
-				Action:       c.getAction(cs.Elements.MoreTitle.Action.Type),
+				Action:       getAction(cs),
 			}
 
 			if cs.Elements.MoreTitle.Value != "" {
@@ -75,8 +75,9 @@ func (c *Component) getData() []flexComponent {
 	return componenets
 }
 
-func (c *Component) getAction(typ string) flexBaseAction {
-	action := flex.GetActionByPanelType(typ)
+func getAction(cs flexComponentSettings) flexBaseAction {
+	action := flex.GetActionByPanelType(cs.Elements.MoreTitle.Action.Type)
+
 	return flexBaseAction{
 		Type: action.ClientType,
 		Input: []flexComponentAction{
