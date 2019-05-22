@@ -96,7 +96,7 @@ type Setup struct {
 	Format struct {
 		DataProvider interface{} `json:"dataProvider"`
 		Type         string      `json:"type"`
-		Value        string      `json:"value"`
+		Value        QueryIdis   `json:"value"`
 	} `json:"format"`
 	Free struct {
 		DataProvider interface{} `json:"dataProvider"`
@@ -118,4 +118,15 @@ type Setup struct {
 		Type         string      `json:"type"`
 		Value        string      `json:"value"`
 	} `json:"filter"`
+}
+
+type QueryIdis []string
+
+func (q QueryIdis) getInterfaceList() []interface{} {
+	qidis := make([]interface{}, 0)
+	for _, id := range q {
+		qidis = append(qidis, id)
+	}
+
+	return qidis
 }

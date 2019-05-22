@@ -37,9 +37,12 @@ func (c *Component) getData() []flexComponent {
 
 	for _, comp := range fpc {
 
-		compModel, err := models.FlexComponents(qm.Where("id=?", comp.ComponentID)).OneG(context.Background())
+		compModel, err := models.
+			FlexComponents(qm.Where("id=?", comp.ComponentID)).
+			OneG(context.Background())
 		if err != nil {
 			log.Println(err.Error(), comp.ComponentID)
+			continue
 		}
 
 		cs := flexComponentSettings{}
@@ -58,7 +61,13 @@ func (c *Component) getData() []flexComponent {
 				com.ActionTitle = cs.Elements.MoreTitle.Value
 			}
 
-			queries := cs.Settings.Setup.getQueries()
+			queries := []qm.QueryMod{}
+
+			inList := cs.Settings.Setup.Format.Value.getInterfaceList()
+			if len(inList) > 0 {
+				queries = append(queries, qm.WhereIn("format in ?", inList...))
+			}
+			// queries := cs.Settings.Setup.getQueries()
 			queries = append(queries, qm.Limit(8))
 			queries = append(queries, cs.Settings.Setup.getSort()...)
 
