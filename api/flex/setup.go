@@ -13,11 +13,11 @@ type Setup struct {
 	Publisher    ProviderSetup `json:"publisher"`
 	ProposedList ProviderSetup `json:"proposedList"`
 	Tag          ProviderSetup `json:"tag"`
-	Sort         struct {
-		DataProvider interface{} `json:"dataProvider"`
-		Type         string      `json:"type"`
-		Value        string      `json:"value"`
-	} `json:"sort"`
+	Free 		 ProviderSimpleSetup `json:"free"`
+	Subscription ProviderSimpleSetup `json:"subscription"`
+	Size 		 ProviderSimpleSetup `json:"size"`
+	Filter 		 ProviderSimpleSetup `json:"filter"`
+	Sort 		 ProviderSimpleSetup `json:"sort"`
 	Query struct {
 		DataProvider interface{}   `json:"dataProvider"`
 		Type         string        `json:"type"`
@@ -33,26 +33,6 @@ type Setup struct {
 		Type         string      `json:"type"`
 		Value        QueryIdis   `json:"value"`
 	} `json:"format"`
-	Free struct {
-		DataProvider interface{} `json:"dataProvider"`
-		Type         string      `json:"type"`
-		Value        string      `json:"value"`
-	} `json:"free"`
-	Subscription struct {
-		DataProvider interface{} `json:"dataProvider"`
-		Type         string      `json:"type"`
-		Value        string      `json:"value"`
-	} `json:"subscription"`
-	Size struct {
-		DataProvider interface{} `json:"dataProvider"`
-		Type         string      `json:"type"`
-		Value        string      `json:"value"`
-	} `json:"size"`
-	Filter struct {
-		DataProvider interface{} `json:"dataProvider"`
-		Type         string      `json:"type"`
-		Value        string      `json:"value"`
-	} `json:"filter"`
 }
 
 
@@ -72,7 +52,8 @@ func (s Setup) getQueries() []qm.QueryMod {
 
 func (s Setup) getInputActions() []flexComponentAction {
 	q := make([]flexComponentAction, 0)
-	q = append(q, s.Book.getInputAction())
+	q = append(q, s.Book.getInputAction("book"))
+	q = append(q, s.Free.getInputAction("free"))
 
 	return q
 }

@@ -1,6 +1,9 @@
 package flex
 
-import "github.com/volatiletech/sqlboiler/queries/qm"
+import (
+	"github.com/davecgh/go-spew/spew"
+	"github.com/volatiletech/sqlboiler/queries/qm"
+)
 
 type ProviderSetup struct {
 	Type         string   `json:"type"`
@@ -21,9 +24,10 @@ func (ps ProviderSetup) GetKeyID() string {
 	return ""
 }
 
-func (ps ProviderSetup) getInputAction() flexComponentAction {
+func (ps ProviderSetup) getInputAction(key string) flexComponentAction {
 	action := flexComponentAction{}
 
+	spew.Dump(ps.Type, ps)
 	switch ps.Type {
 	case "STATIC":
 		action.Key = ps.GetKeyID()
