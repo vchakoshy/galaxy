@@ -4,7 +4,6 @@ type Action struct {
 	PanelType  string
 	ClientType string
 	Method     string
-	Fields     []Field
 }
 
 // Action types definition
@@ -19,9 +18,6 @@ func ContentListAction() Action {
 		PanelType:  "CONTENT_LIST",
 		ClientType: "content_list",
 		Method:     "/v2/general/list/book",
-		Fields: []Field{
-			CategoryField(),
-		},
 	}
 }
 
@@ -30,9 +26,6 @@ func BookAction() Action {
 		PanelType:  "BOOK_PAGE",
 		ClientType: "book",
 		Method:     "/",
-		Fields: []Field{
-			CategoryField(),
-		},
 	}
 }
 
