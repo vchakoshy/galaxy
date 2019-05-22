@@ -1,7 +1,7 @@
-package rest
+package flex 
 
 import (
-	"gitlab.fidibo.com/backend/galaxy/api/flex"
+	
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
 
 	"context"
@@ -16,7 +16,7 @@ import (
 
 type flexGenericChildAction struct {
 	Type      string            `json:"type"`
-	Input     []flexActionInput `json:"input"`
+	Input     []FlexActionInput `json:"input"`
 	ExtraData interface{}       `json:"extraData"`
 	Method    string            `json:"method"`
 }
@@ -29,7 +29,7 @@ type flexGenericBook struct {
 	Image       string                 `json:"image"`
 	Format      string                 `json:"format"`
 	ContentType string                 `json:"content_type"`
-	Badge       flex.Badge             `json:"badge"`
+	Badge       Badge             `json:"badge"`
 	Action      flexGenericChildAction `json:"action"`
 	BookID      string                 `json:"bookId"`
 }
@@ -57,12 +57,12 @@ func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 			ContentType: b.ContentType,
 			Action: flexGenericChildAction{
 				Type: "book",
-				Input: []flexActionInput{
-					flexActionInput{
+				Input: []FlexActionInput{
+					FlexActionInput{
 						Key:   "bookId",
 						Value: bookIDStr,
 					},
-					flexActionInput{
+					FlexActionInput{
 						Key:   "pageName",
 						Value: "BOOK_OVERVIEW_PAGE",
 					},
@@ -71,12 +71,12 @@ func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 			},
 			ChildAction: flexGenericChildAction{
 				Type: "book",
-				Input: []flexActionInput{
-					flexActionInput{
+				Input: []FlexActionInput{
+					FlexActionInput{
 						Key:   "bookId",
 						Value: bookIDStr,
 					},
-					flexActionInput{
+					FlexActionInput{
 						Key:   "pageName",
 						Value: "BOOK_OVERVIEW_PAGE",
 					},

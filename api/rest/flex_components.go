@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"gitlab.fidibo.com/backend/galaxy/api/flex"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
@@ -26,7 +27,7 @@ func PageBlank(c *gin.Context) {
 		return
 	}
 
-	settings := flexSetting{}
+	settings := flex.Setting{}
 
 	err = json.Unmarshal([]byte(fp.SettingData), &settings)
 	if err != nil {
@@ -36,11 +37,11 @@ func PageBlank(c *gin.Context) {
 	}
 
 	for index, tabs := range settings.Tabs {
-		settings.Tabs[index].Action = flexAction{
+		settings.Tabs[index].Action = flex.FlexAction{
 			Method: "/flex/page/blank",
 			Type:   "flex_blank_page",
-			Input: []flexActionInput{
-				flexActionInput{
+			Input: []flex.FlexActionInput{
+				flex.FlexActionInput{
 					Key:   "pageId",
 					Value: tabs.PageID,
 				},
@@ -48,9 +49,9 @@ func PageBlank(c *gin.Context) {
 		}
 	}
 
-	fs := flexStruct{
-		Output: flexOutput{
-			Components: NewComponentByPage(fp.ID).getData(),
+	fs := flex.FlexStruct{
+		Output: flex.FlexOutput{
+			Components: flex.NewComponentByPage(fp.ID).GetData(),
 			FlexErrors: []string{},
 			Setting:    settings,
 			Title:      fp.Title,
