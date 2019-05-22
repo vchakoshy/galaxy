@@ -12,6 +12,29 @@ type ProviderSetup struct {
 	DataProvider string   `json:"dataProvider"`
 }
 
+func (ps ProviderSetup) GetKeyID() string {
+	switch ps.DataProvider {
+	case "BOOK":
+		return "id"
+	case "CATEGORY":
+		return "id"
+	}
+
+	return ""
+}
+
+func (ps ProviderSetup) getInputAction() flexComponentAction {
+	action := flexComponentAction{}
+
+	switch ps.Type {
+	case "STATIC":
+		action.Key = ps.GetKeyID()
+		action.ArrayValue = ps.Ids
+	}
+
+	return action
+}
+
 func (ps ProviderSetup) getQuery() []qm.QueryMod {
 
 	queries := make([]qm.QueryMod, 0)
@@ -38,6 +61,13 @@ func (s Setup) getQueries() []qm.QueryMod {
 	q = append(q, s.Publisher.getQuery()...)
 	q = append(q, s.ProposedList.getQuery()...)
 	q = append(q, s.Tag.getQuery()...)
+
+	return q
+}
+
+func (s Setup) getInputActions() []flexComponentAction {
+	q := make([]flexComponentAction, 0)
+	q = append(q, s.Book.getInputAction())
 
 	return q
 }

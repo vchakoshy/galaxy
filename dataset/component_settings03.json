@@ -1,0 +1,3163 @@
+{
+    "output": {
+        "components": [
+            {
+                "title": "کتابهای صوتی و غیر صوتی پر فروش",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85325"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85325/get"
+                                },
+                                "title": "کتاب شب امتحان دین و زندگی ۳  – دوازدهم انسانی ",
+                                "subTitle": "نسخه PDF",
+                                "icon": "/images/books/85325_38512_normal.jpg",
+                                "image": "/images/books/85325_38512_normal.jpg",
+                                "format": "PDF",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85325"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85325/get"
+                                },
+                                "bookId": "85325"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66147"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66147/get"
+                                },
+                                "title": "کتاب مطلق در ذهن ایرانی",
+                                "subTitle": "",
+                                "icon": "/images/books/66147_55098_normal.jpg",
+                                "image": "/images/books/66147_55098_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66147"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66147/get"
+                                },
+                                "bookId": "66147"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85255"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85255/get"
+                                },
+                                "title": "کتاب هندسه (۳ ) شب امتحان – دوازدهم ریاضی (نسخه PDF)",
+                                "subTitle": "",
+                                "icon": "/images/books/85255_11728_normal.jpg",
+                                "image": "/images/books/85255_11728_normal.jpg",
+                                "format": "PDF",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85255"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85255/get"
+                                },
+                                "bookId": "85255"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "87824"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/87824/get"
+                                },
+                                "title": "کتاب شب امتحان سلامت و بهداشت  (نسخه PDF)",
+                                "subTitle": "دوازدهم",
+                                "icon": "/images/books/87824_61030_normal.jpg",
+                                "image": "/images/books/87824_61030_normal.jpg",
+                                "format": "PDF",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "87824"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/87824/get"
+                                },
+                                "bookId": "87824"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85293"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85293/get"
+                                },
+                                "title": "کتاب شب امتحان ریاضی ۳  – دوازدهم تجربی ",
+                                "subTitle": "نسخه PDF",
+                                "icon": "/images/books/85293_13519_normal.jpg",
+                                "image": "/images/books/85293_13519_normal.jpg",
+                                "format": "PDF",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85293"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85293/get"
+                                },
+                                "bookId": "85293"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "79813"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/79813/get"
+                                },
+                                "title": "کتاب تختت را مرتب کن ",
+                                "subTitle": " کارهای کوچکی که شاید زندگی\u200cتان و حتی دنیا را متحول کند",
+                                "icon": "/images/books/79813_36988_normal.jpg",
+                                "image": "/images/books/79813_36988_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "79813"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/79813/get"
+                                },
+                                "bookId": "79813"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85266"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85266/get"
+                                },
+                                "title": "کتاب شب امتحان هویت اجتماعی  – دوازدهم ",
+                                "subTitle": "علوم اجتماعی",
+                                "icon": "/images/books/85266_93503_normal.jpg",
+                                "image": "/images/books/85266_93503_normal.jpg",
+                                "format": "PDF",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "85266"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/85266/get"
+                                },
+                                "bookId": "85266"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "86020"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/86020/get"
+                                },
+                                "title": "کتاب صوتی ملت عشق ",
+                                "subTitle": "اجرای جدید",
+                                "icon": "/images/books/86020_49673_normal.jpg",
+                                "image": "/images/books/86020_49673_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "86020"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/86020/get"
+                                },
+                                "bookId": "86020"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            },
+            {
+                "title": "مقالات برتر",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "115"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/115/get"
+                                },
+                                "title": "کتاب Narrative of the Life of Frederick Douglass",
+                                "subTitle": "",
+                                "icon": "/images/books/115_22705_normal.jpg",
+                                "image": "/images/books/115_22705_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "115"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/115/get"
+                                },
+                                "bookId": "115"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "116"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/116/get"
+                                },
+                                "title": "کتاب Great Astronomers",
+                                "subTitle": " John Pond",
+                                "icon": "/images/books/116_37323_normal.jpg",
+                                "image": "/images/books/116_37323_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "116"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/116/get"
+                                },
+                                "bookId": "116"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "117"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/117/get"
+                                },
+                                "title": "کتاب From The Caves And Jungles Of The Hindostan",
+                                "subTitle": "",
+                                "icon": "/images/books/117_70131_normal.jpg",
+                                "image": "/images/books/117_70131_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "117"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/117/get"
+                                },
+                                "bookId": "117"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "119"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/119/get"
+                                },
+                                "title": "کتاب The Education of Henry Adams",
+                                "subTitle": "",
+                                "icon": "/images/books/119_22614_normal.jpg",
+                                "image": "/images/books/119_22614_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "119"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/119/get"
+                                },
+                                "bookId": "119"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "122"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/122/get"
+                                },
+                                "title": "کتاب The Confessions",
+                                "subTitle": "",
+                                "icon": "/images/books/122_85048_normal.jpg",
+                                "image": "/images/books/122_85048_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "122"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/122/get"
+                                },
+                                "bookId": "122"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "123"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/123/get"
+                                },
+                                "title": "کتاب The Affair at the Semiramis Hotel",
+                                "subTitle": "",
+                                "icon": "/images/books/123_24416_normal.jpg",
+                                "image": "/images/books/123_24416_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "123"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/123/get"
+                                },
+                                "bookId": "123"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "124"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/124/get"
+                                },
+                                "title": "کتاب The Four Feathers",
+                                "subTitle": "",
+                                "icon": "/images/books/124_24115_normal.jpg",
+                                "image": "/images/books/124_24115_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "124"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/124/get"
+                                },
+                                "bookId": "124"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "125"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/125/get"
+                                },
+                                "title": "کتاب Apologia Pro Vita Sua",
+                                "subTitle": "",
+                                "icon": "/images/books/125_73231_normal.jpg",
+                                "image": "/images/books/125_73231_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "125"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/125/get"
+                                },
+                                "bookId": "125"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_ARTICLE",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": ""
+                }
+            },
+            {
+                "title": "معمایی",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68414"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68414/get"
+                                },
+                                "title": "میکروبوک صوتی به انجام رساندن کارها",
+                                "subTitle": "",
+                                "icon": "/images/books/68414_62719_normal.jpg",
+                                "image": "/images/books/68414_62719_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "microbook",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68414"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68414/get"
+                                },
+                                "bookId": "68414"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "78026"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/78026/get"
+                                },
+                                "title": "کتاب صوتی اثر مرکب",
+                                "subTitle": " آغاز جهشی در زندگی، موفقیت و درآمد شما",
+                                "icon": "/images/books/78026_54185_normal.jpg",
+                                "image": "/images/books/78026_54185_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "78026"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/78026/get"
+                                },
+                                "bookId": "78026"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67266"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67266/get"
+                                },
+                                "title": "کتاب صوتی تمرین نیروی حال",
+                                "subTitle": "",
+                                "icon": "/images/books/67266_69596_normal.jpg",
+                                "image": "/images/books/67266_69596_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67266"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67266/get"
+                                },
+                                "bookId": "67266"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68388"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68388/get"
+                                },
+                                "title": "کتاب صوتی قصه های مثنوی مولوی",
+                                "subTitle": "",
+                                "icon": "/images/books/68388_89672_normal.jpg",
+                                "image": "/images/books/68388_89672_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68388"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68388/get"
+                                },
+                                "bookId": "68388"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67312"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67312/get"
+                                },
+                                "title": "کتاب صوتی ثروتمندترین مرد بابل",
+                                "subTitle": "",
+                                "icon": "/images/books/67312_48282_normal.jpg",
+                                "image": "/images/books/67312_48282_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67312"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67312/get"
+                                },
+                                "bookId": "67312"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68502"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68502/get"
+                                },
+                                "title": "کتاب صوتی کیمیاگر",
+                                "subTitle": "",
+                                "icon": "/images/books/68502_66917_normal.jpg",
+                                "image": "/images/books/68502_66917_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68502"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68502/get"
+                                },
+                                "bookId": "68502"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68435"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68435/get"
+                                },
+                                "title": "میکروبوک صوتی پدر پولدار، پدر بی\u200cپول",
+                                "subTitle": "",
+                                "icon": "/images/books/68435_21853_normal.jpg",
+                                "image": "/images/books/68435_21853_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "microbook",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68435"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68435/get"
+                                },
+                                "bookId": "68435"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "86181"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/86181/get"
+                                },
+                                "title": "کتاب صوتی پدر پولدار پدر فقیر",
+                                "subTitle": "",
+                                "icon": "/images/books/86181_33623_normal.jpg",
+                                "image": "/images/books/86181_33623_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "86181"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/86181/get"
+                                },
+                                "bookId": "86181"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            },
+            {
+                "title": "تازه\u200cهای فیدیبو",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90388"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90388/get"
+                                },
+                                "title": "فلسفه زندگی زناشویی",
+                                "subTitle": "",
+                                "icon": "/images/books/90388_51633_normal.jpg",
+                                "image": "/images/books/90388_51633_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90388"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90388/get"
+                                },
+                                "bookId": "90388"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90385"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90385/get"
+                                },
+                                "title": "انسان در جستجوی معنا",
+                                "subTitle": "",
+                                "icon": "/images/books/90385_80707_normal.jpg",
+                                "image": "/images/books/90385_80707_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90385"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90385/get"
+                                },
+                                "bookId": "90385"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90366"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90366/get"
+                                },
+                                "title": "پادکست: دیج ایمیج - قسمت بیست و سه",
+                                "subTitle": "از ماه",
+                                "icon": "/images/books/90366_60126_normal.jpg",
+                                "image": "/images/books/90366_60126_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "podcast",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90366"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90366/get"
+                                },
+                                "bookId": "90366"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90365"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90365/get"
+                                },
+                                "title": "پادکست: پاراگراف - قسمت ده",
+                                "subTitle": "داستان روم (بخش سوم: امپراتوری بیزانس)",
+                                "icon": "/images/books/90365_38389_normal.jpg",
+                                "image": "/images/books/90365_38389_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "podcast",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90365"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90365/get"
+                                },
+                                "bookId": "90365"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90364"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90364/get"
+                                },
+                                "title": "پادکست: آلبوم - قسمت ششم",
+                                "subTitle": "این جاده یک طرفه است",
+                                "icon": "/images/books/90364_61713_normal.jpg",
+                                "image": "/images/books/90364_61713_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "podcast",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90364"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90364/get"
+                                },
+                                "bookId": "90364"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90324"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90324/get"
+                                },
+                                "title": "سه قطره خون",
+                                "subTitle": "",
+                                "icon": "/images/books/90324_82165_normal.jpg",
+                                "image": "/images/books/90324_82165_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90324"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90324/get"
+                                },
+                                "bookId": "90324"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90297"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90297/get"
+                                },
+                                "title": "کتاب صوتی ارتباطات جادوی رسیدن به موفقیت",
+                                "subTitle": "",
+                                "icon": "/images/books/90297_48622_normal.jpg",
+                                "image": "/images/books/90297_48622_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90297"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90297/get"
+                                },
+                                "bookId": "90297"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90296"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90296/get"
+                                },
+                                "title": "جستارهایی در باب عشق",
+                                "subTitle": "",
+                                "icon": "/images/books/90296_64282_normal.jpg",
+                                "image": "/images/books/90296_64282_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "90296"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/90296/get"
+                                },
+                                "bookId": "90296"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            },
+            {
+                "title": "برترین رمان\u200cهای جهان",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68414"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68414/get"
+                                },
+                                "title": "میکروبوک صوتی به انجام رساندن کارها",
+                                "subTitle": "",
+                                "icon": "/images/books/68414_62719_normal.jpg",
+                                "image": "/images/books/68414_62719_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "microbook",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68414"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68414/get"
+                                },
+                                "bookId": "68414"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "78026"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/78026/get"
+                                },
+                                "title": "کتاب صوتی اثر مرکب",
+                                "subTitle": " آغاز جهشی در زندگی، موفقیت و درآمد شما",
+                                "icon": "/images/books/78026_54185_normal.jpg",
+                                "image": "/images/books/78026_54185_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "78026"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/78026/get"
+                                },
+                                "bookId": "78026"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67266"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67266/get"
+                                },
+                                "title": "کتاب صوتی تمرین نیروی حال",
+                                "subTitle": "",
+                                "icon": "/images/books/67266_69596_normal.jpg",
+                                "image": "/images/books/67266_69596_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67266"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67266/get"
+                                },
+                                "bookId": "67266"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68388"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68388/get"
+                                },
+                                "title": "کتاب صوتی قصه های مثنوی مولوی",
+                                "subTitle": "",
+                                "icon": "/images/books/68388_89672_normal.jpg",
+                                "image": "/images/books/68388_89672_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68388"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68388/get"
+                                },
+                                "bookId": "68388"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67312"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67312/get"
+                                },
+                                "title": "کتاب صوتی ثروتمندترین مرد بابل",
+                                "subTitle": "",
+                                "icon": "/images/books/67312_48282_normal.jpg",
+                                "image": "/images/books/67312_48282_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67312"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67312/get"
+                                },
+                                "bookId": "67312"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68502"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68502/get"
+                                },
+                                "title": "کتاب صوتی کیمیاگر",
+                                "subTitle": "",
+                                "icon": "/images/books/68502_66917_normal.jpg",
+                                "image": "/images/books/68502_66917_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68502"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68502/get"
+                                },
+                                "bookId": "68502"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68435"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68435/get"
+                                },
+                                "title": "میکروبوک صوتی پدر پولدار، پدر بی\u200cپول",
+                                "subTitle": "",
+                                "icon": "/images/books/68435_21853_normal.jpg",
+                                "image": "/images/books/68435_21853_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "microbook",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68435"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68435/get"
+                                },
+                                "bookId": "68435"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "86181"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/86181/get"
+                                },
+                                "title": "کتاب صوتی پدر پولدار پدر فقیر",
+                                "subTitle": "",
+                                "icon": "/images/books/86181_33623_normal.jpg",
+                                "image": "/images/books/86181_33623_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "86181"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/86181/get"
+                                },
+                                "bookId": "86181"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            },
+            {
+                "title": "موفقیت و خودیاری",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "4339"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/4339/get"
+                                },
+                                "title": "کتاب ملت عشق",
+                                "subTitle": "",
+                                "icon": "/images/books/4339_22364_normal.jpg",
+                                "image": "/images/books/4339_22364_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "4339"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/4339/get"
+                                },
+                                "bookId": "4339"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "69108"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/69108/get"
+                                },
+                                "title": "کتاب \u200c\u202bبهترین سال زندگی تو",
+                                "subTitle": " روشی اثبات شده برای رسیدن به اهداف بزرگ",
+                                "icon": "/images/books/69108_81496_normal.jpg",
+                                "image": "/images/books/69108_81496_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "69108"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/69108/get"
+                                },
+                                "bookId": "69108"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "64664"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/64664/get"
+                                },
+                                "title": "کتاب مردی به نام اوه",
+                                "subTitle": "",
+                                "icon": "/images/books/64664_92182_normal.jpg",
+                                "image": "/images/books/64664_92182_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "64664"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/64664/get"
+                                },
+                                "bookId": "64664"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "65297"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/65297/get"
+                                },
+                                "title": "کتاب چگونه با هرکسی صحبت کنیم",
+                                "subTitle": " ۹۲  راهکار ساده برای رسیدن به موفقیت بزرگ در روابط",
+                                "icon": "/images/books/65297_54655_normal.jpg",
+                                "image": "/images/books/65297_54655_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "65297"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/65297/get"
+                                },
+                                "bookId": "65297"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "3922"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/3922/get"
+                                },
+                                "title": "کتاب معجزه انضباط فردی",
+                                "subTitle": "",
+                                "icon": "/images/books/3922_17031_normal.jpg",
+                                "image": "/images/books/3922_17031_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "3922"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/3922/get"
+                                },
+                                "bookId": "3922"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "79813"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/79813/get"
+                                },
+                                "title": "کتاب تختت را مرتب کن ",
+                                "subTitle": " کارهای کوچکی که شاید زندگی\u200cتان و حتی دنیا را متحول کند",
+                                "icon": "/images/books/79813_36988_normal.jpg",
+                                "image": "/images/books/79813_36988_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "79813"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/79813/get"
+                                },
+                                "bookId": "79813"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "65672"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/65672/get"
+                                },
+                                "title": "کتاب من پیش از تو",
+                                "subTitle": "",
+                                "icon": "/images/books/65672_11136_normal.jpg",
+                                "image": "/images/books/65672_11136_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "65672"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/65672/get"
+                                },
+                                "bookId": "65672"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "2422"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/2422/get"
+                                },
+                                "title": "مزرعه\u200cی حیوانات",
+                                "subTitle": "",
+                                "icon": "/images/books/2422_48538_normal.jpg",
+                                "image": "/images/books/2422_48538_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "2422"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/2422/get"
+                                },
+                                "bookId": "2422"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            },
+            {
+                "title": "تازه های جنایی",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66528"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66528/get"
+                                },
+                                "title": "صدای انسان",
+                                "subTitle": "",
+                                "icon": "/images/books/",
+                                "image": "/images/books/",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66528"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66528/get"
+                                },
+                                "bookId": "66528"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66549"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66549/get"
+                                },
+                                "title": "استارت آپ نوپای هفت روزه",
+                                "subTitle": "",
+                                "icon": "/images/books/66549_52597_normal.jpg",
+                                "image": "/images/books/66549_52597_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66549"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66549/get"
+                                },
+                                "bookId": "66549"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66803"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66803/get"
+                                },
+                                "title": "کتاب صوتی داستان بَر دار کردن حسنک وزیر",
+                                "subTitle": "",
+                                "icon": "/images/books/66803_11446_normal.jpg",
+                                "image": "/images/books/66803_11446_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66803"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66803/get"
+                                },
+                                "bookId": "66803"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66814"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66814/get"
+                                },
+                                "title": "کتاب صوتی جاناتان مرغ دریایی",
+                                "subTitle": "",
+                                "icon": "/images/books/66814_21353_normal.jpg",
+                                "image": "/images/books/66814_21353_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66814"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66814/get"
+                                },
+                                "bookId": "66814"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66815"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66815/get"
+                                },
+                                "title": "کتاب صوتی به لهجه سپیدار",
+                                "subTitle": "",
+                                "icon": "/images/books/66815_64550_normal.jpg",
+                                "image": "/images/books/66815_64550_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66815"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66815/get"
+                                },
+                                "bookId": "66815"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66816"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66816/get"
+                                },
+                                "title": "کتاب صوتی تن آرامی یا ریلکسیشن",
+                                "subTitle": "",
+                                "icon": "/images/books/66816_95131_normal.jpg",
+                                "image": "/images/books/66816_95131_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66816"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66816/get"
+                                },
+                                "bookId": "66816"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66823"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66823/get"
+                                },
+                                "title": "کتاب صوتی بر بال آرامش",
+                                "subTitle": "",
+                                "icon": "/images/books/66823_42649_normal.jpg",
+                                "image": "/images/books/66823_42649_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66823"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66823/get"
+                                },
+                                "bookId": "66823"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67156"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67156/get"
+                                },
+                                "title": "کتاب صوتی استارت آپ نوپای هفت روزه",
+                                "subTitle": "",
+                                "icon": "/images/books/67156_63405_normal.jpg",
+                                "image": "/images/books/67156_63405_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "67156"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/67156/get"
+                                },
+                                "bookId": "67156"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            },
+            {
+                "title": "پرفروش های داستان و ادبیات",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "3865"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/3865/get"
+                                },
+                                "title": "کتاب فوايد گياهخواری",
+                                "subTitle": "",
+                                "icon": "/images/books/3865_39607_normal.jpg",
+                                "image": "/images/books/3865_39607_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "3865"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/3865/get"
+                                },
+                                "bookId": "3865"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            },
+            {
+                "title": "ژانر فانتزی",
+                "data": {
+                    "items": {
+                        "generic": [
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "80374"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/80374/get"
+                                },
+                                "title": "فیل\u200cشناسی در تاریکی - #بابچه\u200cهابشنویم - نسخه صوتی",
+                                "subTitle": "",
+                                "icon": "/images/books/80374_38643_normal.jpg",
+                                "image": "/images/books/80374_38643_normal.jpg",
+                                "format": "AUDIO",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "80374"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/80374/get"
+                                },
+                                "bookId": "80374"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "69108"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/69108/get"
+                                },
+                                "title": "کتاب \u200c\u202bبهترین سال زندگی تو",
+                                "subTitle": " روشی اثبات شده برای رسیدن به اهداف بزرگ",
+                                "icon": "/images/books/69108_81496_normal.jpg",
+                                "image": "/images/books/69108_81496_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "69108"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/69108/get"
+                                },
+                                "bookId": "69108"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68121"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68121/get"
+                                },
+                                "title": "کتاب جاسوس",
+                                "subTitle": "",
+                                "icon": "/images/books/68121_17612_normal.jpg",
+                                "image": "/images/books/68121_17612_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "68121"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/68121/get"
+                                },
+                                "bookId": "68121"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "4339"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/4339/get"
+                                },
+                                "title": "کتاب ملت عشق",
+                                "subTitle": "",
+                                "icon": "/images/books/4339_22364_normal.jpg",
+                                "image": "/images/books/4339_22364_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "4339"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/4339/get"
+                                },
+                                "bookId": "4339"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "79813"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/79813/get"
+                                },
+                                "title": "کتاب تختت را مرتب کن ",
+                                "subTitle": " کارهای کوچکی که شاید زندگی\u200cتان و حتی دنیا را متحول کند",
+                                "icon": "/images/books/79813_36988_normal.jpg",
+                                "image": "/images/books/79813_36988_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "79813"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/79813/get"
+                                },
+                                "bookId": "79813"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66147"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66147/get"
+                                },
+                                "title": "کتاب مطلق در ذهن ایرانی",
+                                "subTitle": "",
+                                "icon": "/images/books/66147_55098_normal.jpg",
+                                "image": "/images/books/66147_55098_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "66147"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/66147/get"
+                                },
+                                "bookId": "66147"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "64664"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/64664/get"
+                                },
+                                "title": "کتاب مردی به نام اوه",
+                                "subTitle": "",
+                                "icon": "/images/books/64664_92182_normal.jpg",
+                                "image": "/images/books/64664_92182_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "64664"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/64664/get"
+                                },
+                                "bookId": "64664"
+                            },
+                            {
+                                "childAction": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "65297"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/65297/get"
+                                },
+                                "title": "کتاب چگونه با هرکسی صحبت کنیم",
+                                "subTitle": " ۹۲  راهکار ساده برای رسیدن به موفقیت بزرگ در روابط",
+                                "icon": "/images/books/65297_54655_normal.jpg",
+                                "image": "/images/books/65297_54655_normal.jpg",
+                                "format": "EPUB",
+                                "content_type": "book",
+                                "badge": {
+                                    "text": "",
+                                    "bg_color": "",
+                                    "txt_color": ""
+                                },
+                                "action": {
+                                    "type": "book",
+                                    "input": [
+                                        {
+                                            "key": "bookId",
+                                            "value": "65297"
+                                        },
+                                        {
+                                            "key": "pageName",
+                                            "value": "BOOK_OVERVIEW_PAGE"
+                                        }
+                                    ],
+                                    "extraData": null,
+                                    "method": "/book/65297/get"
+                                },
+                                "bookId": "65297"
+                            }
+                        ]
+                    }
+                },
+                "type": "HL_BOOKS_FULL",
+                "resource_type": "BOOK",
+                "action": {
+                    "type": "content_list",
+                    "input": [
+                        {
+                            "key": "categoryId",
+                            "arrayValue": [
+                                "10036",
+                                "10221"
+                            ]
+                        },
+                        {
+                            "key": "free"
+                        },
+                        {
+                            "key": "subscription"
+                        }
+                    ],
+                    "extraData": null,
+                    "method": "/v2/general/list/book"
+                },
+                "actionTitle": "بیشتر"
+            }
+        ],
+        "flexErrors": [],
+        "isLastPage": true,
+        "setting": {
+            "tabs": null
+        },
+        "title": "نگاه کلی خواندنی",
+        "result": true
+    },
+    "error": "",
+    "message": "",
+    "isPlusMode": false
+}
