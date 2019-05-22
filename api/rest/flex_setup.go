@@ -15,9 +15,9 @@ type ProviderSetup struct {
 func (ps ProviderSetup) GetKeyID() string {
 	switch ps.DataProvider {
 	case "BOOK":
-		return "id"
+		return "bookId"
 	case "CATEGORY":
-		return "id"
+		return "categoryId"
 	}
 
 	return ""

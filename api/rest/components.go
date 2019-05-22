@@ -88,21 +88,7 @@ func getAction(cs flexComponentSettings) flexBaseAction {
 	action := flex.GetActionByPanelType(cs.Elements.MoreTitle.Action.Type)
 
 	return flexBaseAction{
-		Type: action.ClientType,
-		// Input: []flexComponentAction{
-		// 	{
-		// 		Key:        "categoryId",
-		// 		ArrayValue: []string{"10036", "10221"},
-		// 	},
-		// 	{
-		// 		Key:   "free",
-		// 		Value: false,
-		// 	},
-		// 	{
-		// 		Key:   "subscription",
-		// 		Value: false,
-		// 	},
-		// },
+		Type:      action.ClientType,
 		Input:     cs.Settings.Setup.getInputActions(),
 		ExtraData: nil,
 		Method:    action.Method,
