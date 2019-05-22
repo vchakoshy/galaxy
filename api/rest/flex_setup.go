@@ -150,7 +150,7 @@ type Setup struct {
 	} `json:"filter"`
 }
 
-type QueryIdis []string
+type QueryIdis []interface{}
 
 func (q QueryIdis) getInterfaceList() []interface{} {
 	qidis := make([]interface{}, 0)

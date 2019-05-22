@@ -63,13 +63,68 @@ func (c *Component) getData() []flexComponent {
 
 			queries := []qm.QueryMod{}
 
+			bookIdis := QueryIdis{}
+
+			switch cs.Settings.Setup.Sort.Value {
+			case "BESTSELLER":
+				qs := []qm.QueryMod{}
+				qs = append(qs, qm.OrderBy("all_sales_count DESC"))
+				qs = append(qs, qm.Limit(10))
+				d, err := models.BookStats(qs...).AllG(context.Background())
+				if err != nil {
+					log.Println(err.Error())
+					break
+				}
+				for _, bs := range d {
+					bookIdis = append(bookIdis, bs.BookID)
+				}
+
+			case "WEEK_BESTSELLER":
+				qs := []qm.QueryMod{}
+				qs = append(qs, qm.OrderBy("week_sales_count DESC"))
+				qs = append(qs, qm.Limit(10))
+				d, err := models.BookStats(qs...).AllG(context.Background())
+				if err != nil {
+					log.Println(err.Error())
+					break
+				}
+				for _, bs := range d {
+					bookIdis = append(bookIdis, bs.BookID)
+				}
+
+			case "POPULAR":
+				qs := []qm.QueryMod{}
+				qs = append(qs, qm.OrderBy("month_download_count DESC"))
+				qs = append(qs, qm.Limit(10))
+				d, err := models.BookStats(qs...).AllG(context.Background())
+				if err != nil {
+					log.Println(err.Error())
+					break
+				}
+				for _, bs := range d {
+					bookIdis = append(bookIdis, bs.BookID)
+				}
+
+			case "MOST_COMMENTED":
+				// Not implemented, this functionallity has performance concern
+
+				// 	q = append(q, qm.InnerJoin("comment ON comment.book_id = book.id"))
+				// 	q = append(q, qm.Where("comment.publish = 1"))
+				// 	q = append(q, qm.OrderBy("COUNT(comment.id) DESC"))
+			}
+
+			log.Println("idis:", bookIdis)
+
+			if len(bookIdis) > 0 {
+				queries = append(queries, qm.WhereIn("id in ?", bookIdis...))
+			}
+
 			inList := cs.Settings.Setup.Format.Value.getInterfaceList()
 			if len(inList) > 0 {
 				queries = append(queries, qm.WhereIn("format in ?", inList...))
 			}
-			// queries := cs.Settings.Setup.getQueries()
+
 			queries = append(queries, qm.Limit(8))
-			queries = append(queries, cs.Settings.Setup.getSort()...)
 
 			res := newGenericBookByQuery(queries)
 
