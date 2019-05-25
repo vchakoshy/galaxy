@@ -125,3 +125,21 @@ const (
 	FlexPagesTypeSTATIC  = "STATIC"
 	FlexPagesTypeDYNAMIC = "DYNAMIC"
 )
+
+// Enum values for publisher.publisher_type
+const (
+	PublisherPublisherTypeDOMESTIC  = "DOMESTIC"
+	PublisherPublisherTypeFOREIGNER = "FOREIGNER"
+)
+
+// Enum values for publisher.content_provider_type
+const (
+	PublisherContentProviderTypeBOOK     = "BOOK"
+	PublisherContentProviderTypeNEWS     = "NEWS"
+	PublisherContentProviderTypePODCAST  = "PODCAST"
+	PublisherContentProviderTypeMULTIPLE = "MULTIPLE"
+	PublisherContentProviderTypeVIDEO    = "VIDEO"
+	PublisherContentProviderTypeMAGAZINE = "MAGAZINE"
+	PublisherContentProviderTypeDOCUMENT = "DOCUMENT"
+	PublisherContentProviderTypePRODUCER = "PRODUCER"
+)

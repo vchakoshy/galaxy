@@ -10,58 +10,10 @@
                 "dataProvider": "BOOK"
             },
             "author": {
-                "type": "DYNAMIC",
+                "type": "NONE",
                 "mapping": "id",
                 "ids": [],
-                "setup": {
-                    "author": {
-                        "type": "NONE",
-                        "mapping": "id",
-                        "ids": [],
-                        "setup": {},
-                        "dataProvider": "AUTHOR"
-                    },
-                    "channel": {
-                        "type": "NONE",
-                        "mapping": "id",
-                        "ids": [],
-                        "setup": {},
-                        "dataProvider": "CHANNEL"
-                    },
-                    "category": {
-                        "type": "NONE",
-                        "mapping": "id",
-                        "ids": [],
-                        "setup": {},
-                        "dataProvider": "CATEGORY"
-                    },
-                    "publisher": {
-                        "type": "NONE",
-                        "mapping": "id",
-                        "ids": [],
-                        "setup": {},
-                        "dataProvider": "PUBLISHER"
-                    },
-                    "proposedList": {
-                        "type": "NONE",
-                        "mapping": "id",
-                        "ids": [],
-                        "setup": {},
-                        "dataProvider": "PROPOSED_LIST"
-                    },
-                    "size": {
-                        "dataProvider": null,
-                        "type": "CUSTOM",
-                        "value": ""
-                    },
-                    "book": {
-                        "type": "FROM_PAGE",
-                        "mapping": "id",
-                        "ids": [],
-                        "setup": {},
-                        "dataProvider": "BOOK"
-                    }
-                },
+                "setup": {},
                 "dataProvider": "AUTHOR"
             },
             "category": {
@@ -102,7 +54,7 @@
             "sort": {
                 "dataProvider": null,
                 "type": "ENUM",
-                "value": ""
+                "value": "WEEK_BESTSELLER"
             },
             "query": {
                 "dataProvider": null,
@@ -112,23 +64,34 @@
             "contentType": {
                 "dataProvider": null,
                 "type": "ENUM",
-                "value": ""
+                "value": [
+                    "BOOK",
+                    "PODCAST"
+                ]
             },
-            "format": "",
+            "format": {
+                "dataProvider": null,
+                "type": "ENUM",
+                "value": [
+                    "AUDIO",
+                    "EPUB",
+                    "PDF"
+                ]
+            },
             "free": {
                 "dataProvider": null,
                 "type": "CUSTOM",
-                "value": false
+                "value": ""
             },
             "subscription": {
                 "dataProvider": null,
                 "type": "CUSTOM",
-                "value": false
+                "value": ""
             },
             "size": {
                 "dataProvider": null,
                 "type": "CUSTOM",
-                "value": "20"
+                "value": ""
             },
             "filter": {
                 "dataProvider": null,
@@ -142,14 +105,14 @@
         "title": {
             "value": {
                 "settingType": "STATIC",
-                "static": "\u06a9\u062a\u0627\u0628 \u0647\u0627\u06cc \u062f\u06cc\u06af\u0631 \u0646\u0648\u06cc\u0633\u0646\u062f\u0647"
+                "static": "\u06a9\u062a\u0627\u0628\u0647\u0627\u06cc \u0635\u0648\u062a\u06cc \u0648 \u063a\u06cc\u0631 \u0635\u0648\u062a\u06cc \u067e\u0631 \u0641\u0631\u0648\u0634"
             },
             "setup": [
                 {
-                    "value": "\u06a9\u062a\u0627\u0628 \u0647\u0627\u06cc \u062f\u06cc\u06af\u0631 \u0646\u0648\u06cc\u0633\u0646\u062f\u0647",
+                    "value": "\u06a9\u062a\u0627\u0628\u0647\u0627\u06cc \u0635\u0648\u062a\u06cc \u0648 \u063a\u06cc\u0631 \u0635\u0648\u062a\u06cc \u067e\u0631 \u0641\u0631\u0648\u0634",
                     "type": "STATIC",
                     "setup": {
-                        "value": "\u06a9\u062a\u0627\u0628 \u0647\u0627\u06cc \u062f\u06cc\u06af\u0631 \u0646\u0648\u06cc\u0633\u0646\u062f\u0647"
+                        "value": "\u06a9\u062a\u0627\u0628\u0647\u0627\u06cc \u0635\u0648\u062a\u06cc \u0648 \u063a\u06cc\u0631 \u0635\u0648\u062a\u06cc \u067e\u0631 \u0641\u0631\u0648\u0634"
                     }
                 }
             ],
@@ -182,65 +145,20 @@
                 "type": "CONTENT_LIST",
                 "setup": {
                     "category": {
-                        "type": "NONE",
+                        "type": "STATIC",
                         "mapping": "id",
-                        "ids": [],
+                        "ids": [
+                            "10036",
+                            "10221"
+                        ],
                         "setup": {},
                         "dataProvider": "CATEGORY"
                     },
                     "author": {
-                        "type": "DYNAMIC",
+                        "type": "NONE",
                         "mapping": "id",
                         "ids": [],
-                        "setup": {
-                            "author": {
-                                "type": "NONE",
-                                "mapping": "id",
-                                "ids": [],
-                                "setup": {},
-                                "dataProvider": "AUTHOR"
-                            },
-                            "channel": {
-                                "type": "NONE",
-                                "mapping": "id",
-                                "ids": [],
-                                "setup": {},
-                                "dataProvider": "CHANNEL"
-                            },
-                            "category": {
-                                "type": "NONE",
-                                "mapping": "id",
-                                "ids": [],
-                                "setup": {},
-                                "dataProvider": "CATEGORY"
-                            },
-                            "publisher": {
-                                "type": "NONE",
-                                "mapping": "id",
-                                "ids": [],
-                                "setup": {},
-                                "dataProvider": "PUBLISHER"
-                            },
-                            "proposedList": {
-                                "type": "NONE",
-                                "mapping": "id",
-                                "ids": [],
-                                "setup": {},
-                                "dataProvider": "PROPOSED_LIST"
-                            },
-                            "size": {
-                                "dataProvider": null,
-                                "type": "CUSTOM",
-                                "value": ""
-                            },
-                            "book": {
-                                "type": "FROM_PAGE",
-                                "mapping": "id",
-                                "ids": [],
-                                "setup": {},
-                                "dataProvider": "BOOK"
-                            }
-                        },
+                        "setup": {},
                         "dataProvider": "AUTHOR"
                     },
                     "publisher": {
@@ -269,7 +187,11 @@
                         "type": "ENUM",
                         "value": ""
                     },
-                    "format": "",
+                    "format": {
+                        "dataProvider": null,
+                        "type": "ENUM",
+                        "value": ""
+                    },
                     "free": {
                         "dataProvider": null,
                         "type": "CUSTOM",
@@ -280,10 +202,22 @@
                         "type": "CUSTOM",
                         "value": false
                     },
+                    "bookFilter": {
+                        "dataProvider": null,
+                        "type": "ENUM",
+                        "value": ""
+                    },
                     "sort": {
                         "dataProvider": null,
                         "type": "ENUM",
                         "value": ""
+                    },
+                    "pageTitle": {
+                        "extraData": {
+                            "type": "NONE"
+                        },
+                        "type": "DYNAMIC_TEXT",
+                        "setup": []
                     },
                     "size": {
                         "dataProvider": null,

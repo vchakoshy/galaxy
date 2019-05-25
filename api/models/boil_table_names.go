@@ -12,6 +12,7 @@ var TableNames = struct {
 	FlexComponents     string
 	FlexPageComponents string
 	FlexPages          string
+	Publisher          string
 }{
 	Author:             "author",
 	Book:               "book",
@@ -21,4 +22,5 @@ var TableNames = struct {
 	FlexComponents:     "flex_components",
 	FlexPageComponents: "flex_page_components",
 	FlexPages:          "flex_pages",
+	Publisher:          "publisher",
 }

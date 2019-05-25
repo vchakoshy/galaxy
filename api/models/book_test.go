@@ -759,6 +759,57 @@ func testBookToManyAddOpBookCategoryAssigns(t *testing.T) {
 		}
 	}
 }
+func testBookToOnePublisherUsingPublisher(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local Book
+	var foreign Publisher
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, bookDBTypes, true, bookColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Book struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, publisherDBTypes, false, publisherColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Publisher struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	queries.Assign(&local.PublisherID, foreign.ID)
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.Publisher().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !queries.Equal(check.ID, foreign.ID) {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	slice := BookSlice{&local}
+	if err = local.L.LoadPublisher(ctx, tx, false, (*[]*Book)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Publisher == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.Publisher = nil
+	if err = local.L.LoadPublisher(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.Publisher == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
 func testBookToOneAuthorUsingAuthor(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
@@ -1062,6 +1113,166 @@ func testBookToOneAuthorUsingTranslator3(t *testing.T) {
 	}
 	if local.R.Translator3 == nil {
 		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testBookToOnePublisherUsingOriginalPublisher(t *testing.T) {
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var local Book
+	var foreign Publisher
+
+	seed := randomize.NewSeed()
+	if err := randomize.Struct(seed, &local, bookDBTypes, true, bookColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Book struct: %s", err)
+	}
+	if err := randomize.Struct(seed, &foreign, publisherDBTypes, false, publisherColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Publisher struct: %s", err)
+	}
+
+	if err := foreign.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	queries.Assign(&local.OriginalPublisherID, foreign.ID)
+	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := local.OriginalPublisher().One(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !queries.Equal(check.ID, foreign.ID) {
+		t.Errorf("want: %v, got %v", foreign.ID, check.ID)
+	}
+
+	slice := BookSlice{&local}
+	if err = local.L.LoadOriginalPublisher(ctx, tx, false, (*[]*Book)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.OriginalPublisher == nil {
+		t.Error("struct should have been eager loaded")
+	}
+
+	local.R.OriginalPublisher = nil
+	if err = local.L.LoadOriginalPublisher(ctx, tx, true, &local, nil); err != nil {
+		t.Fatal(err)
+	}
+	if local.R.OriginalPublisher == nil {
+		t.Error("struct should have been eager loaded")
+	}
+}
+
+func testBookToOneSetOpPublisherUsingPublisher(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Book
+	var b, c Publisher
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, bookDBTypes, false, strmangle.SetComplement(bookPrimaryKeyColumns, bookColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Publisher{&b, &c} {
+		err = a.SetPublisher(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.Publisher != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.Books[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if !queries.Equal(a.PublisherID, x.ID) {
+			t.Error("foreign key was wrong value", a.PublisherID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.PublisherID))
+		reflect.Indirect(reflect.ValueOf(&a.PublisherID)).Set(zero)
+
+		if err = a.Reload(ctx, tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if !queries.Equal(a.PublisherID, x.ID) {
+			t.Error("foreign key was wrong value", a.PublisherID, x.ID)
+		}
+	}
+}
+
+func testBookToOneRemoveOpPublisherUsingPublisher(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Book
+	var b Publisher
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, bookDBTypes, false, strmangle.SetComplement(bookPrimaryKeyColumns, bookColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = a.SetPublisher(ctx, tx, true, &b); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = a.RemovePublisher(ctx, tx, &b); err != nil {
+		t.Error("failed to remove relationship")
+	}
+
+	count, err := a.Publisher().Count(ctx, tx)
+	if err != nil {
+		t.Error(err)
+	}
+	if count != 0 {
+		t.Error("want no relationships remaining")
+	}
+
+	if a.R.Publisher != nil {
+		t.Error("R struct entry should be nil")
+	}
+
+	if !queries.IsValuerNil(a.PublisherID) {
+		t.Error("foreign key value should be nil")
+	}
+
+	if len(b.R.Books) != 0 {
+		t.Error("failed to remove a from b's relationships")
 	}
 }
 
@@ -1715,6 +1926,115 @@ func testBookToOneRemoveOpAuthorUsingTranslator3(t *testing.T) {
 	}
 
 	if len(b.R.Translator3Books) != 0 {
+		t.Error("failed to remove a from b's relationships")
+	}
+}
+
+func testBookToOneSetOpPublisherUsingOriginalPublisher(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Book
+	var b, c Publisher
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, bookDBTypes, false, strmangle.SetComplement(bookPrimaryKeyColumns, bookColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	for i, x := range []*Publisher{&b, &c} {
+		err = a.SetOriginalPublisher(ctx, tx, i != 0, x)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if a.R.OriginalPublisher != x {
+			t.Error("relationship struct not set to correct value")
+		}
+
+		if x.R.OriginalPublisherBooks[0] != &a {
+			t.Error("failed to append to foreign relationship struct")
+		}
+		if !queries.Equal(a.OriginalPublisherID, x.ID) {
+			t.Error("foreign key was wrong value", a.OriginalPublisherID)
+		}
+
+		zero := reflect.Zero(reflect.TypeOf(a.OriginalPublisherID))
+		reflect.Indirect(reflect.ValueOf(&a.OriginalPublisherID)).Set(zero)
+
+		if err = a.Reload(ctx, tx); err != nil {
+			t.Fatal("failed to reload", err)
+		}
+
+		if !queries.Equal(a.OriginalPublisherID, x.ID) {
+			t.Error("foreign key was wrong value", a.OriginalPublisherID, x.ID)
+		}
+	}
+}
+
+func testBookToOneRemoveOpPublisherUsingOriginalPublisher(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Book
+	var b Publisher
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, bookDBTypes, false, strmangle.SetComplement(bookPrimaryKeyColumns, bookColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &b, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = a.SetOriginalPublisher(ctx, tx, true, &b); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = a.RemoveOriginalPublisher(ctx, tx, &b); err != nil {
+		t.Error("failed to remove relationship")
+	}
+
+	count, err := a.OriginalPublisher().Count(ctx, tx)
+	if err != nil {
+		t.Error(err)
+	}
+	if count != 0 {
+		t.Error("want no relationships remaining")
+	}
+
+	if a.R.OriginalPublisher != nil {
+		t.Error("R struct entry should be nil")
+	}
+
+	if !queries.IsValuerNil(a.OriginalPublisherID) {
+		t.Error("foreign key value should be nil")
+	}
+
+	if len(b.R.OriginalPublisherBooks) != 0 {
 		t.Error("failed to remove a from b's relationships")
 	}
 }

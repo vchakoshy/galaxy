@@ -20,6 +20,7 @@ func TestParent(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponents)
 	t.Run("FlexPageComponents", testFlexPageComponents)
 	t.Run("FlexPages", testFlexPages)
+	t.Run("Publishers", testPublishers)
 }
 
 func TestDelete(t *testing.T) {
@@ -31,6 +32,7 @@ func TestDelete(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsDelete)
 	t.Run("FlexPageComponents", testFlexPageComponentsDelete)
 	t.Run("FlexPages", testFlexPagesDelete)
+	t.Run("Publishers", testPublishersDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
@@ -42,6 +44,7 @@ func TestQueryDeleteAll(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsQueryDeleteAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsQueryDeleteAll)
 	t.Run("FlexPages", testFlexPagesQueryDeleteAll)
+	t.Run("Publishers", testPublishersQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
@@ -53,6 +56,7 @@ func TestSliceDeleteAll(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsSliceDeleteAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsSliceDeleteAll)
 	t.Run("FlexPages", testFlexPagesSliceDeleteAll)
+	t.Run("Publishers", testPublishersSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
@@ -64,6 +68,7 @@ func TestExists(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsExists)
 	t.Run("FlexPageComponents", testFlexPageComponentsExists)
 	t.Run("FlexPages", testFlexPagesExists)
+	t.Run("Publishers", testPublishersExists)
 }
 
 func TestFind(t *testing.T) {
@@ -75,6 +80,7 @@ func TestFind(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsFind)
 	t.Run("FlexPageComponents", testFlexPageComponentsFind)
 	t.Run("FlexPages", testFlexPagesFind)
+	t.Run("Publishers", testPublishersFind)
 }
 
 func TestBind(t *testing.T) {
@@ -86,6 +92,7 @@ func TestBind(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsBind)
 	t.Run("FlexPageComponents", testFlexPageComponentsBind)
 	t.Run("FlexPages", testFlexPagesBind)
+	t.Run("Publishers", testPublishersBind)
 }
 
 func TestOne(t *testing.T) {
@@ -97,6 +104,7 @@ func TestOne(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsOne)
 	t.Run("FlexPageComponents", testFlexPageComponentsOne)
 	t.Run("FlexPages", testFlexPagesOne)
+	t.Run("Publishers", testPublishersOne)
 }
 
 func TestAll(t *testing.T) {
@@ -108,6 +116,7 @@ func TestAll(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsAll)
 	t.Run("FlexPages", testFlexPagesAll)
+	t.Run("Publishers", testPublishersAll)
 }
 
 func TestCount(t *testing.T) {
@@ -119,6 +128,7 @@ func TestCount(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsCount)
 	t.Run("FlexPageComponents", testFlexPageComponentsCount)
 	t.Run("FlexPages", testFlexPagesCount)
+	t.Run("Publishers", testPublishersCount)
 }
 
 func TestHooks(t *testing.T) {
@@ -130,6 +140,7 @@ func TestHooks(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsHooks)
 	t.Run("FlexPageComponents", testFlexPageComponentsHooks)
 	t.Run("FlexPages", testFlexPagesHooks)
+	t.Run("Publishers", testPublishersHooks)
 }
 
 func TestInsert(t *testing.T) {
@@ -149,17 +160,21 @@ func TestInsert(t *testing.T) {
 	t.Run("FlexPageComponents", testFlexPageComponentsInsertWhitelist)
 	t.Run("FlexPages", testFlexPagesInsert)
 	t.Run("FlexPages", testFlexPagesInsertWhitelist)
+	t.Run("Publishers", testPublishersInsert)
+	t.Run("Publishers", testPublishersInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOne(t *testing.T) {
+	t.Run("BookToPublisherUsingPublisher", testBookToOnePublisherUsingPublisher)
 	t.Run("BookToAuthorUsingAuthor", testBookToOneAuthorUsingAuthor)
 	t.Run("BookToAuthorUsingTranslator", testBookToOneAuthorUsingTranslator)
 	t.Run("BookToAuthorUsingAuthor2", testBookToOneAuthorUsingAuthor2)
 	t.Run("BookToAuthorUsingAuthor3", testBookToOneAuthorUsingAuthor3)
 	t.Run("BookToAuthorUsingTranslator2", testBookToOneAuthorUsingTranslator2)
 	t.Run("BookToAuthorUsingTranslator3", testBookToOneAuthorUsingTranslator3)
+	t.Run("BookToPublisherUsingOriginalPublisher", testBookToOnePublisherUsingOriginalPublisher)
 	t.Run("BookCategoryToBookCategoryUsingParent", testBookCategoryToOneBookCategoryUsingParent)
 	t.Run("BookCategoryAssignToBookCategoryUsingCategory", testBookCategoryAssignToOneBookCategoryUsingCategory)
 	t.Run("BookCategoryAssignToBookUsingBook", testBookCategoryAssignToOneBookUsingBook)
@@ -188,17 +203,21 @@ func TestToMany(t *testing.T) {
 	t.Run("BookCategoryToCategoryBookCategoryAssigns", testBookCategoryToManyCategoryBookCategoryAssigns)
 	t.Run("FlexComponentToComponentFlexPageComponents", testFlexComponentToManyComponentFlexPageComponents)
 	t.Run("FlexPageToPageFlexPageComponents", testFlexPageToManyPageFlexPageComponents)
+	t.Run("PublisherToBooks", testPublisherToManyBooks)
+	t.Run("PublisherToOriginalPublisherBooks", testPublisherToManyOriginalPublisherBooks)
 }
 
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneSet(t *testing.T) {
+	t.Run("BookToPublisherUsingBooks", testBookToOneSetOpPublisherUsingPublisher)
 	t.Run("BookToAuthorUsingBooks", testBookToOneSetOpAuthorUsingAuthor)
 	t.Run("BookToAuthorUsingTranslatorBooks", testBookToOneSetOpAuthorUsingTranslator)
 	t.Run("BookToAuthorUsingAuthor2Books", testBookToOneSetOpAuthorUsingAuthor2)
 	t.Run("BookToAuthorUsingAuthor3Books", testBookToOneSetOpAuthorUsingAuthor3)
 	t.Run("BookToAuthorUsingTranslator2Books", testBookToOneSetOpAuthorUsingTranslator2)
 	t.Run("BookToAuthorUsingTranslator3Books", testBookToOneSetOpAuthorUsingTranslator3)
+	t.Run("BookToPublisherUsingOriginalPublisherBooks", testBookToOneSetOpPublisherUsingOriginalPublisher)
 	t.Run("BookCategoryToBookCategoryUsingParentBookCategories", testBookCategoryToOneSetOpBookCategoryUsingParent)
 	t.Run("BookCategoryAssignToBookCategoryUsingCategoryBookCategoryAssigns", testBookCategoryAssignToOneSetOpBookCategoryUsingCategory)
 	t.Run("BookCategoryAssignToBookUsingBookCategoryAssigns", testBookCategoryAssignToOneSetOpBookUsingBook)
@@ -210,12 +229,14 @@ func TestToOneSet(t *testing.T) {
 // TestToOneRemove tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneRemove(t *testing.T) {
+	t.Run("BookToPublisherUsingBooks", testBookToOneRemoveOpPublisherUsingPublisher)
 	t.Run("BookToAuthorUsingBooks", testBookToOneRemoveOpAuthorUsingAuthor)
 	t.Run("BookToAuthorUsingTranslatorBooks", testBookToOneRemoveOpAuthorUsingTranslator)
 	t.Run("BookToAuthorUsingAuthor2Books", testBookToOneRemoveOpAuthorUsingAuthor2)
 	t.Run("BookToAuthorUsingAuthor3Books", testBookToOneRemoveOpAuthorUsingAuthor3)
 	t.Run("BookToAuthorUsingTranslator2Books", testBookToOneRemoveOpAuthorUsingTranslator2)
 	t.Run("BookToAuthorUsingTranslator3Books", testBookToOneRemoveOpAuthorUsingTranslator3)
+	t.Run("BookToPublisherUsingOriginalPublisherBooks", testBookToOneRemoveOpPublisherUsingOriginalPublisher)
 	t.Run("BookCategoryToBookCategoryUsingParentBookCategories", testBookCategoryToOneRemoveOpBookCategoryUsingParent)
 }
 
@@ -243,6 +264,8 @@ func TestToManyAdd(t *testing.T) {
 	t.Run("BookCategoryToCategoryBookCategoryAssigns", testBookCategoryToManyAddOpCategoryBookCategoryAssigns)
 	t.Run("FlexComponentToComponentFlexPageComponents", testFlexComponentToManyAddOpComponentFlexPageComponents)
 	t.Run("FlexPageToPageFlexPageComponents", testFlexPageToManyAddOpPageFlexPageComponents)
+	t.Run("PublisherToBooks", testPublisherToManyAddOpBooks)
+	t.Run("PublisherToOriginalPublisherBooks", testPublisherToManyAddOpOriginalPublisherBooks)
 }
 
 // TestToManySet tests cannot be run in parallel
@@ -255,6 +278,8 @@ func TestToManySet(t *testing.T) {
 	t.Run("AuthorToTranslator2Books", testAuthorToManySetOpTranslator2Books)
 	t.Run("AuthorToTranslator3Books", testAuthorToManySetOpTranslator3Books)
 	t.Run("BookCategoryToParentBookCategories", testBookCategoryToManySetOpParentBookCategories)
+	t.Run("PublisherToBooks", testPublisherToManySetOpBooks)
+	t.Run("PublisherToOriginalPublisherBooks", testPublisherToManySetOpOriginalPublisherBooks)
 }
 
 // TestToManyRemove tests cannot be run in parallel
@@ -267,6 +292,8 @@ func TestToManyRemove(t *testing.T) {
 	t.Run("AuthorToTranslator2Books", testAuthorToManyRemoveOpTranslator2Books)
 	t.Run("AuthorToTranslator3Books", testAuthorToManyRemoveOpTranslator3Books)
 	t.Run("BookCategoryToParentBookCategories", testBookCategoryToManyRemoveOpParentBookCategories)
+	t.Run("PublisherToBooks", testPublisherToManyRemoveOpBooks)
+	t.Run("PublisherToOriginalPublisherBooks", testPublisherToManyRemoveOpOriginalPublisherBooks)
 }
 
 func TestReload(t *testing.T) {
@@ -278,6 +305,7 @@ func TestReload(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsReload)
 	t.Run("FlexPageComponents", testFlexPageComponentsReload)
 	t.Run("FlexPages", testFlexPagesReload)
+	t.Run("Publishers", testPublishersReload)
 }
 
 func TestReloadAll(t *testing.T) {
@@ -289,6 +317,7 @@ func TestReloadAll(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsReloadAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsReloadAll)
 	t.Run("FlexPages", testFlexPagesReloadAll)
+	t.Run("Publishers", testPublishersReloadAll)
 }
 
 func TestSelect(t *testing.T) {
@@ -300,6 +329,7 @@ func TestSelect(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsSelect)
 	t.Run("FlexPageComponents", testFlexPageComponentsSelect)
 	t.Run("FlexPages", testFlexPagesSelect)
+	t.Run("Publishers", testPublishersSelect)
 }
 
 func TestUpdate(t *testing.T) {
@@ -311,6 +341,7 @@ func TestUpdate(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsUpdate)
 	t.Run("FlexPageComponents", testFlexPageComponentsUpdate)
 	t.Run("FlexPages", testFlexPagesUpdate)
+	t.Run("Publishers", testPublishersUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
@@ -322,4 +353,5 @@ func TestSliceUpdateAll(t *testing.T) {
 	t.Run("FlexComponents", testFlexComponentsSliceUpdateAll)
 	t.Run("FlexPageComponents", testFlexPageComponentsSliceUpdateAll)
 	t.Run("FlexPages", testFlexPagesSliceUpdateAll)
+	t.Run("Publishers", testPublishersSliceUpdateAll)
 }

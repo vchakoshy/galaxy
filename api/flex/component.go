@@ -45,7 +45,15 @@ func (c *Component) GetData() []flexComponent {
 		}
 
 		cs := flexComponentSettings{}
+
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
+
+		// if index == 1 {
+		// 	log.Println(comp.ComponentSetting.String)
+		// 	spew.Dump(cs)
+		// 	os.Exit(0)
+		// }
+
 		log.Println(cs.Settings.DataProvider)
 
 		if cs.Settings.DataProvider == "BOOK" {

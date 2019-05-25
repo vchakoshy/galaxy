@@ -684,33 +684,39 @@ var BookWhere = struct {
 
 // BookRels is where relationship names are stored.
 var BookRels = struct {
+	Publisher           string
 	Author              string
 	Translator          string
 	Author2             string
 	Author3             string
 	Translator2         string
 	Translator3         string
+	OriginalPublisher   string
 	BookStat            string
 	BookCategoryAssigns string
 }{
+	Publisher:           "Publisher",
 	Author:              "Author",
 	Translator:          "Translator",
 	Author2:             "Author2",
 	Author3:             "Author3",
 	Translator2:         "Translator2",
 	Translator3:         "Translator3",
+	OriginalPublisher:   "OriginalPublisher",
 	BookStat:            "BookStat",
 	BookCategoryAssigns: "BookCategoryAssigns",
 }
 
 // bookR is where relationships are stored.
 type bookR struct {
+	Publisher           *Publisher
 	Author              *Author
 	Translator          *Author
 	Author2             *Author
 	Author3             *Author
 	Translator2         *Author
 	Translator3         *Author
+	OriginalPublisher   *Publisher
 	BookStat            *BookStat
 	BookCategoryAssigns BookCategoryAssignSlice
 }
@@ -1025,6 +1031,20 @@ func (q bookQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool,
 	return count > 0, nil
 }
 
+// Publisher pointed to by the foreign key.
+func (o *Book) Publisher(mods ...qm.QueryMod) publisherQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.PublisherID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Publishers(queryMods...)
+	queries.SetFrom(query.Query, "`publisher`")
+
+	return query
+}
+
 // Author pointed to by the foreign key.
 func (o *Book) Author(mods ...qm.QueryMod) authorQuery {
 	queryMods := []qm.QueryMod{
@@ -1109,6 +1129,20 @@ func (o *Book) Translator3(mods ...qm.QueryMod) authorQuery {
 	return query
 }
 
+// OriginalPublisher pointed to by the foreign key.
+func (o *Book) OriginalPublisher(mods ...qm.QueryMod) publisherQuery {
+	queryMods := []qm.QueryMod{
+		qm.Where("id=?", o.OriginalPublisherID),
+	}
+
+	queryMods = append(queryMods, mods...)
+
+	query := Publishers(queryMods...)
+	queries.SetFrom(query.Query, "`publisher`")
+
+	return query
+}
+
 // BookStat pointed to by the foreign key.
 func (o *Book) BookStat(mods ...qm.QueryMod) bookStatQuery {
 	queryMods := []qm.QueryMod{
@@ -1142,6 +1176,111 @@ func (o *Book) BookCategoryAssigns(mods ...qm.QueryMod) bookCategoryAssignQuery 
 	}
 
 	return query
+}
+
+// LoadPublisher allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (bookL) LoadPublisher(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBook interface{}, mods queries.Applicator) error {
+	var slice []*Book
+	var object *Book
+
+	if singular {
+		object = maybeBook.(*Book)
+	} else {
+		slice = *maybeBook.(*[]*Book)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &bookR{}
+		}
+		if !queries.IsNil(object.PublisherID) {
+			args = append(args, object.PublisherID)
+		}
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &bookR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.PublisherID) {
+					continue Outer
+				}
+			}
+
+			if !queries.IsNil(obj.PublisherID) {
+				args = append(args, obj.PublisherID)
+			}
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`publisher`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Publisher")
+	}
+
+	var resultSlice []*Publisher
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Publisher")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for publisher")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for publisher")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.Publisher = foreign
+		if foreign.R == nil {
+			foreign.R = &publisherR{}
+		}
+		foreign.R.Books = append(foreign.R.Books, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if queries.Equal(local.PublisherID, foreign.ID) {
+				local.R.Publisher = foreign
+				if foreign.R == nil {
+					foreign.R = &publisherR{}
+				}
+				foreign.R.Books = append(foreign.R.Books, local)
+				break
+			}
+		}
+	}
+
+	return nil
 }
 
 // LoadAuthor allows an eager lookup of values, cached into the
@@ -1774,6 +1913,111 @@ func (bookL) LoadTranslator3(ctx context.Context, e boil.ContextExecutor, singul
 	return nil
 }
 
+// LoadOriginalPublisher allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for an N-1 relationship.
+func (bookL) LoadOriginalPublisher(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBook interface{}, mods queries.Applicator) error {
+	var slice []*Book
+	var object *Book
+
+	if singular {
+		object = maybeBook.(*Book)
+	} else {
+		slice = *maybeBook.(*[]*Book)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &bookR{}
+		}
+		if !queries.IsNil(object.OriginalPublisherID) {
+			args = append(args, object.OriginalPublisherID)
+		}
+
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &bookR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.OriginalPublisherID) {
+					continue Outer
+				}
+			}
+
+			if !queries.IsNil(obj.OriginalPublisherID) {
+				args = append(args, obj.OriginalPublisherID)
+			}
+
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`publisher`), qm.WhereIn(`id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load Publisher")
+	}
+
+	var resultSlice []*Publisher
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice Publisher")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results of eager load for publisher")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for publisher")
+	}
+
+	if len(bookAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+
+	if len(resultSlice) == 0 {
+		return nil
+	}
+
+	if singular {
+		foreign := resultSlice[0]
+		object.R.OriginalPublisher = foreign
+		if foreign.R == nil {
+			foreign.R = &publisherR{}
+		}
+		foreign.R.OriginalPublisherBooks = append(foreign.R.OriginalPublisherBooks, object)
+		return nil
+	}
+
+	for _, local := range slice {
+		for _, foreign := range resultSlice {
+			if queries.Equal(local.OriginalPublisherID, foreign.ID) {
+				local.R.OriginalPublisher = foreign
+				if foreign.R == nil {
+					foreign.R = &publisherR{}
+				}
+				foreign.R.OriginalPublisherBooks = append(foreign.R.OriginalPublisherBooks, local)
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
 // LoadBookStat allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-1 relationship.
 func (bookL) LoadBookStat(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBook interface{}, mods queries.Applicator) error {
@@ -1964,6 +2208,100 @@ func (bookL) LoadBookCategoryAssigns(ctx context.Context, e boil.ContextExecutor
 		}
 	}
 
+	return nil
+}
+
+// SetPublisherG of the book to the related item.
+// Sets o.R.Publisher to related.
+// Adds o to related.R.Books.
+// Uses the global database handle.
+func (o *Book) SetPublisherG(ctx context.Context, insert bool, related *Publisher) error {
+	return o.SetPublisher(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetPublisher of the book to the related item.
+// Sets o.R.Publisher to related.
+// Adds o to related.R.Books.
+func (o *Book) SetPublisher(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Publisher) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE `book` SET %s WHERE %s",
+		strmangle.SetParamNames("`", "`", 0, []string{"publisher_id"}),
+		strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	queries.Assign(&o.PublisherID, related.ID)
+	if o.R == nil {
+		o.R = &bookR{
+			Publisher: related,
+		}
+	} else {
+		o.R.Publisher = related
+	}
+
+	if related.R == nil {
+		related.R = &publisherR{
+			Books: BookSlice{o},
+		}
+	} else {
+		related.R.Books = append(related.R.Books, o)
+	}
+
+	return nil
+}
+
+// RemovePublisherG relationship.
+// Sets o.R.Publisher to nil.
+// Removes o from all passed in related items' relationships struct (Optional).
+// Uses the global database handle.
+func (o *Book) RemovePublisherG(ctx context.Context, related *Publisher) error {
+	return o.RemovePublisher(ctx, boil.GetContextDB(), related)
+}
+
+// RemovePublisher relationship.
+// Sets o.R.Publisher to nil.
+// Removes o from all passed in related items' relationships struct (Optional).
+func (o *Book) RemovePublisher(ctx context.Context, exec boil.ContextExecutor, related *Publisher) error {
+	var err error
+
+	queries.SetScanner(&o.PublisherID, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("publisher_id")); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.R.Publisher = nil
+	if related == nil || related.R == nil {
+		return nil
+	}
+
+	for i, ri := range related.R.Books {
+		if queries.Equal(o.PublisherID, ri.PublisherID) {
+			continue
+		}
+
+		ln := len(related.R.Books)
+		if ln > 1 && i < ln-1 {
+			related.R.Books[i] = related.R.Books[ln-1]
+		}
+		related.R.Books = related.R.Books[:ln-1]
+		break
+	}
 	return nil
 }
 
@@ -2526,6 +2864,100 @@ func (o *Book) RemoveTranslator3(ctx context.Context, exec boil.ContextExecutor,
 			related.R.Translator3Books[i] = related.R.Translator3Books[ln-1]
 		}
 		related.R.Translator3Books = related.R.Translator3Books[:ln-1]
+		break
+	}
+	return nil
+}
+
+// SetOriginalPublisherG of the book to the related item.
+// Sets o.R.OriginalPublisher to related.
+// Adds o to related.R.OriginalPublisherBooks.
+// Uses the global database handle.
+func (o *Book) SetOriginalPublisherG(ctx context.Context, insert bool, related *Publisher) error {
+	return o.SetOriginalPublisher(ctx, boil.GetContextDB(), insert, related)
+}
+
+// SetOriginalPublisher of the book to the related item.
+// Sets o.R.OriginalPublisher to related.
+// Adds o to related.R.OriginalPublisherBooks.
+func (o *Book) SetOriginalPublisher(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Publisher) error {
+	var err error
+	if insert {
+		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
+			return errors.Wrap(err, "failed to insert into foreign table")
+		}
+	}
+
+	updateQuery := fmt.Sprintf(
+		"UPDATE `book` SET %s WHERE %s",
+		strmangle.SetParamNames("`", "`", 0, []string{"original_publisher_id"}),
+		strmangle.WhereClause("`", "`", 0, bookPrimaryKeyColumns),
+	)
+	values := []interface{}{related.ID, o.ID}
+
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, updateQuery)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	queries.Assign(&o.OriginalPublisherID, related.ID)
+	if o.R == nil {
+		o.R = &bookR{
+			OriginalPublisher: related,
+		}
+	} else {
+		o.R.OriginalPublisher = related
+	}
+
+	if related.R == nil {
+		related.R = &publisherR{
+			OriginalPublisherBooks: BookSlice{o},
+		}
+	} else {
+		related.R.OriginalPublisherBooks = append(related.R.OriginalPublisherBooks, o)
+	}
+
+	return nil
+}
+
+// RemoveOriginalPublisherG relationship.
+// Sets o.R.OriginalPublisher to nil.
+// Removes o from all passed in related items' relationships struct (Optional).
+// Uses the global database handle.
+func (o *Book) RemoveOriginalPublisherG(ctx context.Context, related *Publisher) error {
+	return o.RemoveOriginalPublisher(ctx, boil.GetContextDB(), related)
+}
+
+// RemoveOriginalPublisher relationship.
+// Sets o.R.OriginalPublisher to nil.
+// Removes o from all passed in related items' relationships struct (Optional).
+func (o *Book) RemoveOriginalPublisher(ctx context.Context, exec boil.ContextExecutor, related *Publisher) error {
+	var err error
+
+	queries.SetScanner(&o.OriginalPublisherID, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("original_publisher_id")); err != nil {
+		return errors.Wrap(err, "failed to update local table")
+	}
+
+	o.R.OriginalPublisher = nil
+	if related == nil || related.R == nil {
+		return nil
+	}
+
+	for i, ri := range related.R.OriginalPublisherBooks {
+		if queries.Equal(o.OriginalPublisherID, ri.OriginalPublisherID) {
+			continue
+		}
+
+		ln := len(related.R.OriginalPublisherBooks)
+		if ln > 1 && i < ln-1 {
+			related.R.OriginalPublisherBooks[i] = related.R.OriginalPublisherBooks[ln-1]
+		}
+		related.R.OriginalPublisherBooks = related.R.OriginalPublisherBooks[:ln-1]
 		break
 	}
 	return nil

@@ -21,4 +21,6 @@ func TestUpsert(t *testing.T) {
 	t.Run("FlexPageComponents", testFlexPageComponentsUpsert)
 
 	t.Run("FlexPages", testFlexPagesUpsert)
+
+	t.Run("Publishers", testPublishersUpsert)
 }
