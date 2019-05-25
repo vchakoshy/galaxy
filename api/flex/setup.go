@@ -52,8 +52,18 @@ func (s Setup) getQueries() []qm.QueryMod {
 
 func (s Setup) getInputActions() []flexComponentAction {
 	q := make([]flexComponentAction, 0)
-	q = append(q, s.Book.getInputAction("book"))
-	q = append(q, s.Free.getInputAction("free"))
+
+	f := []flexComponentAction{
+		s.Book.getInputAction("book"),
+		s.Free.getInputAction("free"),
+		s.Category.getInputAction("category"),
+	}
+
+	for _, ca := range f {
+		if (ca.Key != "") {
+			q = append(q, ca)
+		}
+	}
 
 	return q
 }

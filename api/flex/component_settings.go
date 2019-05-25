@@ -40,7 +40,8 @@ type flexComponentSettings struct {
 				} `json:"setup"`
 			} `json:"setup"`
 			Action struct {
-				Type string `json:"type"`
+				Type  string `json:"type"`
+				Setup Setup  `json:"setup"`
 			} `json:"action"`
 		} `json:"moreTitle"`
 	} `json:"elements"`
