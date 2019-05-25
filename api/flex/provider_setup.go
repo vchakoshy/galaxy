@@ -1,9 +1,6 @@
 package flex
 
 import (
-	"log"
-
-	"github.com/davecgh/go-spew/spew"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
@@ -28,9 +25,6 @@ func (ps ProviderSetup) GetKeyID() string {
 
 func (ps ProviderSetup) getInputAction(key string) flexComponentAction {
 	action := flexComponentAction{}
-
-	log.Println("------------------")
-	spew.Dump(ps)
 
 	switch ps.Type {
 	case "STATIC":
