@@ -40,7 +40,7 @@ func Run() {
 			log.Println(err.Error())
 		}
 
-		for id := 64988; id <= lastBook.ID; id++ {
+		for id := 1; id <= lastBook.ID; id++ {
 			res, err := models.
 				Books(
 					qm.Load("BookStat"),
