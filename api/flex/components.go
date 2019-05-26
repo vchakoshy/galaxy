@@ -13,7 +13,7 @@ import (
 
 func handleListComponent(cs flexComponentSettings, t string) (com flexComponent) {
 	if cs.Settings.DataProvider == "BOOK" {
-		com := flexComponent{
+		com = flexComponent{
 			Type:         t,
 			ResourceType: "BOOK",
 			Title:        cs.Elements.Title.Value.Static,
