@@ -1,7 +1,11 @@
 package flex
 
 import (
+	"context"
 	"log"
+	"strings"
+
+	"gitlab.fidibo.com/backend/galaxy/hubble"
 
 	"github.com/olivere/elastic"
 	"github.com/volatiletech/sqlboiler/queries/qm"
@@ -10,7 +14,7 @@ import (
 func handleListComponent(cs flexComponentSettings, t string) (com flexComponent) {
 	if cs.Settings.DataProvider == "BOOK" {
 		com := flexComponent{
-			Type:         compModel.Type,
+			Type:         t,
 			ResourceType: "BOOK",
 			Title:        cs.Elements.Title.Value.Static,
 			Action:       getAction(cs),
@@ -56,8 +60,6 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 		if err != nil {
 			log.Println(err.Error())
 		}
-
-		// spew.Dump(esres)
 
 		for _, item := range esres.Hits.Hits {
 			itemID := strings.Replace(item.Id, "book-", "", 1)
