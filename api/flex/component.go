@@ -26,6 +26,7 @@ func (c *Component) GetData() []flexComponent {
 
 	fpc, err := models.FlexPageComponents(
 		qComponent,
+		qm.Limit(5),
 		qm.OrderBy("crud_order asc")).
 		AllG(context.Background())
 	if err != nil {
