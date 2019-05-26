@@ -4,7 +4,7 @@ import (
 	// "os"
 	"sync"
 	"log"
-	"github.com/olivere/elastic/v7"
+	"github.com/olivere/elastic"
 )
 
 var (

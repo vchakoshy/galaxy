@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/olivere/elastic/v7"
+	"github.com/olivere/elastic"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
