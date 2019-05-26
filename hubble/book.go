@@ -6,7 +6,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/olivere/elastic"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
@@ -34,7 +33,7 @@ type Book struct {
 	Publisher          Publisher  `json:"publisher"`
 	Categories         []Category `json:"categories"`
 	Authors            []Author   `json:"authors"`
-	Translators        []Author   `json:"translator"`
+	Translators        []Author   `json:"translator,omitempty"`
 
 	m *models.Book
 }
@@ -96,7 +95,7 @@ func (e *Book) addCategory(id int) {
 
 func (e *Book) SetCategories() {
 	for _, c := range e.m.R.BookCategoryAssigns {
-		log.Println(c.CategoryID)
+		// log.Println(c.CategoryID)
 		e.addCategory(c.CategoryID)
 	}
 }
@@ -112,7 +111,13 @@ func (e *Book) SetPublisher() {
 	}
 }
 
-func NewBookByModel(m *models.Book) {
+var esClient *elastic.Client
+
+func SetEsClient(c *elastic.Client) {
+	esClient = c
+}
+
+func NewBookByModel(m *models.Book, client *elastic.Client) {
 	esBook := Book{
 		Title:              m.Title,
 		Format:             m.Format,
@@ -139,14 +144,9 @@ func NewBookByModel(m *models.Book) {
 	esBook.SetCategories()
 	esBook.SetPublisher()
 
-	client, err := elastic.NewClient(elastic.SetURL("http://127.0.0.1:9200"))
-	if err != nil {
-		panic(err)
-	}
-
 	bookID := fmt.Sprintf("book-%d", m.ID)
 
-	res, err := client.Index().
+	_, err := client.Index().
 		Index("fidibo_v3").
 		Type("book").
 		Id(bookID).
@@ -156,6 +156,6 @@ func NewBookByModel(m *models.Book) {
 		log.Println(err.Error())
 	}
 
-	spew.Dump(res)
+	// spew.Dump(res)
 
 }
