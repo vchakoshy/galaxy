@@ -28,20 +28,24 @@ func Run() {
 	boil.SetDB(db)
 
 	r := gin.Default()
-
 	r.Use(CORSMiddleware())
 
 	v1 := r.Group("/api/v1/")
 	{
-		v1.GET("/authors/item/:id/", rest.AuthorItem)
-		v1.PUT("/authors/item/:id/", rest.AuthorItemUpdate)
-		v1.POST("/authors/item/:id/", rest.AuthorItemPost)
-		v1.DELETE("/authors/item/:id/", rest.AuthorItemDelete)
+		authors := v1.Group("/authors/")
+		{
+			authors.GET("/item/:id/", rest.AuthorItem)
+			authors.PUT("/item/:id/", rest.AuthorItemUpdate)
+			authors.POST("/item/:id/", rest.AuthorItemPost)
+			authors.DELETE("/item/:id/", rest.AuthorItemDelete)
+			authors.GET("/list/", rest.AuthorList)
+			authors.OPTIONS("/list/", rest.AuthorList)
+		}
 
-		v1.GET("/authors/list/", rest.AuthorList)
-		v1.OPTIONS("/authors/list/", rest.AuthorList)
-
-		v1.POST("/flex/page/blank", rest.PageBlank)
+		flexy := v1.Group("/flex/")
+		{
+			flexy.POST("/page/blank", rest.PageBlank)
+		}
 	}
 
 	if os.Getenv("HUBBLE_REINDEXER") == "1" {

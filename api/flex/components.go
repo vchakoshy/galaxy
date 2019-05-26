@@ -87,7 +87,7 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 		}
 
 		esres, err := ss.
-			StoredFields("_id").
+			StoredFields("id").
 			Query(q).
 			Size(8).
 			Do(context.Background())
