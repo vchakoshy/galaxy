@@ -7,6 +7,7 @@ import (
 
 	"gitlab.fidibo.com/backend/galaxy/hubble"
 
+	// "github.com/davecgh/go-spew/spew"
 	"github.com/olivere/elastic"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
@@ -53,16 +54,17 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 		filters := elastic.NewBoolQuery()
 
 		formatList := cs.Settings.Setup.Format.Value.getInterfaceList()
+		// spew.Dump(formatList)
 		if len(formatList) > 0 {
 			filters.Should(
-				elastic.NewTermsQuery("format", formatList),
+				elastic.NewTermsQuery("format", formatList...),
 			)
 		}
 
 		contentTypeList := cs.Settings.Setup.ContentType.Value.getInterfaceList()
 		if len(contentTypeList) > 0 {
 			filters.Should(
-				elastic.NewTermsQuery("content_type", contentTypeList),
+				elastic.NewTermsQuery("content_type", contentTypeList...),
 			)
 		}
 
@@ -75,6 +77,7 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 			Do(context.Background())
 		if err != nil {
 			log.Println(err.Error())
+			return
 		}
 
 		for _, item := range esres.Hits.Hits {

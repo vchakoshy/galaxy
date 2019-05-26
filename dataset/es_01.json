@@ -1,0 +1,38 @@
+{
+    "query": {
+        "bool": {
+            "must": {
+                "bool": {
+                    "should": [
+                        {
+                            "terms": {
+                                "format": [
+                                    "AUDIO",
+                                    "EPUB",
+                                    "PDF"
+                                ]
+                            }
+                        },
+                        {
+                            "terms": {
+                                "content_type": [
+                                    "BOOK",
+                                    "PODCAST"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "size": 8,
+    "sort": [
+        {
+            "week_sales_count": {
+                "order": "desc"
+            }
+        }
+    ],
+    "stored_fields": "_id"
+}
