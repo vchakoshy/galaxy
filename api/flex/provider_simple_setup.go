@@ -6,6 +6,10 @@ type ProviderSimpleSetup struct {
 }
 
 func (ps ProviderSimpleSetup) getInputAction(key string) (action flexComponentAction) {
+	if ps.Type == "" {
+		return
+	}
+
 	switch ps.Value.(type) {
 	case string:
 		if ps.Value == "" {
