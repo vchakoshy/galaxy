@@ -78,9 +78,9 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 
 		contentTypeList := cs.Settings.Setup.ContentType.Value.getInterfaceList()
 		if len(contentTypeList) > 0 {
-			// for index, ct := range contentTypeList {
-			// 	contentTypeList[index] = strings.ToLower(ct.(string))
-			// }
+			for index, ct := range contentTypeList {
+				contentTypeList[index] = strings.ToLower(ct.(string))
+			}
 			q.Must(
 				elastic.NewTermsQuery("content_type.keyword", contentTypeList...),
 			)
@@ -116,6 +116,7 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 			com.Data.Items.Generic[i] = v
 		}
 	}
+	return
 
 	if cs.Settings.DataProvider == "PROPOSED_LIST" {
 		com = flexComponent{
