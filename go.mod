@@ -6,12 +6,6 @@ require (
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
-<<<<<<< HEAD
-	github.com/google/go-cmp v0.3.0 // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
-	github.com/itsjamie/gin-cors v0.0.0-20160420130702-97b4a9da7933
-=======
->>>>>>> 73f6c85553ff2c5cdd23d0ad244ebfb300f3813f
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
 	github.com/mailru/easyjson v0.0.0-20190403194419-1ea4449da983 // indirect
