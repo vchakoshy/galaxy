@@ -18,7 +18,11 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 			Type:         t,
 			ResourceType: "BOOK",
 			Title:        cs.Elements.Title.Value.Static,
-			Action:       getAction(cs),
+		}
+
+		a := getAction(cs)
+		if a.Type != "" {
+			com.Action = a
 		}
 
 		if cs.Elements.MoreTitle.Value != "" {
