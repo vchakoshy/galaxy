@@ -50,3 +50,12 @@ func (ps ProviderSetup) getQuery() []qm.QueryMod {
 
 	return queries
 }
+
+func (ps ProviderSetup) GetIdis() []interface{} {
+	qidis := make([]interface{}, 0)
+	for _, id := range ps.Ids {
+		qidis = append(qidis, id)
+	}
+
+	return qidis
+}

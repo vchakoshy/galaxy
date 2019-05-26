@@ -1,0 +1,14 @@
+{
+    "query": {
+        "bool": {}
+    },
+    "size": 8,
+    "sort": [
+        {
+            "publish_time": {
+                "order": "desc"
+            }
+        }
+    ],
+    "stored_fields": "_id"
+}

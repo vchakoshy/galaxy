@@ -18,6 +18,7 @@ type Book struct {
 	Free               int8       `json:"free"`
 	Publish            int8       `json:"publish"`
 	PublishTime        time.Time  `json:"publish_time"`
+	PublishDate        time.Time  `json:"publish_date"`
 	Format             string     `json:"format"`
 	Language           string     `json:"language"`
 	ContentType        string     `json:"content_type"`
@@ -129,6 +130,7 @@ func NewBookByModel(m *models.Book, client *elastic.Client) {
 		Publish:            m.Publish,
 		Free:               m.Free,
 		PublishTime:        m.PublishTime.Time,
+		PublishDate:        m.PublishDate.Time,
 		DayDownloadCount:   m.R.BookStat.DayDownloadCount,
 		WeekDownloadCount:  m.R.BookStat.WeekDownloadCount,
 		MonthDownloadCount: m.R.BookStat.MonthDownloadCount,
@@ -157,8 +159,6 @@ func NewBookByModel(m *models.Book, client *elastic.Client) {
 	if err != nil {
 		log.Println(err.Error())
 	}
-
-	// spew.Dump(res)
 
 }
 

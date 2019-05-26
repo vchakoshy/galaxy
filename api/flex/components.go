@@ -34,6 +34,16 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 		ss := esClient.Search(hubble.ProductIndexName)
 
 		switch cs.Settings.Setup.Sort.Value {
+
+		case "RECENT":
+			ss.Sort("id", false)
+
+		case "RECENT_PUBLISH":
+			ss.Sort("publish_date", false)
+
+		case "LOWEST_PRICE":
+			ss.Sort("price", true)
+
 		case "BESTSELLER":
 			ss.Sort("all_sales_count", false)
 
@@ -43,9 +53,6 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 		case "POPULAR":
 			ss.Sort("month_download_count", false)
 
-		case "RECENT":
-			ss.Sort("publish_time", false)
-
 		case "MOST_COMMENTED":
 			ss.Sort("all_comment_count", false)
 
@@ -53,26 +60,32 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 			ss.Sort("publish_time", false)
 		}
 
+		// finalQ := elastic.NewBoolQuery()
 		q := elastic.NewBoolQuery()
 
-		// filters := elastic.NewBoolQuery()
+		catIds := cs.Settings.Setup.Category.GetIdis()
+		if len(catIds) > 0 {
+			q.Must(
+				elastic.NewTermsQuery("category.id", catIds...),
+			)
+		}
 
 		formatList := cs.Settings.Setup.Format.Value.getInterfaceList()
-		// spew.Dump(formatList)
 		if len(formatList) > 0 {
-			q.Should(
+			q.Must(
 				elastic.NewTermsQuery("format.keyword", formatList...),
 			)
 		}
 
 		contentTypeList := cs.Settings.Setup.ContentType.Value.getInterfaceList()
 		if len(contentTypeList) > 0 {
-			q.Should(
+			for index, ct := range contentTypeList {
+				contentTypeList[index] = strings.ToLower(ct.(string))
+			}
+			q.Must(
 				elastic.NewTermsQuery("content_type.keyword", contentTypeList...),
 			)
 		}
-
-		// q.Must(filters)
 
 		esres, err := ss.
 			StoredFields("_id").

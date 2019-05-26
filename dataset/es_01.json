@@ -1,10 +1,10 @@
 {
     "query": {
         "bool": {
-            "should": [
+            "must": [
                 {
                     "terms": {
-                        "format": [
+                        "format.keyword": [
                             "AUDIO",
                             "EPUB",
                             "PDF"
@@ -13,9 +13,9 @@
                 },
                 {
                     "terms": {
-                        "content_type": [
-                            "BOOK",
-                            "PODCAST"
+                        "content_type.keyword": [
+                            "book",
+                            "podcast"
                         ]
                     }
                 }
