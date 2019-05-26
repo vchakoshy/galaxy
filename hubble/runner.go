@@ -31,12 +31,15 @@ func Run() {
 
 	for {
 
-		lastBook, err := models.Books(qm.OrderBy("id desc")).OneG(context.Background())
+		lastBook, err := models.
+			Books(qm.OrderBy("id desc"), qm.Limit(1)).
+			OneG(context.Background())
+
 		if err != nil {
 			log.Println(err.Error())
 		}
 
-		for id := 1; id > lastBook.ID; id++ {
+		for id := 1; id <= lastBook.ID; id++ {
 			res, err := models.
 				Books(
 					qm.Load("BookStat"),
