@@ -22,7 +22,6 @@ func Run() {
 	defer db.Close()
 
 	boil.SetDB(db)
-	// boil.DebugMode = true
 
 	client, err := elastic.NewClient(
 		elastic.SetURL("http://172.16.19.24:9200"),
