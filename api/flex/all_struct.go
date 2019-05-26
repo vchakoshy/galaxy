@@ -22,7 +22,7 @@ type Setting struct {
 type flexComponentAction struct {
 	Key        string   `json:"key"`
 	ArrayValue []string `json:"arrayValue,omitempty"`
-	Value      bool     `json:"value,omitempty"`
+	Value      interface{}     `json:"value,omitempty"`
 }
 
 type flexBaseAction struct {

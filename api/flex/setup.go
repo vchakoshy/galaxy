@@ -56,6 +56,8 @@ func (s Setup) getInputActions() []flexComponentAction {
 	f := []flexComponentAction{
 		s.Book.getInputAction("book"),
 		s.Free.getInputAction("free"),
+		s.Size.getInputAction("size"),
+		s.Subscription.getInputAction("subscription"),
 		s.Category.getInputAction("category"),
 	}
 

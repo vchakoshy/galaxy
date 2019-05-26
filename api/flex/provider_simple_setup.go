@@ -1,26 +1,20 @@
 package flex
 
-import (
-	"strconv"
-)
-
 type ProviderSimpleSetup struct {
-	Type  string `json:"type"`
-	Value string `json:"value"`
+	Type  string      `json:"type"`
+	Value interface{} `json:"value"`
 }
 
-func (ps ProviderSimpleSetup) getInputAction(key string) flexComponentAction {
-	action := flexComponentAction{}
-
-	if ps.Value == "" {
-		return action
+func (ps ProviderSimpleSetup) getInputAction(key string) (action flexComponentAction) {
+	switch ps.Value.(type) {
+	case string:
+		if ps.Value == "" {
+			return
+		}
 	}
 
-	switch ps.Type {
-	case "CUSTOM":
-		action.Key = key
-		action.Value, _ = strconv.ParseBool(ps.Value)
-	}
+	action.Key = key
+	action.Value = ps.Value
 
-	return action
+	return
 }
