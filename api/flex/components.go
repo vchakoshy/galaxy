@@ -54,24 +54,24 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 
 		q := elastic.NewBoolQuery()
 
-		filters := elastic.NewBoolQuery()
+		// filters := elastic.NewBoolQuery()
 
 		formatList := cs.Settings.Setup.Format.Value.getInterfaceList()
 		// spew.Dump(formatList)
 		if len(formatList) > 0 {
-			filters.Should(
-				elastic.NewTermsQuery("format", formatList...),
+			q.Should(
+				elastic.NewTermsQuery("format.keyword", formatList...),
 			)
 		}
 
 		contentTypeList := cs.Settings.Setup.ContentType.Value.getInterfaceList()
 		if len(contentTypeList) > 0 {
-			filters.Should(
-				elastic.NewTermsQuery("content_type", contentTypeList...),
+			q.Should(
+				elastic.NewTermsQuery("content_type.keyword", contentTypeList...),
 			)
 		}
 
-		q.Must(filters)
+		// q.Must(filters)
 
 		esres, err := ss.
 			StoredFields("_id").
