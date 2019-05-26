@@ -8,7 +8,6 @@ import (
 	"github.com/volatiletech/sqlboiler/boil"
 
 	"gitlab.fidibo.com/backend/galaxy/api/rest"
-	"gitlab.fidibo.com/backend/galaxy/hubble"
 )
 
 // Run runs api
@@ -43,9 +42,9 @@ func Run() {
 		v1.POST("/flex/page/blank", rest.PageBlank)
 	}
 
-	go func() {
-		hubble.Run()
-	}()
+	// go func() {
+	// 	hubble.Run()
+	// }()
 
 	err = r.Run("0.0.0.0:8080")
 	log.Println(err.Error())

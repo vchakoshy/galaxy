@@ -24,7 +24,9 @@ func Run() {
 	boil.SetDB(db)
 	// boil.DebugMode = true
 
-	client, err := elastic.NewClient(elastic.SetURL("http://172.16.19.24:9200"))
+	client, err := elastic.NewClient(
+		elastic.SetURL("http://172.16.19.24:9200"),
+	)
 	if err != nil {
 		log.Println(err.Error())
 	}
