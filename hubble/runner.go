@@ -2,10 +2,10 @@ package hubble
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/olivere/elastic"
 	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
@@ -24,27 +24,37 @@ func Run() {
 	boil.SetDB(db)
 	// boil.DebugMode = true
 
-	id := 1
-	for {
-		res, err := models.
-			Books(
-				qm.Load("BookStat"),
-				qm.Load("Publisher"),
-				qm.Load("BookCategoryAssigns"),
-				qm.Load("Author"),
-				qm.Where("id=?", id)).
-			OneG(context.Background())
+	client, err := elastic.NewClient(elastic.SetURL("http://172.16.19.24:9200"))
+	if err != nil {
+		log.Println(err.Error())
+	}
 
+	for {
+
+		lastBook, err := models.Books(qm.OrderBy("id desc")).OneG(context.Background())
 		if err != nil {
 			log.Println(err.Error())
 		}
 
-		if err == nil {
-			NewBookByModel(res)
-		}
+		for id := 1; id > lastBook.ID; id++ {
+			res, err := models.
+				Books(
+					qm.Load("BookStat"),
+					qm.Load("Publisher"),
+					qm.Load("BookCategoryAssigns"),
+					qm.Load("Author"),
+					qm.Where("id=?", id)).
+				OneG(context.Background())
 
-		id++
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			if err == nil {
+				NewBookByModel(res, client)
+			}
+
+		}
 	}
 
-	fmt.Println("elastic called")
 }
