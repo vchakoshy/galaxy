@@ -1,29 +1,25 @@
 {
     "query": {
         "bool": {
-            "must": {
-                "bool": {
-                    "should": [
-                        {
-                            "terms": {
-                                "format": [
-                                    "AUDIO",
-                                    "EPUB",
-                                    "PDF"
-                                ]
-                            }
-                        },
-                        {
-                            "terms": {
-                                "content_type": [
-                                    "BOOK",
-                                    "PODCAST"
-                                ]
-                            }
-                        }
-                    ]
+            "should": [
+                {
+                    "terms": {
+                        "format": [
+                            "AUDIO",
+                            "EPUB",
+                            "PDF"
+                        ]
+                    }
+                },
+                {
+                    "terms": {
+                        "content_type": [
+                            "BOOK",
+                            "PODCAST"
+                        ]
+                    }
                 }
-            }
+            ]
         }
     },
     "size": 8,
