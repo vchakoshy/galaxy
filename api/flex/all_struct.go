@@ -39,10 +39,10 @@ type flexComponent struct {
 		Items struct {
 			Generic []interface{} `json:"generic"`
 		} `json:"items"`
-	} `json:"data"`
-	Type         string         `json:"type"`
-	ResourceType string         `json:"resource_type"`
-	Action       flexBaseAction `json:"action,omitempty"`
+	} `json:"data,omitempty"`
+	Type         string         `json:"type,omitempty"`
+	ResourceType string         `json:"resource_type,omitempty"`
+	Action       *flexBaseAction `json:"action,omitempty"`
 	ActionTitle  string         `json:"actionTitle,omitempty"`
 }
 

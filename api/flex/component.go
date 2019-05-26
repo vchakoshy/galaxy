@@ -57,15 +57,19 @@ func (c *Component) GetData() []flexComponent {
 			"VL_CARDS_SIMPLE_MORE", "VL_CARDS_FULL_MORE", "HL_GRID_SIMPLE",
 			"VL_BOOKS_DESCRIPTION":
 			componenets = append(componenets, handleListComponent(cs, compModel.Type))
+		case "HL_BOOKS_LIBRARY":
+			componenets = append(componenets, handleBooksLibraryComponent(cs))
+		default:
+			log.Println("Unhandled: " + compModel.Type)
 		}
 	}
 	return componenets
 }
 
-func getAction(cs flexComponentSettings) flexBaseAction {
+func getAction(cs flexComponentSettings) *flexBaseAction {
 	action := GetActionByPanelType(cs.Elements.MoreTitle.Action.Type)
 
-	return flexBaseAction{
+	return &flexBaseAction{
 		Type:      action.ClientType,
 		Input:     cs.Elements.MoreTitle.Action.Setup.getInputActions(),
 		ExtraData: nil,

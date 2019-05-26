@@ -5,6 +5,8 @@ type flexComponentSettings struct {
 		Type         string `json:"type"`
 		Setup        Setup  `json:"setup"`
 		DataProvider string `json:"dataProvider"`
+		Format       string `json:"format"`
+		ContentType  string `json:"contentType"`
 	} `json:"settings"`
 	Elements struct {
 		Title struct {
@@ -32,6 +34,18 @@ type flexComponentSettings struct {
 			Action struct {
 			} `json:"action"`
 		} `json:"subTitle"`
+		Icon struct {
+			Value string `json:"value"`
+			Setup []struct {
+				Type  string `json:"type"`
+				Value string `json:"value"`
+				Setup struct {
+					Value string `json:"value"`
+				} `json:"setup"`
+			} `json:"setup"`
+			Action struct {
+			} `json:"action"`
+		} `json:"icon"`
 		MoreTitle struct {
 			Value  string            `json:"value"`
 			Setup  []moreTtitleSetup `json:"setup"`
