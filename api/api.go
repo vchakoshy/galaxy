@@ -1,8 +1,8 @@
 package api
 
 import (
-	"os"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -44,7 +44,7 @@ func Run() {
 		v1.POST("/flex/page/blank", rest.PageBlank)
 	}
 
-	if os.Getenv("HUBBLE_REINDER") == "1"{
+	if os.Getenv("HUBBLE_REINDEXER") == "1" {
 		go func() {
 			hubble.Run()
 		}()

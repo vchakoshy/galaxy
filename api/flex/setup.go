@@ -1,32 +1,31 @@
-package flex 
+package flex
 
 import (
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
-
 type Setup struct {
-	Book         ProviderSetup `json:"book"`
-	Author       ProviderSetup `json:"author"`
-	Category     ProviderSetup `json:"category"`
-	Channel      ProviderSetup `json:"channel"`
-	Publisher    ProviderSetup `json:"publisher"`
-	ProposedList ProviderSetup `json:"proposedList"`
-	Tag          ProviderSetup `json:"tag"`
-	Free 		 ProviderSimpleSetup `json:"free"`
+	Book         ProviderSetup       `json:"book"`
+	Author       ProviderSetup       `json:"author"`
+	Category     ProviderSetup       `json:"category"`
+	Channel      ProviderSetup       `json:"channel"`
+	Publisher    ProviderSetup       `json:"publisher"`
+	ProposedList ProviderSetup       `json:"proposedList"`
+	Tag          ProviderSetup       `json:"tag"`
+	Free         ProviderSimpleSetup `json:"free"`
 	Subscription ProviderSimpleSetup `json:"subscription"`
-	Size 		 ProviderSimpleSetup `json:"size"`
-	Filter 		 ProviderSimpleSetup `json:"filter"`
-	Sort 		 ProviderSimpleSetup `json:"sort"`
-	Query struct {
+	Size         ProviderSimpleSetup `json:"size"`
+	Filter       ProviderSimpleSetup `json:"filter"`
+	Sort         ProviderSimpleSetup `json:"sort"`
+	Query        struct {
 		DataProvider interface{}   `json:"dataProvider"`
 		Type         string        `json:"type"`
 		Fields       []interface{} `json:"fields"`
 	} `json:"query"`
 	ContentType struct {
-		DataProvider interface{}   `json:"dataProvider"`
-		Type         string        `json:"type"`
-		Value        []interface{} `json:"value"`
+		DataProvider interface{} `json:"dataProvider"`
+		Type         string      `json:"type"`
+		Value        QueryIdis   `json:"value"`
 	} `json:"contentType"`
 	Format struct {
 		DataProvider interface{} `json:"dataProvider"`
@@ -34,7 +33,6 @@ type Setup struct {
 		Value        QueryIdis   `json:"value"`
 	} `json:"format"`
 }
-
 
 func (s Setup) getQueries() []qm.QueryMod {
 	q := make([]qm.QueryMod, 0)
@@ -62,7 +60,7 @@ func (s Setup) getInputActions() []flexComponentAction {
 	}
 
 	for _, ca := range f {
-		if (ca.Key != "") {
+		if ca.Key != "" {
 			q = append(q, ca)
 		}
 	}
@@ -97,7 +95,6 @@ func (s Setup) getSort() []qm.QueryMod {
 
 	return q
 }
-
 
 type QueryIdis []interface{}
 

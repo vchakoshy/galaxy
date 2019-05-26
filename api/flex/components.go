@@ -52,15 +52,31 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 			ss.Sort("publish_time", false)
 		}
 
-		inList := cs.Settings.Setup.Format.Value.getInterfaceList()
-		if len(inList) > 0 {
-			elastic.NewBoolQuery().Should(
-				elastic.NewTermsQuery("format", inList),
+		q := elastic.NewBoolQuery()
+
+		filters := elastic.NewBoolQuery()
+
+		formatList := cs.Settings.Setup.Format.Value.getInterfaceList()
+		if len(formatList) > 0 {
+			filters.Should(
+				elastic.NewTermsQuery("format", formatList),
 			)
-			// queries = append(queries, qm.WhereIn("format in ?", inList...))
 		}
 
-		esres, err := ss.StoredFields("_id").Size(8).Do(context.Background())
+		contentTypeList := cs.Settings.Setup.ContentType.Value.getInterfaceList()
+		if len(contentTypeList) > 0 {
+			filters.Should(
+				elastic.NewTermsQuery("content_type", contentTypeList),
+			)
+		}
+
+		q.Must(filters)
+
+		esres, err := ss.
+			StoredFields("_id").
+			Query(q).
+			Size(8).
+			Do(context.Background())
 		if err != nil {
 			log.Println(err.Error())
 		}
