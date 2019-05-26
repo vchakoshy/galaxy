@@ -38,7 +38,7 @@ func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 
 	res := make([]flexGenericBook, 0)
 	
-	boil.DebugMode = true
+	// boil.DebugMode = true
 
 	books, err := models.Books(queries...).AllG(context.Background())
 	if err != nil {
