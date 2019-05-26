@@ -7,7 +7,6 @@ import (
 
 	"gitlab.fidibo.com/backend/galaxy/hubble"
 
-	// "github.com/davecgh/go-spew/spew"
 	"github.com/olivere/elastic"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
@@ -115,6 +114,23 @@ func handleListComponent(cs flexComponentSettings, t string) (com flexComponent)
 		com.Data.Items.Generic = make([]interface{}, len(res))
 		for i, v := range res {
 			com.Data.Items.Generic[i] = v
+		}
+	}
+
+	if cs.Settings.DataProvider == "PROPOSED_LIST" {
+		com = flexComponent{
+			Type:         t,
+			ResourceType: "PROPOSED_LIST",
+			Title:        cs.Elements.Title.Value.Static,
+		}
+
+		a := getAction(cs)
+		if a.Type != "" {
+			com.Action = a
+		}
+
+		if cs.Elements.MoreTitle.Value != "" {
+			com.ActionTitle = cs.Elements.MoreTitle.Value
 		}
 	}
 	return
