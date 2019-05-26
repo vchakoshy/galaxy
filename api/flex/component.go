@@ -4,9 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"strings"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
+	"gitlab.fidibo.com/backend/galaxy/hubble"
 )
 
 // Component for flex
@@ -56,7 +58,6 @@ func (c *Component) GetData() []flexComponent {
 			"VL_CARDS_SIMPLE_MORE", "VL_CARDS_FULL_MORE", "HL_GRID_SIMPLE",
 			"VL_BOOKS_DESCRIPTION":
 			componenets = append(componenets, handleListComponent(cs, compModel.Type))
-		}
 	}
 	return componenets
 }

@@ -13,6 +13,7 @@ import (
 
 // Book struct of elasticsearch
 type Book struct {
+	ID                 int        `json:"id"`
 	Title              string     `json:"title"`
 	Free               int8       `json:"free"`
 	Publish            int8       `json:"publish"`
@@ -119,6 +120,7 @@ func SetEsClient(c *elastic.Client) {
 
 func NewBookByModel(m *models.Book, client *elastic.Client) {
 	esBook := Book{
+		ID:                 m.ID,
 		Title:              m.Title,
 		Format:             m.Format,
 		ContentType:        m.ContentType,
@@ -147,8 +149,8 @@ func NewBookByModel(m *models.Book, client *elastic.Client) {
 	bookID := fmt.Sprintf("book-%d", m.ID)
 
 	_, err := client.Index().
-		Index("fidibo_v3").
-		Type("book").
+		Index(ProductIndexName).
+		Type(ProductIndexType).
 		Id(bookID).
 		BodyJson(esBook).
 		Do(context.Background())
@@ -159,3 +161,8 @@ func NewBookByModel(m *models.Book, client *elastic.Client) {
 	// spew.Dump(res)
 
 }
+
+const (
+	ProductIndexName = "fidibo_v3"
+	ProductIndexType = "book"
+)
