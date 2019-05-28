@@ -28,7 +28,8 @@ func (c *Component) GetData(pageid int) []OutputComponent {
 
 	fpc, err := models.FlexPageComponents(
 		qm.Where("page_id=?", c.pageID),
-		qm.Where("deleted_at IS NULL AND active = ?", 1),
+		qm.And("deleted_at IS NULL"),
+		qm.And("active = ?", 1),
 		qm.Limit(itemsPerPage),
 		qm.Offset(offset),
 		qm.OrderBy("crud_order asc")).
