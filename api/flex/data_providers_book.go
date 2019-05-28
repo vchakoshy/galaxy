@@ -10,8 +10,7 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/hubble"
 )
 
-type DataProvidersBook struct {
-}
+type DataProvidersBook struct{}
 
 func (b DataProvidersBook) getGeneric(cs flexComponentSettings, t string) flexComponent {
 	com := flexComponent{

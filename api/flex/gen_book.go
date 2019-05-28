@@ -1,8 +1,8 @@
-package flex 
+package flex
 
 import (
 	"strconv"
-	
+
 	"context"
 	"log"
 
@@ -10,8 +10,6 @@ import (
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
-
-	
 )
 
 type flexGenericChildAction struct {
@@ -29,7 +27,7 @@ type flexGenericBook struct {
 	Image       string                 `json:"image"`
 	Format      string                 `json:"format"`
 	ContentType string                 `json:"content_type"`
-	Badge       Badge             `json:"badge"`
+	Badge       Badge                  `json:"badge"`
 	Action      flexGenericChildAction `json:"action"`
 	BookID      string                 `json:"bookId"`
 }
@@ -37,7 +35,7 @@ type flexGenericBook struct {
 func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 
 	res := make([]flexGenericBook, 0)
-	
+
 	// boil.DebugMode = true
 
 	books, err := models.Books(queries...).AllG(context.Background())
