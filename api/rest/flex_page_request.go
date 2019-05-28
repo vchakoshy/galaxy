@@ -22,7 +22,7 @@ func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
 		log.Println(err.Error())
 		return
 	}
-	log.Println(string(req))
+	// log.Println(string(req))
 
 	err = json.Unmarshal(req, &d)
 
