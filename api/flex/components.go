@@ -8,8 +8,8 @@ func handleListComponent(cs flexComponentSettings, t string) flexComponent {
 		return com.getGeneric(cs, t)
 
 	case "PROPOSED_LIST":
-		com := DataProvidersProposedList{}
-		return com.getGeneric(cs, t)
+		// com := DataProvidersProposedList{}
+		// return com.getGeneric(cs, t)
 	}
 
 	return flexComponent{}
