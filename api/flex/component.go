@@ -21,7 +21,7 @@ func NewComponentByPage(pageID int) *Component {
 	}
 }
 
-func (c *Component) GetData(pageid int) []flexComponent {
+func (c *Component) GetData(pageid int) []OutputComponent {
 	itemsPerPage := 5
 	offset := (pageid - 1) * itemsPerPage
 	// boil.DebugMode = true
@@ -37,7 +37,7 @@ func (c *Component) GetData(pageid int) []flexComponent {
 		log.Println(err.Error())
 	}
 
-	componenets := make([]flexComponent, 0)
+	componenets := make([]OutputComponent, 0)
 
 	for _, comp := range fpc {
 

@@ -2,8 +2,8 @@ package flex
 
 type DataProvidersProposedList struct{}
 
-func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) flexComponent {
-	com := flexComponent{
+func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) OutputComponent {
+	com := OutputComponent{
 		Type:         t,
 		ResourceType: "PROPOSED_LIST",
 		Title:        cs.Elements.Title.Value.Static,

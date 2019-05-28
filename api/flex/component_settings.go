@@ -47,8 +47,8 @@ type ComponentSettings struct {
 			} `json:"action"`
 		} `json:"icon"`
 		MoreTitle struct {
-			Value  string            `json:"value"`
-			Setup  []moreTtitleSetup `json:"setup"`
+			Value  string           `json:"value"`
+			Setup  []moreTitleSetup `json:"setup"`
 			Action struct {
 				Type  string `json:"type"`
 				Setup Setup  `json:"setup"`
@@ -57,7 +57,7 @@ type ComponentSettings struct {
 	} `json:"elements"`
 }
 
-type moreTtitleSetup struct {
+type moreTitleSetup struct {
 	Type  string `json:"type"`
 	Value string `json:"value"`
 	Setup struct {

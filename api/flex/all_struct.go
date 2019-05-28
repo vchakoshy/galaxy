@@ -29,7 +29,7 @@ type BaseAction struct {
 	Method    string            `json:"method"`
 }
 
-type flexComponent struct {
+type OutputComponent struct {
 	Title string `json:"title,omitempty"`
 	Icon  string `json:"icon,omitempty"`
 	Data  struct {
@@ -43,18 +43,18 @@ type flexComponent struct {
 	ActionTitle  string      `json:"actionTitle,omitempty"`
 }
 
-type FlexOutput struct {
-	Components []flexComponent `json:"components"`
-	FlexErrors []string        `json:"flexErrors"`
-	IsLastPage bool            `json:"isLastPage"`
-	Setting    Setting         `json:"setting"`
-	Title      string          `json:"title"`
-	Result     bool            `json:"result"`
+type Output struct {
+	Components []OutputComponent `json:"components"`
+	FlexErrors []string          `json:"flexErrors"`
+	IsLastPage bool              `json:"isLastPage"`
+	Setting    Setting           `json:"setting"`
+	Title      string            `json:"title"`
+	Result     bool              `json:"result"`
 }
 
-type FlexStruct struct {
-	Output     FlexOutput `json:"output"`
-	Error      string     `json:"error"`
-	Message    string     `json:"message"`
-	IsPlusMode bool       `json:"isPlusMode"`
+type Response struct {
+	Output     Output `json:"output"`
+	Error      string `json:"error"`
+	Message    string `json:"message"`
+	IsPlusMode bool   `json:"isPlusMode"`
 }

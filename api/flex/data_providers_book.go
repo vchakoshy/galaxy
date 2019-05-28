@@ -12,8 +12,8 @@ import (
 
 type DataProvidersBook struct{}
 
-func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) flexComponent {
-	com := flexComponent{
+func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) OutputComponent {
+	com := OutputComponent{
 		Type:         t,
 		ResourceType: "BOOK",
 		Title:        cs.Elements.Title.Value.Static,
@@ -89,7 +89,7 @@ func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) flexCompon
 		Do(context.Background())
 	if err != nil {
 		log.Println(err.Error())
-		return flexComponent{}
+		return OutputComponent{}
 	}
 
 	for _, item := range esres.Hits.Hits {
