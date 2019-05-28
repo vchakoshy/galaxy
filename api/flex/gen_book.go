@@ -32,8 +32,8 @@ type GenericBook struct {
 	BookID      string             `json:"bookId"`
 }
 
-func newGenericBookByQuery(queries []qm.QueryMod) ([]GenericBook, []Book) {
-	res := make([]GenericBook, 0)
+func newGenericBookByQuery(queries []qm.QueryMod) ([]interface{}, []Book) {
+	res := make([]interface{}, 0)
 	resBook := make([]Book, 0)
 
 	queries = append(queries, qm.Load("Publisher"), qm.Load("Author"))
