@@ -26,6 +26,8 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("FlexPages", testFlexPagesUpsert)
 
+	t.Run("GeneralCategoryAssigns", testGeneralCategoryAssignsUpsert)
+
 	t.Run("ProposeBookLists", testProposeBookListsUpsert)
 
 	t.Run("ProposeBookListItems", testProposeBookListItemsUpsert)
