@@ -1,7 +1,7 @@
 #build stage
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-COPY bin/app /app
+COPY ./bin/app /app
 EXPOSE 8080
 
 ENV HUBBLE_REINDEXER="1"
