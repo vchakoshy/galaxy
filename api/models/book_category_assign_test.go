@@ -795,7 +795,7 @@ func testBookCategoryAssignsUpdate(t *testing.T) {
 	if 0 == len(bookCategoryAssignPrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(bookCategoryAssignColumns) == len(bookCategoryAssignPrimaryKeyColumns) {
+	if len(bookCategoryAssignAllColumns) == len(bookCategoryAssignPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -836,7 +836,7 @@ func testBookCategoryAssignsUpdate(t *testing.T) {
 func testBookCategoryAssignsSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(bookCategoryAssignColumns) == len(bookCategoryAssignPrimaryKeyColumns) {
+	if len(bookCategoryAssignAllColumns) == len(bookCategoryAssignPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -869,11 +869,11 @@ func testBookCategoryAssignsSliceUpdateAll(t *testing.T) {
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(bookCategoryAssignColumns, bookCategoryAssignPrimaryKeyColumns) {
-		fields = bookCategoryAssignColumns
+	if strmangle.StringSliceMatch(bookCategoryAssignAllColumns, bookCategoryAssignPrimaryKeyColumns) {
+		fields = bookCategoryAssignAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			bookCategoryAssignColumns,
+			bookCategoryAssignAllColumns,
 			bookCategoryAssignPrimaryKeyColumns,
 		)
 	}
@@ -903,7 +903,7 @@ func testBookCategoryAssignsSliceUpdateAll(t *testing.T) {
 func testBookCategoryAssignsUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(bookCategoryAssignColumns) == len(bookCategoryAssignPrimaryKeyColumns) {
+	if len(bookCategoryAssignAllColumns) == len(bookCategoryAssignPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 	if len(mySQLBookCategoryAssignUniqueColumns) == 0 {

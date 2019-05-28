@@ -77,16 +77,16 @@ var FlexPageWhere = struct {
 	Description whereHelpernull_String
 	Image       whereHelpernull_String
 }{
-	ID:          whereHelperint{field: `id`},
-	Name:        whereHelpernull_String{field: `name`},
-	StoreID:     whereHelperint{field: `store_id`},
-	TemplateID:  whereHelperint{field: `template_id`},
-	CreatedAt:   whereHelpertime_Time{field: `created_at`},
-	Title:       whereHelperstring{field: `title`},
-	SettingData: whereHelperstring{field: `setting_data`},
-	Type:        whereHelperstring{field: `type`},
-	Description: whereHelpernull_String{field: `description`},
-	Image:       whereHelpernull_String{field: `image`},
+	ID:          whereHelperint{field: "`flex_pages`.`id`"},
+	Name:        whereHelpernull_String{field: "`flex_pages`.`name`"},
+	StoreID:     whereHelperint{field: "`flex_pages`.`store_id`"},
+	TemplateID:  whereHelperint{field: "`flex_pages`.`template_id`"},
+	CreatedAt:   whereHelpertime_Time{field: "`flex_pages`.`created_at`"},
+	Title:       whereHelperstring{field: "`flex_pages`.`title`"},
+	SettingData: whereHelperstring{field: "`flex_pages`.`setting_data`"},
+	Type:        whereHelperstring{field: "`flex_pages`.`type`"},
+	Description: whereHelpernull_String{field: "`flex_pages`.`description`"},
+	Image:       whereHelpernull_String{field: "`flex_pages`.`image`"},
 }
 
 // FlexPageRels is where relationship names are stored.
@@ -110,7 +110,7 @@ func (*flexPageR) NewStruct() *flexPageR {
 type flexPageL struct{}
 
 var (
-	flexPageColumns               = []string{"id", "name", "store_id", "template_id", "created_at", "title", "setting_data", "type", "description", "image"}
+	flexPageAllColumns            = []string{"id", "name", "store_id", "template_id", "created_at", "title", "setting_data", "type", "description", "image"}
 	flexPageColumnsWithoutDefault = []string{"name", "store_id", "template_id", "title", "setting_data", "description", "image"}
 	flexPageColumnsWithDefault    = []string{"id", "created_at", "type"}
 	flexPagePrimaryKeyColumns     = []string{"id"}
@@ -653,7 +653,7 @@ func (o *FlexPage) Insert(ctx context.Context, exec boil.ContextExecutor, column
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			flexPageColumns,
+			flexPageAllColumns,
 			flexPageColumnsWithDefault,
 			flexPageColumnsWithoutDefault,
 			nzDefaults,
@@ -758,7 +758,7 @@ func (o *FlexPage) Update(ctx context.Context, exec boil.ContextExecutor, column
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			flexPageColumns,
+			flexPageAllColumns,
 			flexPagePrimaryKeyColumns,
 		)
 
@@ -935,13 +935,13 @@ func (o *FlexPage) Upsert(ctx context.Context, exec boil.ContextExecutor, update
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			flexPageColumns,
+			flexPageAllColumns,
 			flexPageColumnsWithDefault,
 			flexPageColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			flexPageColumns,
+			flexPageAllColumns,
 			flexPagePrimaryKeyColumns,
 		)
 
@@ -1101,10 +1101,6 @@ func (o FlexPageSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o FlexPageSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no FlexPage slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

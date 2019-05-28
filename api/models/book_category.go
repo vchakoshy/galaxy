@@ -144,27 +144,27 @@ var BookCategoryWhere = struct {
 	Canonical      whereHelpernull_String
 	SeoFrontShow   whereHelpernull_Bool
 }{
-	ID:             whereHelperint{field: `id`},
-	Level:          whereHelperint{field: `level`},
-	Title:          whereHelperstring{field: `title`},
-	EnglishTitle:   whereHelpernull_String{field: `english_title`},
-	Slug:           whereHelpernull_String{field: `slug`},
-	LongSlug:       whereHelpernull_String{field: `long_slug`},
-	Subject:        whereHelpernull_String{field: `subject`},
-	ParentID:       whereHelpernull_Int{field: `parent_id`},
-	Position:       whereHelpernull_Int{field: `position`},
-	StoresID:       whereHelpernull_Int{field: `stores_id`},
-	BisacID:        whereHelpernull_Int{field: `bisac_id`},
-	Status:         whereHelperbool{field: `status`},
-	Code:           whereHelpernull_String{field: `code`},
-	BisacTitle:     whereHelpernull_String{field: `bisac_title`},
-	ContentFormat:  whereHelpernull_String{field: `content_format`},
-	Image:          whereHelpernull_String{field: `image`},
-	TotalBooks:     whereHelperint{field: `total_books`},
-	SeoTitle:       whereHelpernull_String{field: `seo_title`},
-	SeoDescription: whereHelpernull_String{field: `seo_description`},
-	Canonical:      whereHelpernull_String{field: `canonical`},
-	SeoFrontShow:   whereHelpernull_Bool{field: `seo_front_show`},
+	ID:             whereHelperint{field: "`book_category`.`id`"},
+	Level:          whereHelperint{field: "`book_category`.`level`"},
+	Title:          whereHelperstring{field: "`book_category`.`title`"},
+	EnglishTitle:   whereHelpernull_String{field: "`book_category`.`english_title`"},
+	Slug:           whereHelpernull_String{field: "`book_category`.`slug`"},
+	LongSlug:       whereHelpernull_String{field: "`book_category`.`long_slug`"},
+	Subject:        whereHelpernull_String{field: "`book_category`.`subject`"},
+	ParentID:       whereHelpernull_Int{field: "`book_category`.`parent_id`"},
+	Position:       whereHelpernull_Int{field: "`book_category`.`position`"},
+	StoresID:       whereHelpernull_Int{field: "`book_category`.`stores_id`"},
+	BisacID:        whereHelpernull_Int{field: "`book_category`.`bisac_id`"},
+	Status:         whereHelperbool{field: "`book_category`.`status`"},
+	Code:           whereHelpernull_String{field: "`book_category`.`code`"},
+	BisacTitle:     whereHelpernull_String{field: "`book_category`.`bisac_title`"},
+	ContentFormat:  whereHelpernull_String{field: "`book_category`.`content_format`"},
+	Image:          whereHelpernull_String{field: "`book_category`.`image`"},
+	TotalBooks:     whereHelperint{field: "`book_category`.`total_books`"},
+	SeoTitle:       whereHelpernull_String{field: "`book_category`.`seo_title`"},
+	SeoDescription: whereHelpernull_String{field: "`book_category`.`seo_description`"},
+	Canonical:      whereHelpernull_String{field: "`book_category`.`canonical`"},
+	SeoFrontShow:   whereHelpernull_Bool{field: "`book_category`.`seo_front_show`"},
 }
 
 // BookCategoryRels is where relationship names are stored.
@@ -194,7 +194,7 @@ func (*bookCategoryR) NewStruct() *bookCategoryR {
 type bookCategoryL struct{}
 
 var (
-	bookCategoryColumns               = []string{"id", "level", "title", "english_title", "slug", "long_slug", "subject", "parent_id", "position", "stores_id", "bisac_id", "status", "code", "bisac_title", "content_format", "image", "total_books", "seo_title", "seo_description", "canonical", "seo_front_show"}
+	bookCategoryAllColumns            = []string{"id", "level", "title", "english_title", "slug", "long_slug", "subject", "parent_id", "position", "stores_id", "bisac_id", "status", "code", "bisac_title", "content_format", "image", "total_books", "seo_title", "seo_description", "canonical", "seo_front_show"}
 	bookCategoryColumnsWithoutDefault = []string{"level", "title", "english_title", "slug", "long_slug", "subject", "parent_id", "position", "stores_id", "bisac_id", "code", "bisac_title", "content_format", "image", "seo_title", "seo_description", "canonical"}
 	bookCategoryColumnsWithDefault    = []string{"id", "status", "total_books", "seo_front_show"}
 	bookCategoryPrimaryKeyColumns     = []string{"id"}
@@ -1217,7 +1217,7 @@ func (o *BookCategory) Insert(ctx context.Context, exec boil.ContextExecutor, co
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			bookCategoryColumns,
+			bookCategoryAllColumns,
 			bookCategoryColumnsWithDefault,
 			bookCategoryColumnsWithoutDefault,
 			nzDefaults,
@@ -1322,7 +1322,7 @@ func (o *BookCategory) Update(ctx context.Context, exec boil.ContextExecutor, co
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			bookCategoryColumns,
+			bookCategoryAllColumns,
 			bookCategoryPrimaryKeyColumns,
 		)
 
@@ -1499,13 +1499,13 @@ func (o *BookCategory) Upsert(ctx context.Context, exec boil.ContextExecutor, up
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			bookCategoryColumns,
+			bookCategoryAllColumns,
 			bookCategoryColumnsWithDefault,
 			bookCategoryColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			bookCategoryColumns,
+			bookCategoryAllColumns,
 			bookCategoryPrimaryKeyColumns,
 		)
 
@@ -1665,10 +1665,6 @@ func (o BookCategorySlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o BookCategorySlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no BookCategory slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

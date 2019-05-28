@@ -732,7 +732,7 @@ func testFlexComponentsUpdate(t *testing.T) {
 	if 0 == len(flexComponentPrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(flexComponentColumns) == len(flexComponentPrimaryKeyColumns) {
+	if len(flexComponentAllColumns) == len(flexComponentPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -773,7 +773,7 @@ func testFlexComponentsUpdate(t *testing.T) {
 func testFlexComponentsSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(flexComponentColumns) == len(flexComponentPrimaryKeyColumns) {
+	if len(flexComponentAllColumns) == len(flexComponentPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -806,11 +806,11 @@ func testFlexComponentsSliceUpdateAll(t *testing.T) {
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(flexComponentColumns, flexComponentPrimaryKeyColumns) {
-		fields = flexComponentColumns
+	if strmangle.StringSliceMatch(flexComponentAllColumns, flexComponentPrimaryKeyColumns) {
+		fields = flexComponentAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			flexComponentColumns,
+			flexComponentAllColumns,
 			flexComponentPrimaryKeyColumns,
 		)
 	}
@@ -840,7 +840,7 @@ func testFlexComponentsSliceUpdateAll(t *testing.T) {
 func testFlexComponentsUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(flexComponentColumns) == len(flexComponentPrimaryKeyColumns) {
+	if len(flexComponentAllColumns) == len(flexComponentPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 	if len(mySQLFlexComponentUniqueColumns) == 0 {

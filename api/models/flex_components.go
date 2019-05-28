@@ -77,16 +77,16 @@ var FlexComponentWhere = struct {
 	Mappings   whereHelpernull_String
 	ViewType   whereHelperstring
 }{
-	ID:         whereHelperint{field: `id`},
-	Title:      whereHelperstring{field: `title`},
-	Type:       whereHelperstring{field: `type`},
-	Class:      whereHelpernull_String{field: `class`},
-	Fields:     whereHelpernull_String{field: `fields`},
-	FormSchema: whereHelpernull_String{field: `form_schema`},
-	CreatedAt:  whereHelpernull_Time{field: `created_at`},
-	Image:      whereHelpernull_String{field: `image`},
-	Mappings:   whereHelpernull_String{field: `mappings`},
-	ViewType:   whereHelperstring{field: `view_type`},
+	ID:         whereHelperint{field: "`flex_components`.`id`"},
+	Title:      whereHelperstring{field: "`flex_components`.`title`"},
+	Type:       whereHelperstring{field: "`flex_components`.`type`"},
+	Class:      whereHelpernull_String{field: "`flex_components`.`class`"},
+	Fields:     whereHelpernull_String{field: "`flex_components`.`fields`"},
+	FormSchema: whereHelpernull_String{field: "`flex_components`.`form_schema`"},
+	CreatedAt:  whereHelpernull_Time{field: "`flex_components`.`created_at`"},
+	Image:      whereHelpernull_String{field: "`flex_components`.`image`"},
+	Mappings:   whereHelpernull_String{field: "`flex_components`.`mappings`"},
+	ViewType:   whereHelperstring{field: "`flex_components`.`view_type`"},
 }
 
 // FlexComponentRels is where relationship names are stored.
@@ -110,7 +110,7 @@ func (*flexComponentR) NewStruct() *flexComponentR {
 type flexComponentL struct{}
 
 var (
-	flexComponentColumns               = []string{"id", "title", "type", "class", "fields", "form_schema", "created_at", "image", "mappings", "view_type"}
+	flexComponentAllColumns            = []string{"id", "title", "type", "class", "fields", "form_schema", "created_at", "image", "mappings", "view_type"}
 	flexComponentColumnsWithoutDefault = []string{"title", "type", "class", "fields", "form_schema", "image", "mappings"}
 	flexComponentColumnsWithDefault    = []string{"id", "created_at", "view_type"}
 	flexComponentPrimaryKeyColumns     = []string{"id"}
@@ -653,7 +653,7 @@ func (o *FlexComponent) Insert(ctx context.Context, exec boil.ContextExecutor, c
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			flexComponentColumns,
+			flexComponentAllColumns,
 			flexComponentColumnsWithDefault,
 			flexComponentColumnsWithoutDefault,
 			nzDefaults,
@@ -758,7 +758,7 @@ func (o *FlexComponent) Update(ctx context.Context, exec boil.ContextExecutor, c
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			flexComponentColumns,
+			flexComponentAllColumns,
 			flexComponentPrimaryKeyColumns,
 		)
 
@@ -935,13 +935,13 @@ func (o *FlexComponent) Upsert(ctx context.Context, exec boil.ContextExecutor, u
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			flexComponentColumns,
+			flexComponentAllColumns,
 			flexComponentColumnsWithDefault,
 			flexComponentColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			flexComponentColumns,
+			flexComponentAllColumns,
 			flexComponentPrimaryKeyColumns,
 		)
 
@@ -1101,10 +1101,6 @@ func (o FlexComponentSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o FlexComponentSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no FlexComponent slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

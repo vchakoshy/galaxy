@@ -1234,7 +1234,7 @@ func testPublishersUpdate(t *testing.T) {
 	if 0 == len(publisherPrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(publisherColumns) == len(publisherPrimaryKeyColumns) {
+	if len(publisherAllColumns) == len(publisherPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -1275,7 +1275,7 @@ func testPublishersUpdate(t *testing.T) {
 func testPublishersSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(publisherColumns) == len(publisherPrimaryKeyColumns) {
+	if len(publisherAllColumns) == len(publisherPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -1308,11 +1308,11 @@ func testPublishersSliceUpdateAll(t *testing.T) {
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(publisherColumns, publisherPrimaryKeyColumns) {
-		fields = publisherColumns
+	if strmangle.StringSliceMatch(publisherAllColumns, publisherPrimaryKeyColumns) {
+		fields = publisherAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			publisherColumns,
+			publisherAllColumns,
 			publisherPrimaryKeyColumns,
 		)
 	}
@@ -1342,7 +1342,7 @@ func testPublishersSliceUpdateAll(t *testing.T) {
 func testPublishersUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(publisherColumns) == len(publisherPrimaryKeyColumns) {
+	if len(publisherAllColumns) == len(publisherPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 	if len(mySQLPublisherUniqueColumns) == 0 {

@@ -48,9 +48,9 @@ var BooksTagWhere = struct {
 	Tag       whereHelperstring
 	CreatedAt whereHelpertime_Time
 }{
-	ID:        whereHelperint{field: `id`},
-	Tag:       whereHelperstring{field: `tag`},
-	CreatedAt: whereHelpertime_Time{field: `created_at`},
+	ID:        whereHelperint{field: "`books_tags`.`id`"},
+	Tag:       whereHelperstring{field: "`books_tags`.`tag`"},
+	CreatedAt: whereHelpertime_Time{field: "`books_tags`.`created_at`"},
 }
 
 // BooksTagRels is where relationship names are stored.
@@ -70,7 +70,7 @@ func (*booksTagR) NewStruct() *booksTagR {
 type booksTagL struct{}
 
 var (
-	booksTagColumns               = []string{"id", "tag", "created_at"}
+	booksTagAllColumns            = []string{"id", "tag", "created_at"}
 	booksTagColumnsWithoutDefault = []string{"tag"}
 	booksTagColumnsWithDefault    = []string{"id", "created_at"}
 	booksTagPrimaryKeyColumns     = []string{"id"}
@@ -435,7 +435,7 @@ func (o *BooksTag) Insert(ctx context.Context, exec boil.ContextExecutor, column
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			booksTagColumns,
+			booksTagAllColumns,
 			booksTagColumnsWithDefault,
 			booksTagColumnsWithoutDefault,
 			nzDefaults,
@@ -540,7 +540,7 @@ func (o *BooksTag) Update(ctx context.Context, exec boil.ContextExecutor, column
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			booksTagColumns,
+			booksTagAllColumns,
 			booksTagPrimaryKeyColumns,
 		)
 
@@ -717,13 +717,13 @@ func (o *BooksTag) Upsert(ctx context.Context, exec boil.ContextExecutor, update
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			booksTagColumns,
+			booksTagAllColumns,
 			booksTagColumnsWithDefault,
 			booksTagColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			booksTagColumns,
+			booksTagAllColumns,
 			booksTagPrimaryKeyColumns,
 		)
 
@@ -883,10 +883,6 @@ func (o BooksTagSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o BooksTagSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no BooksTag slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

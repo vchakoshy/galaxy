@@ -89,19 +89,19 @@ var BookStatWhere = struct {
 	LastIndexTime      whereHelpernull_Time
 	IndexStatus        whereHelperbool
 }{
-	BookID:             whereHelperint{field: `book_id`},
-	DayDownloadCount:   whereHelperint{field: `day_download_count`},
-	WeekDownloadCount:  whereHelperint{field: `week_download_count`},
-	MonthDownloadCount: whereHelperint{field: `month_download_count`},
-	AllDownloadCount:   whereHelperint{field: `all_download_count`},
-	DaySalesCount:      whereHelpernull_Int{field: `day_sales_count`},
-	WeekSalesCount:     whereHelperint{field: `week_sales_count`},
-	MonthSalesCount:    whereHelpernull_Int{field: `month_sales_count`},
-	AllSalesCount:      whereHelperint{field: `all_sales_count`},
-	AllCommentCount:    whereHelpernull_Int{field: `all_comment_count`},
-	LastStatsUpdate:    whereHelpernull_Time{field: `last_stats_update`},
-	LastIndexTime:      whereHelpernull_Time{field: `last_index_time`},
-	IndexStatus:        whereHelperbool{field: `index_status`},
+	BookID:             whereHelperint{field: "`book_stats`.`book_id`"},
+	DayDownloadCount:   whereHelperint{field: "`book_stats`.`day_download_count`"},
+	WeekDownloadCount:  whereHelperint{field: "`book_stats`.`week_download_count`"},
+	MonthDownloadCount: whereHelperint{field: "`book_stats`.`month_download_count`"},
+	AllDownloadCount:   whereHelperint{field: "`book_stats`.`all_download_count`"},
+	DaySalesCount:      whereHelpernull_Int{field: "`book_stats`.`day_sales_count`"},
+	WeekSalesCount:     whereHelperint{field: "`book_stats`.`week_sales_count`"},
+	MonthSalesCount:    whereHelpernull_Int{field: "`book_stats`.`month_sales_count`"},
+	AllSalesCount:      whereHelperint{field: "`book_stats`.`all_sales_count`"},
+	AllCommentCount:    whereHelpernull_Int{field: "`book_stats`.`all_comment_count`"},
+	LastStatsUpdate:    whereHelpernull_Time{field: "`book_stats`.`last_stats_update`"},
+	LastIndexTime:      whereHelpernull_Time{field: "`book_stats`.`last_index_time`"},
+	IndexStatus:        whereHelperbool{field: "`book_stats`.`index_status`"},
 }
 
 // BookStatRels is where relationship names are stored.
@@ -125,7 +125,7 @@ func (*bookStatR) NewStruct() *bookStatR {
 type bookStatL struct{}
 
 var (
-	bookStatColumns               = []string{"book_id", "day_download_count", "week_download_count", "month_download_count", "all_download_count", "day_sales_count", "week_sales_count", "month_sales_count", "all_sales_count", "all_comment_count", "last_stats_update", "last_index_time", "index_status"}
+	bookStatAllColumns            = []string{"book_id", "day_download_count", "week_download_count", "month_download_count", "all_download_count", "day_sales_count", "week_sales_count", "month_sales_count", "all_sales_count", "all_comment_count", "last_stats_update", "last_index_time", "index_status"}
 	bookStatColumnsWithoutDefault = []string{"book_id", "last_stats_update", "last_index_time"}
 	bookStatColumnsWithDefault    = []string{"day_download_count", "week_download_count", "month_download_count", "all_download_count", "day_sales_count", "week_sales_count", "month_sales_count", "all_sales_count", "all_comment_count", "index_status"}
 	bookStatPrimaryKeyColumns     = []string{"book_id"}
@@ -660,7 +660,7 @@ func (o *BookStat) Insert(ctx context.Context, exec boil.ContextExecutor, column
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			bookStatColumns,
+			bookStatAllColumns,
 			bookStatColumnsWithDefault,
 			bookStatColumnsWithoutDefault,
 			nzDefaults,
@@ -754,7 +754,7 @@ func (o *BookStat) Update(ctx context.Context, exec boil.ContextExecutor, column
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			bookStatColumns,
+			bookStatAllColumns,
 			bookStatPrimaryKeyColumns,
 		)
 
@@ -931,13 +931,13 @@ func (o *BookStat) Upsert(ctx context.Context, exec boil.ContextExecutor, update
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			bookStatColumns,
+			bookStatAllColumns,
 			bookStatColumnsWithDefault,
 			bookStatColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			bookStatColumns,
+			bookStatAllColumns,
 			bookStatPrimaryKeyColumns,
 		)
 
@@ -1086,10 +1086,6 @@ func (o BookStatSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o BookStatSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no BookStat slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}
