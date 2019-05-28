@@ -36,14 +36,9 @@ func (ps ProviderSetup) getInputAction(key string) ComponentAction {
 }
 
 func (ps ProviderSetup) getQuery() []qm.QueryMod {
-
 	queries := make([]qm.QueryMod, 0)
 
-	qidis := make([]interface{}, 0)
-	for _, id := range ps.Ids {
-		qidis = append(qidis, id)
-	}
-
+	qidis := ps.GetIdis()
 	if len(qidis) > 0 {
 		queries = append(queries, qm.WhereIn("id in ?", qidis...))
 	}
