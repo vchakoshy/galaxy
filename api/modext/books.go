@@ -17,3 +17,7 @@ func getNormalImagePath(b *models.Book) string {
 func GetBookNormalImage(b *models.Book) string {
 	return baseImageURL + getNormalImagePath(b)
 }
+
+func IsRtl(b *models.Book) bool {
+	return true
+}

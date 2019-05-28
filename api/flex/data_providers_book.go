@@ -105,11 +105,13 @@ func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) OutputComp
 
 	queries = append(queries, qm.Limit(8))
 
-	res := newGenericBookByQuery(queries)
+	res, modelRes := newGenericBookByQuery(queries)
 
 	com.Data.Items.Generic = make([]interface{}, len(res))
+	com.Data.Items.Model = make([]Book, len(res))
 	for i, v := range res {
 		com.Data.Items.Generic[i] = v
+		com.Data.Items.Model[i] = modelRes[i]
 	}
 
 	return com

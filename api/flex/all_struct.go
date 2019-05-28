@@ -35,6 +35,7 @@ type OutputComponent struct {
 	Data  struct {
 		Items struct {
 			Generic []interface{} `json:"generic"`
+			Model   []Book        `json:"model"`
 		} `json:"items"`
 	} `json:"data,omitempty"`
 	Type         string      `json:"type,omitempty"`
