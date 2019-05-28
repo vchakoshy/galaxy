@@ -12,31 +12,28 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
 )
 
-type flexGenericChildAction struct {
-	Type      string            `json:"type"`
-	Input     []FlexActionInput `json:"input"`
-	ExtraData interface{}       `json:"extraData"`
-	Method    string            `json:"method"`
+type GenericChildAction struct {
+	Type      string        `json:"type"`
+	Input     []ActionInput `json:"input"`
+	ExtraData interface{}   `json:"extraData"`
+	Method    string        `json:"method"`
 }
 
-type flexGenericBook struct {
-	ChildAction flexGenericChildAction `json:"childAction"`
-	Title       string                 `json:"title"`
-	SubTitle    string                 `json:"subTitle"`
-	Icon        string                 `json:"icon"`
-	Image       string                 `json:"image"`
-	Format      string                 `json:"format"`
-	ContentType string                 `json:"content_type"`
-	Badge       Badge                  `json:"badge"`
-	Action      flexGenericChildAction `json:"action"`
-	BookID      string                 `json:"bookId"`
+type GenericBook struct {
+	ChildAction GenericChildAction `json:"childAction"`
+	Title       string             `json:"title"`
+	SubTitle    string             `json:"subTitle"`
+	Icon        string             `json:"icon"`
+	Image       string             `json:"image"`
+	Format      string             `json:"format"`
+	ContentType string             `json:"content_type"`
+	Badge       Badge              `json:"badge"`
+	Action      GenericChildAction `json:"action"`
+	BookID      string             `json:"bookId"`
 }
 
-func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
-
-	res := make([]flexGenericBook, 0)
-
-	// boil.DebugMode = true
+func newGenericBookByQuery(queries []qm.QueryMod) []GenericBook {
+	res := make([]GenericBook, 0)
 
 	books, err := models.Books(queries...).AllG(context.Background())
 	if err != nil {
@@ -45,7 +42,7 @@ func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 
 	for _, b := range books {
 		bookIDStr := strconv.Itoa(b.ID)
-		fb := flexGenericBook{
+		fb := GenericBook{
 			Title:       b.Title,
 			SubTitle:    b.SubTitle.String,
 			BookID:      bookIDStr,
@@ -53,28 +50,28 @@ func newGenericBookByQuery(queries []qm.QueryMod) []flexGenericBook {
 			Icon:        modext.GetBookNormalImage(b),
 			Format:      b.Format,
 			ContentType: b.ContentType,
-			Action: flexGenericChildAction{
+			Action: GenericChildAction{
 				Type: "book",
-				Input: []FlexActionInput{
-					FlexActionInput{
+				Input: []ActionInput{
+					ActionInput{
 						Key:   "bookId",
 						Value: bookIDStr,
 					},
-					FlexActionInput{
+					ActionInput{
 						Key:   "pageName",
 						Value: "BOOK_OVERVIEW_PAGE",
 					},
 				},
 				Method: "/book/" + bookIDStr + "/get",
 			},
-			ChildAction: flexGenericChildAction{
+			ChildAction: GenericChildAction{
 				Type: "book",
-				Input: []FlexActionInput{
-					FlexActionInput{
+				Input: []ActionInput{
+					ActionInput{
 						Key:   "bookId",
 						Value: bookIDStr,
 					},
-					FlexActionInput{
+					ActionInput{
 						Key:   "pageName",
 						Value: "BOOK_OVERVIEW_PAGE",
 					},

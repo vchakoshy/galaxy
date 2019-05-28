@@ -1,14 +1,11 @@
-package flex 
+package flex
 
-
-type FlexActionInput struct {
+type ActionInput struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
-
-
-type flexTabs struct {
+type Tabs struct {
 	Title  string     `json:"title"`
 	PageID string     `json:"pageId"`
 	Active bool       `json:"active"`
@@ -16,20 +13,20 @@ type flexTabs struct {
 }
 
 type Setting struct {
-	Tabs []flexTabs `json:"tabs"`
+	Tabs []Tabs `json:"tabs"`
 }
 
-type flexComponentAction struct {
-	Key        string   `json:"key"`
-	ArrayValue []string `json:"arrayValue,omitempty"`
-	Value      interface{}     `json:"value,omitempty"`
+type ComponentAction struct {
+	Key        string      `json:"key"`
+	ArrayValue []string    `json:"arrayValue,omitempty"`
+	Value      interface{} `json:"value,omitempty"`
 }
 
-type flexBaseAction struct {
-	Type      string                `json:"type"`
-	Input     []flexComponentAction `json:"input"`
-	ExtraData interface{}           `json:"extraData"`
-	Method    string                `json:"method"`
+type BaseAction struct {
+	Type      string            `json:"type"`
+	Input     []ComponentAction `json:"input"`
+	ExtraData interface{}       `json:"extraData"`
+	Method    string            `json:"method"`
 }
 
 type flexComponent struct {
@@ -40,17 +37,17 @@ type flexComponent struct {
 			Generic []interface{} `json:"generic"`
 		} `json:"items"`
 	} `json:"data,omitempty"`
-	Type         string         `json:"type,omitempty"`
-	ResourceType string         `json:"resource_type,omitempty"`
-	Action       *flexBaseAction `json:"action,omitempty"`
-	ActionTitle  string         `json:"actionTitle,omitempty"`
+	Type         string      `json:"type,omitempty"`
+	ResourceType string      `json:"resource_type,omitempty"`
+	Action       *BaseAction `json:"action,omitempty"`
+	ActionTitle  string      `json:"actionTitle,omitempty"`
 }
 
 type FlexOutput struct {
 	Components []flexComponent `json:"components"`
 	FlexErrors []string        `json:"flexErrors"`
 	IsLastPage bool            `json:"isLastPage"`
-	Setting    Setting     `json:"setting"`
+	Setting    Setting         `json:"setting"`
 	Title      string          `json:"title"`
 	Result     bool            `json:"result"`
 }

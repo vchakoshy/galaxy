@@ -9,6 +9,8 @@ var TableNames = struct {
 	BookCategory       string
 	BookCategoryAssign string
 	BookStats          string
+	BookTags           string
+	BooksTags          string
 	FlexComponents     string
 	FlexPageComponents string
 	FlexPages          string
@@ -19,6 +21,8 @@ var TableNames = struct {
 	BookCategory:       "book_category",
 	BookCategoryAssign: "book_category_assign",
 	BookStats:          "book_stats",
+	BookTags:           "book_tags",
+	BooksTags:          "books_tags",
 	FlexComponents:     "flex_components",
 	FlexPageComponents: "flex_page_components",
 	FlexPages:          "flex_pages",

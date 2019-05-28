@@ -2,7 +2,7 @@ package flex
 
 type DataProvidersProposedList struct{}
 
-func (b DataProvidersProposedList) getGeneric(cs flexComponentSettings, t string) flexComponent {
+func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) flexComponent {
 	com := flexComponent{
 		Type:         t,
 		ResourceType: "PROPOSED_LIST",

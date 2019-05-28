@@ -49,7 +49,7 @@ func (c *Component) GetData(pageid int) []flexComponent {
 			continue
 		}
 
-		cs := flexComponentSettings{}
+		cs := ComponentSettings{}
 
 		json.Unmarshal([]byte(comp.ComponentSetting.String), &cs)
 
@@ -70,10 +70,10 @@ func (c *Component) GetData(pageid int) []flexComponent {
 	return componenets
 }
 
-func getAction(cs flexComponentSettings) *flexBaseAction {
+func getAction(cs ComponentSettings) *BaseAction {
 	action := GetActionByPanelType(cs.Elements.MoreTitle.Action.Type)
 
-	return &flexBaseAction{
+	return &BaseAction{
 		Type:      action.ClientType,
 		Input:     cs.Elements.MoreTitle.Action.Setup.getInputActions(),
 		ExtraData: nil,

@@ -1,6 +1,6 @@
 package flex
 
-func handleListComponent(cs flexComponentSettings, t string) flexComponent {
+func handleListComponent(cs ComponentSettings, t string) flexComponent {
 
 	switch cs.Settings.DataProvider {
 	case "BOOK":
@@ -15,7 +15,7 @@ func handleListComponent(cs flexComponentSettings, t string) flexComponent {
 	return flexComponent{}
 }
 
-func handleBooksLibraryComponent(cs flexComponentSettings) (com flexComponent) {
+func handleBooksLibraryComponent(cs ComponentSettings) (com flexComponent) {
 	m := make(map[string]string)
 	m["format"] = cs.Settings.Format
 	m["content_type"] = cs.Settings.ContentType

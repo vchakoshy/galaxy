@@ -16,6 +16,10 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("BookStats", testBookStatsUpsert)
 
+	t.Run("BookTags", testBookTagsUpsert)
+
+	t.Run("BooksTags", testBooksTagsUpsert)
+
 	t.Run("FlexComponents", testFlexComponentsUpsert)
 
 	t.Run("FlexPageComponents", testFlexPageComponentsUpsert)

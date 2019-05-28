@@ -1,6 +1,6 @@
 package flex
 
-type flexComponentSettings struct {
+type ComponentSettings struct {
 	Settings struct {
 		Type         string `json:"type"`
 		Setup        Setup  `json:"setup"`

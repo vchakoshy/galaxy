@@ -2,5 +2,5 @@ package flex
 
 // DataProvider interface
 type DataProvider interface {
-	getGeneric(flexComponentSettings, string) []interface{}
+	getGeneric(ComponentSettings, string) []interface{}
 }

@@ -50,10 +50,10 @@ func (s Setup) getQueries() []qm.QueryMod {
 	return q
 }
 
-func (s Setup) getInputActions() []flexComponentAction {
-	q := make([]flexComponentAction, 0)
+func (s Setup) getInputActions() []ComponentAction {
+	q := make([]ComponentAction, 0)
 
-	f := []flexComponentAction{
+	f := []ComponentAction{
 		s.Book.getInputAction("book"),
 		s.Free.getInputAction("free"),
 		s.Size.getInputAction("size"),

@@ -12,7 +12,7 @@ import (
 
 type DataProvidersBook struct{}
 
-func (b DataProvidersBook) getGeneric(cs flexComponentSettings, t string) flexComponent {
+func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) flexComponent {
 	com := flexComponent{
 		Type:         t,
 		ResourceType: "BOOK",
