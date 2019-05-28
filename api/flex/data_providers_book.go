@@ -65,7 +65,7 @@ func (b DataProvidersBook) getGeneric(cs flexComponentSettings, t string) flexCo
 	catIds := cs.Settings.Setup.Category.GetIdis()
 	if len(catIds) > 0 {
 		q.Must(
-			elastic.NewTermsQuery("category.id", catIds...),
+			elastic.NewTermsQuery("categories.id", catIds...),
 		)
 	}
 
