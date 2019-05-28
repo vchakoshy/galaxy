@@ -27,7 +27,7 @@ func (c *Component) GetData() []flexComponent {
 	fpc, err := models.FlexPageComponents(
 		qComponent,
 		qm.Where("deleted_at IS NULL AND active = 1"),
-		// qm.Limit(10),
+		qm.Limit(10),
 		qm.OrderBy("crud_order asc")).
 		AllG(context.Background())
 	if err != nil {
