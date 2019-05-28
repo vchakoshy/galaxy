@@ -74,12 +74,12 @@ func (c *Component) GetData(pageid int) []OutputComponent {
 	return componenets
 }
 
-func getAction(cs ComponentSettings) *BaseAction {
-	action := GetActionByPanelType(cs.Elements.MoreTitle.Action.Type)
+func getAction(acs ActionCS) *BaseAction {
+	action := GetActionByPanelType(acs.Type)
 
 	return &BaseAction{
 		Type:      action.ClientType,
-		Input:     cs.Elements.MoreTitle.Action.Setup.getInputActions(),
+		Input:     acs.Setup.getInputActions(),
 		ExtraData: nil,
 		Method:    action.Method,
 	}

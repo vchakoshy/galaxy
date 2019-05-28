@@ -17,7 +17,7 @@ func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) Ou
 		Title:        cs.Elements.Title.Value.Static,
 	}
 
-	a := getAction(cs)
+	a := getAction(cs.Elements.MoreTitle.Action)
 	if a.Type != "" {
 		com.Action = a
 	}

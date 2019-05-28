@@ -19,7 +19,17 @@ func handleSingleComponent(cs ComponentSettings, t string) (com OutputComponent)
 	com.Title = cs.Elements.Title.Value.Static
 	com.Icon = cs.Elements.Icon.Value
 	com.Type = t
-	com.Action = getAction(cs)
+	com.ResourceType = "CUSTOM"
+
+	m := make(map[string]interface{})
+
+	m["image"] = cs.Settings.ChildElements.Image.Value.Static
+	m["ratio"] = cs.Settings.ChildElements.Ratio.Value
+	a := getAction(cs.Settings.ChildElements.Action.Action)
+	if a.Type != "" {
+		m["action"] = a
+	}
+	com.Data.Items.Generic = append(com.Data.Items.Generic, m)
 	return
 }
 
