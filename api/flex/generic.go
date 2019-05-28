@@ -19,7 +19,7 @@ type GenericChildAction struct {
 	Method    string        `json:"method"`
 }
 
-type GenericBook struct {
+type Generic struct {
 	ChildAction GenericChildAction `json:"childAction"`
 	Title       string             `json:"title"`
 	SubTitle    string             `json:"subTitle"`
@@ -29,11 +29,11 @@ type GenericBook struct {
 	ContentType string             `json:"content_type"`
 	Badge       Badge              `json:"badge"`
 	Action      GenericChildAction `json:"action"`
-	BookID      string             `json:"bookId"`
+	BookID      string             `json:"bookId,omitempty"`
 }
 
-func newGenericBookByQuery(queries []qm.QueryMod) ([]GenericBook, []Book) {
-	res := make([]GenericBook, 0)
+func newGenericBookByQuery(queries []qm.QueryMod) ([]Generic, []Book) {
+	res := make([]Generic, 0)
 	resBook := make([]Book, 0)
 
 	queries = append(queries, qm.Load("Publisher"), qm.Load("Author"))
@@ -45,7 +45,7 @@ func newGenericBookByQuery(queries []qm.QueryMod) ([]GenericBook, []Book) {
 
 	for _, b := range books {
 		bookIDStr := strconv.Itoa(b.ID)
-		fb := GenericBook{
+		fb := Generic{
 			Title:       b.Title,
 			SubTitle:    b.SubTitle.String,
 			BookID:      bookIDStr,
