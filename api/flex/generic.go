@@ -84,52 +84,7 @@ func newGenericBookByQuery(queries []qm.QueryMod) ([]Generic, []Book) {
 		}
 		res = append(res, fb)
 
-		rs := Book{
-			BookID:          b.ID,
-			BookTitle:       b.Title,
-			Price:           b.Price,
-			PaperPrice:      b.PaperPrice.Float32,
-			BookImage:       modext.GetBookNormalImage(b),
-			BookImageSquare: nil,
-			Author:          b.R.Author.Name,
-			AuthorID:        b.R.Author.ID,
-			Translator:      nil,
-			TranslatorID:    nil,
-			Narrator:        nil,
-			NarratorID:      nil,
-			PublisherID:     b.R.Publisher.ID,
-			PublisherTitle:  b.R.Publisher.Title,
-			Rtl:             modext.IsRtl(b),
-			Format:          b.Format,
-			ContentType:     b.ContentType,
-			Rate:            b.Rate,
-			Free:            b.Free,
-			Path:            "",
-			PublishDate:     "",
-			RateCount:       "",
-			Duration:        "",
-			FileSize:        "",
-			CategoryID:      "",
-			CategoryName:    "",
-			PageCount:       "",
-			Price2:          "",
-			Type:            "",
-			SampleCrc:       "",
-			Pass:            "",
-			Crc:             nil,
-			LinkTitle:       "",
-			LanguageTitle:   "",
-			PriceTitle:      "",
-			PriceTitle2:     "",
-			Description:     "",
-			LinkURL:         "",
-			Bought:          false,
-			New:             false,
-			Featured:        false,
-			Favorite:        false,
-			MyRate:          0,
-			AuthorLogo:      "",
-		}
+		rs := newBookByModel(b)
 
 		resBook = append(resBook, rs)
 	}

@@ -2,6 +2,8 @@ package flex
 
 import (
 	"strings"
+
+	"github.com/olivere/elastic"
 )
 
 type Setup struct {
@@ -32,6 +34,28 @@ type Setup struct {
 		Type         string      `json:"type"`
 		Value        QueryIdis   `json:"value"`
 	} `json:"format"`
+}
+
+// GetQueries of setup
+func (s Setup) GetQueries() *elastic.BoolQuery {
+	q := elastic.NewBoolQuery()
+
+	catIds := s.Category.GetIdis()
+	if len(catIds) > 0 {
+		q.Must(elastic.NewTermsQuery("categories.id", catIds...))
+	}
+
+	formatList := s.Format.Value.getInterfaceList()
+	if len(formatList) > 0 {
+		q.Must(elastic.NewTermsQuery("format.keyword", formatList...))
+	}
+
+	contentTypeList := s.ContentType.Value.getInterfaceStringLowerList()
+	if len(contentTypeList) > 0 {
+		q.Must(elastic.NewTermsQuery("content_type.keyword", contentTypeList...))
+	}
+
+	return q
 }
 
 func (s Setup) getInputActions() []ComponentAction {

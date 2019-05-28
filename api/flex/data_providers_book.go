@@ -5,9 +5,18 @@ import (
 	"log"
 	"strings"
 
-	"github.com/olivere/elastic"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/hubble"
+)
+
+const (
+	sortTypeRecent         = "RECENT"
+	sortTypeRecentPublish  = "RECENT_PUBLISH"
+	sortTypeLowestPrice    = "LOWEST_PRICE"
+	sortTypeBestSellect    = "BESTSELLER"
+	sortTypeWeekBestSeller = "WEEK_BESTSELLER"
+	sortTypePopular        = "POPULAR"
+	sortTypeMostCommented  = "MOST_COMMENTED"
 )
 
 type DataProvidersBook struct{}
@@ -28,59 +37,28 @@ func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) OutputComp
 		com.ActionTitle = cs.Elements.MoreTitle.Value
 	}
 
-	bookIdis := QueryIdis{}
-
 	ss := esClient.Search(hubble.ProductIndexName)
 
 	switch cs.Settings.Setup.Sort.Value {
-
-	case "RECENT":
+	case sortTypeRecent:
 		ss.Sort("id", false)
-
-	case "RECENT_PUBLISH":
+	case sortTypeRecentPublish:
 		ss.Sort("publish_date", false)
-
-	case "LOWEST_PRICE":
+	case sortTypeLowestPrice:
 		ss.Sort("price", true)
-
-	case "BESTSELLER":
+	case sortTypeBestSellect:
 		ss.Sort("all_sales_count", false)
-
-	case "WEEK_BESTSELLER":
+	case sortTypeWeekBestSeller:
 		ss.Sort("week_sales_count", false)
-
-	case "POPULAR":
+	case sortTypePopular:
 		ss.Sort("month_download_count", false)
-
-	case "MOST_COMMENTED":
+	case sortTypeMostCommented:
 		ss.Sort("all_comment_count", false)
-
 	default:
 		ss.Sort("publish_time", false)
 	}
 
-	q := elastic.NewBoolQuery()
-
-	catIds := cs.Settings.Setup.Category.GetIdis()
-	if len(catIds) > 0 {
-		q.Must(
-			elastic.NewTermsQuery("categories.id", catIds...),
-		)
-	}
-
-	formatList := cs.Settings.Setup.Format.Value.getInterfaceList()
-	if len(formatList) > 0 {
-		q.Must(
-			elastic.NewTermsQuery("format.keyword", formatList...),
-		)
-	}
-
-	contentTypeList := cs.Settings.Setup.ContentType.Value.getInterfaceStringLowerList()
-	if len(contentTypeList) > 0 {
-		q.Must(
-			elastic.NewTermsQuery("content_type.keyword", contentTypeList...),
-		)
-	}
+	q := cs.Settings.Setup.GetQueries()
 
 	esres, err := ss.
 		StoredFields("id").
@@ -91,6 +69,8 @@ func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) OutputComp
 		log.Println(err.Error())
 		return OutputComponent{}
 	}
+
+	bookIdis := QueryIdis{}
 
 	for _, item := range esres.Hits.Hits {
 		itemID := strings.Replace(item.Id, "book-", "", 1)

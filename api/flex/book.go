@@ -1,6 +1,11 @@
 package flex
 
-import "gitlab.fidibo.com/backend/galaxy/api/models"
+import (
+	"time"
+
+	"gitlab.fidibo.com/backend/galaxy/api/models"
+	"gitlab.fidibo.com/backend/galaxy/api/modext"
+)
 
 // Book struct
 type Book struct {
@@ -38,16 +43,16 @@ type Book struct {
 		BgColor  string `json:"bg_color"`
 		TxtColor string `json:"txt_color"`
 	} `json:"badge"`
-	PublishDate   string      `json:"publishDate"`
-	RateCount     string      `json:"rate_count"`
-	Duration      string      `json:"duration"`
-	FileSize      string      `json:"file_size"`
+	PublishDate   time.Time   `json:"publishDate"`
+	RateCount     uint        `json:"rate_count"`
+	Duration      int         `json:"duration"`
+	FileSize      int64       `json:"file_size"`
 	CategoryID    string      `json:"category_id"`
 	CategoryName  string      `json:"category_name"`
 	PageCount     string      `json:"page_count"`
 	Price2        string      `json:"price2"`
 	Type          string      `json:"type"`
-	SampleCrc     string      `json:"sample_crc"`
+	SampleCrc     uint        `json:"sample_crc"`
 	Pass          string      `json:"pass"`
 	Crc           interface{} `json:"crc"`
 	LinkTitle     string      `json:"link_title"`
@@ -64,6 +69,53 @@ type Book struct {
 	AuthorLogo    string      `json:"authorLogo"`
 }
 
-func newBookByModel(b models.Book) {
+func newBookByModel(b *models.Book) Book {
+	rs := Book{
+		BookID:          b.ID,
+		BookTitle:       b.Title,
+		Price:           b.Price,
+		PaperPrice:      b.PaperPrice.Float32,
+		BookImage:       modext.GetBookNormalImage(b),
+		BookImageSquare: nil,
+		Author:          b.R.Author.Name,
+		AuthorID:        b.R.Author.ID,
+		Translator:      nil,
+		TranslatorID:    nil,
+		Narrator:        nil,
+		NarratorID:      nil,
+		PublisherID:     b.R.Publisher.ID,
+		PublisherTitle:  b.R.Publisher.Title,
+		Rtl:             modext.IsRtl(b),
+		Format:          b.Format,
+		ContentType:     b.ContentType,
+		Rate:            b.Rate,
+		Free:            b.Free,
+		Path:            "",
+		PublishDate:     b.PublishDate.Time,
+		RateCount:       b.RateCount,
+		Duration:        b.Duration.Int,
+		FileSize:        b.Filesize.Int64,
+		CategoryID:      "",
+		CategoryName:    "",
+		PageCount:       "",
+		Price2:          "",
+		Type:            "",
+		SampleCrc:       b.SampleCRC.Uint,
+		Pass:            b.Password.String,
+		Crc:             b.CRC,
+		LinkTitle:       "",
+		LanguageTitle:   "",
+		PriceTitle:      "",
+		PriceTitle2:     "",
+		Description:     "",
+		LinkURL:         "",
+		Bought:          false,
+		New:             false,
+		Featured:        false,
+		Favorite:        false,
+		MyRate:          0,
+		AuthorLogo:      "",
+	}
 
+	return rs
 }
