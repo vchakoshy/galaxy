@@ -13,6 +13,7 @@ import (
 type pageReqData struct {
 	PageName string `json:"pageName"`
 	PageID   string `json:"pageId"`
+	Page     int    `json:"page"`
 }
 
 func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
@@ -21,6 +22,7 @@ func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
 		log.Println(err.Error())
 		return
 	}
+	log.Println(string(req))
 
 	err = json.Unmarshal(req, &d)
 	return
