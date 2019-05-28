@@ -51,7 +51,7 @@ func Run() {
 				OneG(context.Background())
 
 			if err != nil {
-				log.Println(err.Error())
+				// log.Println(err.Error())
 			}
 
 			if err == nil {
