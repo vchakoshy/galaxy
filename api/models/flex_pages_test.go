@@ -732,7 +732,7 @@ func testFlexPagesUpdate(t *testing.T) {
 	if 0 == len(flexPagePrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(flexPageColumns) == len(flexPagePrimaryKeyColumns) {
+	if len(flexPageAllColumns) == len(flexPagePrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -773,7 +773,7 @@ func testFlexPagesUpdate(t *testing.T) {
 func testFlexPagesSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(flexPageColumns) == len(flexPagePrimaryKeyColumns) {
+	if len(flexPageAllColumns) == len(flexPagePrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -806,11 +806,11 @@ func testFlexPagesSliceUpdateAll(t *testing.T) {
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(flexPageColumns, flexPagePrimaryKeyColumns) {
-		fields = flexPageColumns
+	if strmangle.StringSliceMatch(flexPageAllColumns, flexPagePrimaryKeyColumns) {
+		fields = flexPageAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			flexPageColumns,
+			flexPageAllColumns,
 			flexPagePrimaryKeyColumns,
 		)
 	}
@@ -840,7 +840,7 @@ func testFlexPagesSliceUpdateAll(t *testing.T) {
 func testFlexPagesUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(flexPageColumns) == len(flexPagePrimaryKeyColumns) {
+	if len(flexPageAllColumns) == len(flexPagePrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 	if len(mySQLFlexPageUniqueColumns) == 0 {

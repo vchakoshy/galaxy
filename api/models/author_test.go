@@ -956,6 +956,83 @@ func testAuthorToManyTranslator3Books(t *testing.T) {
 	}
 }
 
+func testAuthorToManyProposeBookLists(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c ProposeBookList
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, true, authorColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Author struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, proposeBookListDBTypes, false, proposeBookListColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, proposeBookListDBTypes, false, proposeBookListColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	queries.Assign(&b.AuthorID, a.ID)
+	queries.Assign(&c.AuthorID, a.ID)
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.ProposeBookLists().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if queries.Equal(v.AuthorID, b.AuthorID) {
+			bFound = true
+		}
+		if queries.Equal(v.AuthorID, c.AuthorID) {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := AuthorSlice{&a}
+	if err = a.L.LoadProposeBookLists(ctx, tx, false, (*[]*Author)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ProposeBookLists); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.ProposeBookLists = nil
+	if err = a.L.LoadProposeBookLists(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ProposeBookLists); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
 func testAuthorToManyAddOpBooks(t *testing.T) {
 	var err error
 
@@ -2462,6 +2539,257 @@ func testAuthorToManyRemoveOpTranslator3Books(t *testing.T) {
 	}
 }
 
+func testAuthorToManyAddOpProposeBookLists(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e ProposeBookList
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*ProposeBookList{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, proposeBookListDBTypes, false, strmangle.SetComplement(proposeBookListPrimaryKeyColumns, proposeBookListColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*ProposeBookList{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddProposeBookLists(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if !queries.Equal(a.ID, first.AuthorID) {
+			t.Error("foreign key was wrong value", a.ID, first.AuthorID)
+		}
+		if !queries.Equal(a.ID, second.AuthorID) {
+			t.Error("foreign key was wrong value", a.ID, second.AuthorID)
+		}
+
+		if first.R.Author != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Author != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.ProposeBookLists[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.ProposeBookLists[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.ProposeBookLists().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+
+func testAuthorToManySetOpProposeBookLists(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e ProposeBookList
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*ProposeBookList{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, proposeBookListDBTypes, false, strmangle.SetComplement(proposeBookListPrimaryKeyColumns, proposeBookListColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err = a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.SetProposeBookLists(ctx, tx, false, &b, &c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.ProposeBookLists().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.SetProposeBookLists(ctx, tx, true, &d, &e)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.ProposeBookLists().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.AuthorID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.AuthorID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+	if !queries.Equal(a.ID, d.AuthorID) {
+		t.Error("foreign key was wrong value", a.ID, d.AuthorID)
+	}
+	if !queries.Equal(a.ID, e.AuthorID) {
+		t.Error("foreign key was wrong value", a.ID, e.AuthorID)
+	}
+
+	if b.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Author != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+	if e.R.Author != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+
+	if a.R.ProposeBookLists[0] != &d {
+		t.Error("relationship struct slice not set to correct value")
+	}
+	if a.R.ProposeBookLists[1] != &e {
+		t.Error("relationship struct slice not set to correct value")
+	}
+}
+
+func testAuthorToManyRemoveOpProposeBookLists(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e ProposeBookList
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*ProposeBookList{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, proposeBookListDBTypes, false, strmangle.SetComplement(proposeBookListPrimaryKeyColumns, proposeBookListColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.AddProposeBookLists(ctx, tx, true, foreigners...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.ProposeBookLists().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 4 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.RemoveProposeBookLists(ctx, tx, foreigners[:2]...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.ProposeBookLists().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.AuthorID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.AuthorID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+
+	if b.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Author != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+	if e.R.Author != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+
+	if len(a.R.ProposeBookLists) != 2 {
+		t.Error("should have preserved two relationships")
+	}
+
+	// Removal doesn't do a stable deletion for performance so we have to flip the order
+	if a.R.ProposeBookLists[1] != &d {
+		t.Error("relationship to d should have been preserved")
+	}
+	if a.R.ProposeBookLists[0] != &e {
+		t.Error("relationship to e should have been preserved")
+	}
+}
+
 func testAuthorsReload(t *testing.T) {
 	t.Parallel()
 
@@ -2546,7 +2874,7 @@ func testAuthorsUpdate(t *testing.T) {
 	if 0 == len(authorPrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(authorColumns) == len(authorPrimaryKeyColumns) {
+	if len(authorAllColumns) == len(authorPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -2587,7 +2915,7 @@ func testAuthorsUpdate(t *testing.T) {
 func testAuthorsSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(authorColumns) == len(authorPrimaryKeyColumns) {
+	if len(authorAllColumns) == len(authorPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -2620,11 +2948,11 @@ func testAuthorsSliceUpdateAll(t *testing.T) {
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(authorColumns, authorPrimaryKeyColumns) {
-		fields = authorColumns
+	if strmangle.StringSliceMatch(authorAllColumns, authorPrimaryKeyColumns) {
+		fields = authorAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			authorColumns,
+			authorAllColumns,
 			authorPrimaryKeyColumns,
 		)
 	}
@@ -2654,7 +2982,7 @@ func testAuthorsSliceUpdateAll(t *testing.T) {
 func testAuthorsUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(authorColumns) == len(authorPrimaryKeyColumns) {
+	if len(authorAllColumns) == len(authorPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 	if len(mySQLAuthorUniqueColumns) == 0 {

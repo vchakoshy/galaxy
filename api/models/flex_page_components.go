@@ -92,14 +92,14 @@ var FlexPageComponentWhere = struct {
 	CreatedAt        whereHelpertime_Time
 	DeletedAt        whereHelpernull_Time
 }{
-	ID:               whereHelperint{field: `id`},
-	PageID:           whereHelperint{field: `page_id`},
-	ComponentID:      whereHelperint{field: `component_id`},
-	ComponentSetting: whereHelpernull_String{field: `component_setting`},
-	CrudOrder:        whereHelpernull_Int16{field: `crud_order`},
-	Active:           whereHelperint8{field: `active`},
-	CreatedAt:        whereHelpertime_Time{field: `created_at`},
-	DeletedAt:        whereHelpernull_Time{field: `deleted_at`},
+	ID:               whereHelperint{field: "`flex_page_components`.`id`"},
+	PageID:           whereHelperint{field: "`flex_page_components`.`page_id`"},
+	ComponentID:      whereHelperint{field: "`flex_page_components`.`component_id`"},
+	ComponentSetting: whereHelpernull_String{field: "`flex_page_components`.`component_setting`"},
+	CrudOrder:        whereHelpernull_Int16{field: "`flex_page_components`.`crud_order`"},
+	Active:           whereHelperint8{field: "`flex_page_components`.`active`"},
+	CreatedAt:        whereHelpertime_Time{field: "`flex_page_components`.`created_at`"},
+	DeletedAt:        whereHelpernull_Time{field: "`flex_page_components`.`deleted_at`"},
 }
 
 // FlexPageComponentRels is where relationship names are stored.
@@ -126,7 +126,7 @@ func (*flexPageComponentR) NewStruct() *flexPageComponentR {
 type flexPageComponentL struct{}
 
 var (
-	flexPageComponentColumns               = []string{"id", "page_id", "component_id", "component_setting", "crud_order", "active", "created_at", "deleted_at"}
+	flexPageComponentAllColumns            = []string{"id", "page_id", "component_id", "component_setting", "crud_order", "active", "created_at", "deleted_at"}
 	flexPageComponentColumnsWithoutDefault = []string{"page_id", "component_id", "component_setting", "deleted_at"}
 	flexPageComponentColumnsWithDefault    = []string{"id", "crud_order", "active", "created_at"}
 	flexPageComponentPrimaryKeyColumns     = []string{"id"}
@@ -831,7 +831,7 @@ func (o *FlexPageComponent) Insert(ctx context.Context, exec boil.ContextExecuto
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			flexPageComponentColumns,
+			flexPageComponentAllColumns,
 			flexPageComponentColumnsWithDefault,
 			flexPageComponentColumnsWithoutDefault,
 			nzDefaults,
@@ -936,7 +936,7 @@ func (o *FlexPageComponent) Update(ctx context.Context, exec boil.ContextExecuto
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			flexPageComponentColumns,
+			flexPageComponentAllColumns,
 			flexPageComponentPrimaryKeyColumns,
 		)
 
@@ -1113,13 +1113,13 @@ func (o *FlexPageComponent) Upsert(ctx context.Context, exec boil.ContextExecuto
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			flexPageComponentColumns,
+			flexPageComponentAllColumns,
 			flexPageComponentColumnsWithDefault,
 			flexPageComponentColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			flexPageComponentColumns,
+			flexPageComponentAllColumns,
 			flexPageComponentPrimaryKeyColumns,
 		)
 
@@ -1279,10 +1279,6 @@ func (o FlexPageComponentSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o FlexPageComponentSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no FlexPageComponent slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

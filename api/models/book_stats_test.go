@@ -683,7 +683,7 @@ func testBookStatsUpdate(t *testing.T) {
 	if 0 == len(bookStatPrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(bookStatColumns) == len(bookStatPrimaryKeyColumns) {
+	if len(bookStatAllColumns) == len(bookStatPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -724,7 +724,7 @@ func testBookStatsUpdate(t *testing.T) {
 func testBookStatsSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(bookStatColumns) == len(bookStatPrimaryKeyColumns) {
+	if len(bookStatAllColumns) == len(bookStatPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
@@ -757,11 +757,11 @@ func testBookStatsSliceUpdateAll(t *testing.T) {
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(bookStatColumns, bookStatPrimaryKeyColumns) {
-		fields = bookStatColumns
+	if strmangle.StringSliceMatch(bookStatAllColumns, bookStatPrimaryKeyColumns) {
+		fields = bookStatAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			bookStatColumns,
+			bookStatAllColumns,
 			bookStatPrimaryKeyColumns,
 		)
 	}
@@ -791,7 +791,7 @@ func testBookStatsSliceUpdateAll(t *testing.T) {
 func testBookStatsUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(bookStatColumns) == len(bookStatPrimaryKeyColumns) {
+	if len(bookStatAllColumns) == len(bookStatPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 	if len(mySQLBookStatUniqueColumns) == 0 {

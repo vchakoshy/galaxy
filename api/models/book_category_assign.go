@@ -48,9 +48,9 @@ var BookCategoryAssignWhere = struct {
 	BookID     whereHelperint
 	CategoryID whereHelperint
 }{
-	ID:         whereHelperint{field: `id`},
-	BookID:     whereHelperint{field: `book_id`},
-	CategoryID: whereHelperint{field: `category_id`},
+	ID:         whereHelperint{field: "`book_category_assign`.`id`"},
+	BookID:     whereHelperint{field: "`book_category_assign`.`book_id`"},
+	CategoryID: whereHelperint{field: "`book_category_assign`.`category_id`"},
 }
 
 // BookCategoryAssignRels is where relationship names are stored.
@@ -77,7 +77,7 @@ func (*bookCategoryAssignR) NewStruct() *bookCategoryAssignR {
 type bookCategoryAssignL struct{}
 
 var (
-	bookCategoryAssignColumns               = []string{"id", "book_id", "category_id"}
+	bookCategoryAssignAllColumns            = []string{"id", "book_id", "category_id"}
 	bookCategoryAssignColumnsWithoutDefault = []string{"book_id", "category_id"}
 	bookCategoryAssignColumnsWithDefault    = []string{"id"}
 	bookCategoryAssignPrimaryKeyColumns     = []string{"id"}
@@ -782,7 +782,7 @@ func (o *BookCategoryAssign) Insert(ctx context.Context, exec boil.ContextExecut
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			bookCategoryAssignColumns,
+			bookCategoryAssignAllColumns,
 			bookCategoryAssignColumnsWithDefault,
 			bookCategoryAssignColumnsWithoutDefault,
 			nzDefaults,
@@ -887,7 +887,7 @@ func (o *BookCategoryAssign) Update(ctx context.Context, exec boil.ContextExecut
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			bookCategoryAssignColumns,
+			bookCategoryAssignAllColumns,
 			bookCategoryAssignPrimaryKeyColumns,
 		)
 
@@ -1064,13 +1064,13 @@ func (o *BookCategoryAssign) Upsert(ctx context.Context, exec boil.ContextExecut
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			bookCategoryAssignColumns,
+			bookCategoryAssignAllColumns,
 			bookCategoryAssignColumnsWithDefault,
 			bookCategoryAssignColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			bookCategoryAssignColumns,
+			bookCategoryAssignAllColumns,
 			bookCategoryAssignPrimaryKeyColumns,
 		)
 
@@ -1230,10 +1230,6 @@ func (o BookCategoryAssignSlice) DeleteAllG(ctx context.Context) (int64, error) 
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o BookCategoryAssignSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no BookCategoryAssign slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

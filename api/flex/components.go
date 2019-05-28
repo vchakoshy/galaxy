@@ -8,8 +8,8 @@ func handleListComponent(cs ComponentSettings, t string) OutputComponent {
 		return com.getGeneric(cs, t)
 
 	case "PROPOSED_LIST":
-		// com := DataProvidersProposedList{}
-		// return com.getGeneric(cs, t)
+		com := DataProvidersProposedList{}
+		return com.getGeneric(cs, t)
 	}
 
 	return OutputComponent{}

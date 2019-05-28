@@ -110,14 +110,14 @@ var AuthorWhere = struct {
 	SeoTitle       whereHelpernull_String
 	SeoDescription whereHelpernull_String
 }{
-	ID:             whereHelperint{field: `id`},
-	Name:           whereHelperstring{field: `name`},
-	Logo:           whereHelpernull_String{field: `logo`},
-	Cover:          whereHelpernull_String{field: `cover`},
-	Comment:        whereHelpernull_String{field: `comment`},
-	Slug:           whereHelpernull_String{field: `slug`},
-	SeoTitle:       whereHelpernull_String{field: `seo_title`},
-	SeoDescription: whereHelpernull_String{field: `seo_description`},
+	ID:             whereHelperint{field: "`author`.`id`"},
+	Name:           whereHelperstring{field: "`author`.`name`"},
+	Logo:           whereHelpernull_String{field: "`author`.`logo`"},
+	Cover:          whereHelpernull_String{field: "`author`.`cover`"},
+	Comment:        whereHelpernull_String{field: "`author`.`comment`"},
+	Slug:           whereHelpernull_String{field: "`author`.`slug`"},
+	SeoTitle:       whereHelpernull_String{field: "`author`.`seo_title`"},
+	SeoDescription: whereHelpernull_String{field: "`author`.`seo_description`"},
 }
 
 // AuthorRels is where relationship names are stored.
@@ -128,6 +128,7 @@ var AuthorRels = struct {
 	Author3Books     string
 	Translator2Books string
 	Translator3Books string
+	ProposeBookLists string
 }{
 	Books:            "Books",
 	TranslatorBooks:  "TranslatorBooks",
@@ -135,6 +136,7 @@ var AuthorRels = struct {
 	Author3Books:     "Author3Books",
 	Translator2Books: "Translator2Books",
 	Translator3Books: "Translator3Books",
+	ProposeBookLists: "ProposeBookLists",
 }
 
 // authorR is where relationships are stored.
@@ -145,6 +147,7 @@ type authorR struct {
 	Author3Books     BookSlice
 	Translator2Books BookSlice
 	Translator3Books BookSlice
+	ProposeBookLists ProposeBookListSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -156,7 +159,7 @@ func (*authorR) NewStruct() *authorR {
 type authorL struct{}
 
 var (
-	authorColumns               = []string{"id", "name", "logo", "cover", "comment", "slug", "seo_title", "seo_description"}
+	authorAllColumns            = []string{"id", "name", "logo", "cover", "comment", "slug", "seo_title", "seo_description"}
 	authorColumnsWithoutDefault = []string{"name", "logo", "cover", "comment", "slug", "seo_title", "seo_description"}
 	authorColumnsWithDefault    = []string{"id"}
 	authorPrimaryKeyColumns     = []string{"id"}
@@ -578,6 +581,27 @@ func (o *Author) Translator3Books(mods ...qm.QueryMod) bookQuery {
 
 	if len(queries.GetSelect(query.Query)) == 0 {
 		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// ProposeBookLists retrieves all the propose_book_list's ProposeBookLists with an executor.
+func (o *Author) ProposeBookLists(mods ...qm.QueryMod) proposeBookListQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`propose_book_list`.`author_id`=?", o.ID),
+	)
+
+	query := ProposeBookLists(queryMods...)
+	queries.SetFrom(query.Query, "`propose_book_list`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`propose_book_list`.*"})
 	}
 
 	return query
@@ -1145,6 +1169,101 @@ func (authorL) LoadTranslator3Books(ctx context.Context, e boil.ContextExecutor,
 					foreign.R = &bookR{}
 				}
 				foreign.R.Translator3 = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadProposeBookLists allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadProposeBookLists(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`propose_book_list`), qm.WhereIn(`author_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load propose_book_list")
+	}
+
+	var resultSlice []*ProposeBookList
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice propose_book_list")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on propose_book_list")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for propose_book_list")
+	}
+
+	if len(proposeBookListAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.ProposeBookLists = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &proposeBookListR{}
+			}
+			foreign.R.Author = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.AuthorID) {
+				local.R.ProposeBookLists = append(local.R.ProposeBookLists, foreign)
+				if foreign.R == nil {
+					foreign.R = &proposeBookListR{}
+				}
+				foreign.R.Author = local
 				break
 			}
 		}
@@ -2059,6 +2178,157 @@ func (o *Author) RemoveTranslator3Books(ctx context.Context, exec boil.ContextEx
 	return nil
 }
 
+// AddProposeBookListsG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.ProposeBookLists.
+// Sets related.R.Author appropriately.
+// Uses the global database handle.
+func (o *Author) AddProposeBookListsG(ctx context.Context, insert bool, related ...*ProposeBookList) error {
+	return o.AddProposeBookLists(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddProposeBookLists adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.ProposeBookLists.
+// Sets related.R.Author appropriately.
+func (o *Author) AddProposeBookLists(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*ProposeBookList) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.AuthorID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `propose_book_list` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"author_id"}),
+				strmangle.WhereClause("`", "`", 0, proposeBookListPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.AuthorID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			ProposeBookLists: related,
+		}
+	} else {
+		o.R.ProposeBookLists = append(o.R.ProposeBookLists, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &proposeBookListR{
+				Author: o,
+			}
+		} else {
+			rel.R.Author = o
+		}
+	}
+	return nil
+}
+
+// SetProposeBookListsG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author's ProposeBookLists accordingly.
+// Replaces o.R.ProposeBookLists with related.
+// Sets related.R.Author's ProposeBookLists accordingly.
+// Uses the global database handle.
+func (o *Author) SetProposeBookListsG(ctx context.Context, insert bool, related ...*ProposeBookList) error {
+	return o.SetProposeBookLists(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetProposeBookLists removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author's ProposeBookLists accordingly.
+// Replaces o.R.ProposeBookLists with related.
+// Sets related.R.Author's ProposeBookLists accordingly.
+func (o *Author) SetProposeBookLists(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*ProposeBookList) error {
+	query := "update `propose_book_list` set `author_id` = null where `author_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.ProposeBookLists {
+			queries.SetScanner(&rel.AuthorID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Author = nil
+		}
+
+		o.R.ProposeBookLists = nil
+	}
+	return o.AddProposeBookLists(ctx, exec, insert, related...)
+}
+
+// RemoveProposeBookListsG relationships from objects passed in.
+// Removes related items from R.ProposeBookLists (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author.
+// Uses the global database handle.
+func (o *Author) RemoveProposeBookListsG(ctx context.Context, related ...*ProposeBookList) error {
+	return o.RemoveProposeBookLists(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveProposeBookLists relationships from objects passed in.
+// Removes related items from R.ProposeBookLists (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author.
+func (o *Author) RemoveProposeBookLists(ctx context.Context, exec boil.ContextExecutor, related ...*ProposeBookList) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.AuthorID, nil)
+		if rel.R != nil {
+			rel.R.Author = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("author_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.ProposeBookLists {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.ProposeBookLists)
+			if ln > 1 && i < ln-1 {
+				o.R.ProposeBookLists[i] = o.R.ProposeBookLists[ln-1]
+			}
+			o.R.ProposeBookLists = o.R.ProposeBookLists[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
 // Authors retrieves all the records using an executor.
 func Authors(mods ...qm.QueryMod) authorQuery {
 	mods = append(mods, qm.From("`author`"))
@@ -2123,7 +2393,7 @@ func (o *Author) Insert(ctx context.Context, exec boil.ContextExecutor, columns 
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			authorColumns,
+			authorAllColumns,
 			authorColumnsWithDefault,
 			authorColumnsWithoutDefault,
 			nzDefaults,
@@ -2228,7 +2498,7 @@ func (o *Author) Update(ctx context.Context, exec boil.ContextExecutor, columns 
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			authorColumns,
+			authorAllColumns,
 			authorPrimaryKeyColumns,
 		)
 
@@ -2405,13 +2675,13 @@ func (o *Author) Upsert(ctx context.Context, exec boil.ContextExecutor, updateCo
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			authorColumns,
+			authorAllColumns,
 			authorColumnsWithDefault,
 			authorColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			authorColumns,
+			authorAllColumns,
 			authorPrimaryKeyColumns,
 		)
 
@@ -2571,10 +2841,6 @@ func (o AuthorSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o AuthorSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no Author slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

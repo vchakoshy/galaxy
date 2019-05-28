@@ -596,129 +596,132 @@ var BookWhere = struct {
 	Extradata                             whereHelpernull_String
 	LastUpdate                            whereHelpernull_Time
 }{
-	ID:                                    whereHelperint{field: `id`},
-	Title:                                 whereHelperstring{field: `title`},
-	SubTitle:                              whereHelpernull_String{field: `sub_title`},
-	Slug:                                  whereHelpernull_String{field: `slug`},
-	Format:                                whereHelperstring{field: `format`},
-	ContentType:                           whereHelperstring{field: `content_type`},
-	Password:                              whereHelpernull_String{field: `password`},
-	Password2:                             whereHelpernull_String{field: `password2`},
-	PublisherID:                           whereHelpernull_Int{field: `publisher_id`},
-	PublishDate:                           whereHelpernull_Time{field: `publish_date`},
-	Language:                              whereHelperstring{field: `language`},
-	AuthorID:                              whereHelpernull_Int{field: `author_id`},
-	Author2ID:                             whereHelpernull_Int{field: `author2_id`},
-	Author3ID:                             whereHelpernull_Int{field: `author3_id`},
-	TranslatorID:                          whereHelpernull_Int{field: `translator_id`},
-	Translator2ID:                         whereHelpernull_Int{field: `translator2_id`},
-	Translator3ID:                         whereHelpernull_Int{field: `translator3_id`},
-	Isbn:                                  whereHelpernull_String{field: `isbn`},
-	IsbnInt:                               whereHelpernull_String{field: `isbn_int`},
-	Volume:                                whereHelpernull_Int{field: `volume`},
-	PaperPrice:                            whereHelpernull_Float32{field: `paper_price`},
-	ApplyPaperPrice:                       whereHelperint8{field: `apply_paper_price`},
-	Price:                                 whereHelperint{field: `price`},
-	MainPrice:                             whereHelpernull_Int{field: `main_price`},
-	MultiplePrice:                         whereHelperbool{field: `multiple_price`},
-	PriceTMP:                              whereHelpernull_Int{field: `price_tmp`},
-	BasePrice:                             whereHelperstring{field: `base_price`},
-	Price2:                                whereHelpertypes_Decimal{field: `price2`},
-	PackageDiscountPublisherParticipation: whereHelpernull_Int{field: `package_discount_publisher_participation`},
-	Free:                                  whereHelperint8{field: `free`},
-	UploadTime:                            whereHelpertime_Time{field: `upload_time`},
-	Filename:                              whereHelpernull_String{field: `filename`},
-	SampleFilename:                        whereHelpernull_String{field: `sample_filename`},
-	ImageName:                             whereHelpernull_String{field: `image_name`},
-	ImageSquare:                           whereHelpernull_String{field: `image_square`},
-	OriginalTitle:                         whereHelpernull_String{field: `original_title`},
-	OriginalPublisherID:                   whereHelpernull_Int{field: `original_publisher_id`},
-	Description:                           whereHelperstring{field: `description`},
-	Publish:                               whereHelperint8{field: `publish`},
-	PublishTime:                           whereHelpernull_Time{field: `publish_time`},
-	CheckTime:                             whereHelpernull_Time{field: `check_time`},
-	Bugs:                                  whereHelpernull_String{field: `bugs`},
-	CRC:                                   whereHelpernull_Uint{field: `crc`},
-	SampleCRC:                             whereHelpernull_Uint{field: `sample_crc`},
-	Keywords:                              whereHelpernull_String{field: `keywords`},
-	Su:                                    whereHelpernull_Int8{field: `su`},
-	Sales:                                 whereHelpernull_Int{field: `sales`},
-	SalesTime:                             whereHelpernull_Int{field: `sales_time`},
-	SalesTMP:                              whereHelpernull_Int{field: `sales_tmp`},
-	SalesTimeTMP:                          whereHelpernull_Int{field: `sales_time_tmp`},
-	Rate:                                  whereHelperfloat64{field: `rate`},
-	RateCount:                             whereHelperuint{field: `rate_count`},
-	New:                                   whereHelperbool{field: `new`},
-	Featured:                              whereHelperbool{field: `featured`},
-	LastGoodreadsCheck:                    whereHelpernull_Time{field: `last_goodreads_check`},
-	Filesize:                              whereHelpernull_Int64{field: `filesize`},
-	SampleFilesize:                        whereHelpernull_Int{field: `sample_filesize`},
-	BKCRC:                                 whereHelpernull_Uint{field: `bk_crc`},
-	BKSampleCRC:                           whereHelpernull_Uint{field: `bk_sample_crc`},
-	PageCount:                             whereHelpernull_Int{field: `page_count`},
-	Provider:                              whereHelperstring{field: `provider`},
-	NarratorID:                            whereHelpernull_Uint{field: `narrator_id`},
-	Narrator2ID:                           whereHelpernull_Uint{field: `narrator2_id`},
-	Narrator3ID:                           whereHelpernull_Uint{field: `narrator3_id`},
-	Duration:                              whereHelpernull_Int{field: `duration`},
-	OldCRC:                                whereHelpernull_Int{field: `old_crc`},
-	OldFilesize:                           whereHelpernull_Int{field: `old_filesize`},
-	CRCDone:                               whereHelperint8{field: `crc_done`},
-	SuitableFor:                           whereHelperstring{field: `suitable_for`},
-	FromAge:                               whereHelpernull_Int8{field: `from_age`},
-	ToAge:                                 whereHelpernull_Int8{field: `to_age`},
-	Flag:                                  whereHelpernull_Int{field: `flag`},
-	Encrypted:                             whereHelperbool{field: `encrypted`},
-	ImageCheck:                            whereHelpernull_Int{field: `image_check`},
-	EncryptCheck:                          whereHelpernull_Int{field: `encrypt_check`},
-	SampleCheck:                           whereHelpernull_Int{field: `sample_check`},
-	SeoTitle:                              whereHelpernull_String{field: `seo_title`},
-	SeoDescription:                        whereHelpernull_String{field: `seo_description`},
-	TMPTitle:                              whereHelpernull_String{field: `tmp_title`},
-	SeoProblem:                            whereHelperbool{field: `seo_problem`},
-	Canonical:                             whereHelpernull_String{field: `canonical`},
-	SeoFrontShow:                          whereHelperbool{field: `seo_front_show`},
-	Extradata:                             whereHelpernull_String{field: `extradata`},
-	LastUpdate:                            whereHelpernull_Time{field: `last_update`},
+	ID:                                    whereHelperint{field: "`book`.`id`"},
+	Title:                                 whereHelperstring{field: "`book`.`title`"},
+	SubTitle:                              whereHelpernull_String{field: "`book`.`sub_title`"},
+	Slug:                                  whereHelpernull_String{field: "`book`.`slug`"},
+	Format:                                whereHelperstring{field: "`book`.`format`"},
+	ContentType:                           whereHelperstring{field: "`book`.`content_type`"},
+	Password:                              whereHelpernull_String{field: "`book`.`password`"},
+	Password2:                             whereHelpernull_String{field: "`book`.`password2`"},
+	PublisherID:                           whereHelpernull_Int{field: "`book`.`publisher_id`"},
+	PublishDate:                           whereHelpernull_Time{field: "`book`.`publish_date`"},
+	Language:                              whereHelperstring{field: "`book`.`language`"},
+	AuthorID:                              whereHelpernull_Int{field: "`book`.`author_id`"},
+	Author2ID:                             whereHelpernull_Int{field: "`book`.`author2_id`"},
+	Author3ID:                             whereHelpernull_Int{field: "`book`.`author3_id`"},
+	TranslatorID:                          whereHelpernull_Int{field: "`book`.`translator_id`"},
+	Translator2ID:                         whereHelpernull_Int{field: "`book`.`translator2_id`"},
+	Translator3ID:                         whereHelpernull_Int{field: "`book`.`translator3_id`"},
+	Isbn:                                  whereHelpernull_String{field: "`book`.`isbn`"},
+	IsbnInt:                               whereHelpernull_String{field: "`book`.`isbn_int`"},
+	Volume:                                whereHelpernull_Int{field: "`book`.`volume`"},
+	PaperPrice:                            whereHelpernull_Float32{field: "`book`.`paper_price`"},
+	ApplyPaperPrice:                       whereHelperint8{field: "`book`.`apply_paper_price`"},
+	Price:                                 whereHelperint{field: "`book`.`price`"},
+	MainPrice:                             whereHelpernull_Int{field: "`book`.`main_price`"},
+	MultiplePrice:                         whereHelperbool{field: "`book`.`multiple_price`"},
+	PriceTMP:                              whereHelpernull_Int{field: "`book`.`price_tmp`"},
+	BasePrice:                             whereHelperstring{field: "`book`.`base_price`"},
+	Price2:                                whereHelpertypes_Decimal{field: "`book`.`price2`"},
+	PackageDiscountPublisherParticipation: whereHelpernull_Int{field: "`book`.`package_discount_publisher_participation`"},
+	Free:                                  whereHelperint8{field: "`book`.`free`"},
+	UploadTime:                            whereHelpertime_Time{field: "`book`.`upload_time`"},
+	Filename:                              whereHelpernull_String{field: "`book`.`filename`"},
+	SampleFilename:                        whereHelpernull_String{field: "`book`.`sample_filename`"},
+	ImageName:                             whereHelpernull_String{field: "`book`.`image_name`"},
+	ImageSquare:                           whereHelpernull_String{field: "`book`.`image_square`"},
+	OriginalTitle:                         whereHelpernull_String{field: "`book`.`original_title`"},
+	OriginalPublisherID:                   whereHelpernull_Int{field: "`book`.`original_publisher_id`"},
+	Description:                           whereHelperstring{field: "`book`.`description`"},
+	Publish:                               whereHelperint8{field: "`book`.`publish`"},
+	PublishTime:                           whereHelpernull_Time{field: "`book`.`publish_time`"},
+	CheckTime:                             whereHelpernull_Time{field: "`book`.`check_time`"},
+	Bugs:                                  whereHelpernull_String{field: "`book`.`bugs`"},
+	CRC:                                   whereHelpernull_Uint{field: "`book`.`crc`"},
+	SampleCRC:                             whereHelpernull_Uint{field: "`book`.`sample_crc`"},
+	Keywords:                              whereHelpernull_String{field: "`book`.`keywords`"},
+	Su:                                    whereHelpernull_Int8{field: "`book`.`su`"},
+	Sales:                                 whereHelpernull_Int{field: "`book`.`sales`"},
+	SalesTime:                             whereHelpernull_Int{field: "`book`.`sales_time`"},
+	SalesTMP:                              whereHelpernull_Int{field: "`book`.`sales_tmp`"},
+	SalesTimeTMP:                          whereHelpernull_Int{field: "`book`.`sales_time_tmp`"},
+	Rate:                                  whereHelperfloat64{field: "`book`.`rate`"},
+	RateCount:                             whereHelperuint{field: "`book`.`rate_count`"},
+	New:                                   whereHelperbool{field: "`book`.`new`"},
+	Featured:                              whereHelperbool{field: "`book`.`featured`"},
+	LastGoodreadsCheck:                    whereHelpernull_Time{field: "`book`.`last_goodreads_check`"},
+	Filesize:                              whereHelpernull_Int64{field: "`book`.`filesize`"},
+	SampleFilesize:                        whereHelpernull_Int{field: "`book`.`sample_filesize`"},
+	BKCRC:                                 whereHelpernull_Uint{field: "`book`.`bk_crc`"},
+	BKSampleCRC:                           whereHelpernull_Uint{field: "`book`.`bk_sample_crc`"},
+	PageCount:                             whereHelpernull_Int{field: "`book`.`page_count`"},
+	Provider:                              whereHelperstring{field: "`book`.`provider`"},
+	NarratorID:                            whereHelpernull_Uint{field: "`book`.`narrator_id`"},
+	Narrator2ID:                           whereHelpernull_Uint{field: "`book`.`narrator2_id`"},
+	Narrator3ID:                           whereHelpernull_Uint{field: "`book`.`narrator3_id`"},
+	Duration:                              whereHelpernull_Int{field: "`book`.`duration`"},
+	OldCRC:                                whereHelpernull_Int{field: "`book`.`old_crc`"},
+	OldFilesize:                           whereHelpernull_Int{field: "`book`.`old_filesize`"},
+	CRCDone:                               whereHelperint8{field: "`book`.`crc_done`"},
+	SuitableFor:                           whereHelperstring{field: "`book`.`suitable_for`"},
+	FromAge:                               whereHelpernull_Int8{field: "`book`.`from_age`"},
+	ToAge:                                 whereHelpernull_Int8{field: "`book`.`to_age`"},
+	Flag:                                  whereHelpernull_Int{field: "`book`.`flag`"},
+	Encrypted:                             whereHelperbool{field: "`book`.`encrypted`"},
+	ImageCheck:                            whereHelpernull_Int{field: "`book`.`image_check`"},
+	EncryptCheck:                          whereHelpernull_Int{field: "`book`.`encrypt_check`"},
+	SampleCheck:                           whereHelpernull_Int{field: "`book`.`sample_check`"},
+	SeoTitle:                              whereHelpernull_String{field: "`book`.`seo_title`"},
+	SeoDescription:                        whereHelpernull_String{field: "`book`.`seo_description`"},
+	TMPTitle:                              whereHelpernull_String{field: "`book`.`tmp_title`"},
+	SeoProblem:                            whereHelperbool{field: "`book`.`seo_problem`"},
+	Canonical:                             whereHelpernull_String{field: "`book`.`canonical`"},
+	SeoFrontShow:                          whereHelperbool{field: "`book`.`seo_front_show`"},
+	Extradata:                             whereHelpernull_String{field: "`book`.`extradata`"},
+	LastUpdate:                            whereHelpernull_Time{field: "`book`.`last_update`"},
 }
 
 // BookRels is where relationship names are stored.
 var BookRels = struct {
-	Publisher           string
-	Author              string
-	Translator          string
-	Author2             string
-	Author3             string
-	Translator2         string
-	Translator3         string
-	OriginalPublisher   string
-	BookStat            string
-	BookCategoryAssigns string
+	Publisher            string
+	Author               string
+	Translator           string
+	Author2              string
+	Author3              string
+	Translator2          string
+	Translator3          string
+	OriginalPublisher    string
+	BookStat             string
+	BookCategoryAssigns  string
+	ProposeBookListItems string
 }{
-	Publisher:           "Publisher",
-	Author:              "Author",
-	Translator:          "Translator",
-	Author2:             "Author2",
-	Author3:             "Author3",
-	Translator2:         "Translator2",
-	Translator3:         "Translator3",
-	OriginalPublisher:   "OriginalPublisher",
-	BookStat:            "BookStat",
-	BookCategoryAssigns: "BookCategoryAssigns",
+	Publisher:            "Publisher",
+	Author:               "Author",
+	Translator:           "Translator",
+	Author2:              "Author2",
+	Author3:              "Author3",
+	Translator2:          "Translator2",
+	Translator3:          "Translator3",
+	OriginalPublisher:    "OriginalPublisher",
+	BookStat:             "BookStat",
+	BookCategoryAssigns:  "BookCategoryAssigns",
+	ProposeBookListItems: "ProposeBookListItems",
 }
 
 // bookR is where relationships are stored.
 type bookR struct {
-	Publisher           *Publisher
-	Author              *Author
-	Translator          *Author
-	Author2             *Author
-	Author3             *Author
-	Translator2         *Author
-	Translator3         *Author
-	OriginalPublisher   *Publisher
-	BookStat            *BookStat
-	BookCategoryAssigns BookCategoryAssignSlice
+	Publisher            *Publisher
+	Author               *Author
+	Translator           *Author
+	Author2              *Author
+	Author3              *Author
+	Translator2          *Author
+	Translator3          *Author
+	OriginalPublisher    *Publisher
+	BookStat             *BookStat
+	BookCategoryAssigns  BookCategoryAssignSlice
+	ProposeBookListItems ProposeBookListItemSlice
 }
 
 // NewStruct creates a new relationship struct
@@ -730,7 +733,7 @@ func (*bookR) NewStruct() *bookR {
 type bookL struct{}
 
 var (
-	bookColumns               = []string{"id", "title", "sub_title", "slug", "format", "content_type", "password", "password2", "publisher_id", "publish_date", "language", "author_id", "author2_id", "author3_id", "translator_id", "translator2_id", "translator3_id", "isbn", "isbn_int", "volume", "paper_price", "apply_paper_price", "price", "main_price", "multiple_price", "price_tmp", "base_price", "price2", "package_discount_publisher_participation", "free", "upload_time", "filename", "sample_filename", "image_name", "image_square", "original_title", "original_publisher_id", "description", "publish", "publish_time", "check_time", "bugs", "crc", "sample_crc", "keywords", "su", "sales", "sales_time", "sales_tmp", "sales_time_tmp", "rate", "rate_count", "new", "featured", "last_goodreads_check", "filesize", "sample_filesize", "bk_crc", "bk_sample_crc", "page_count", "provider", "narrator_id", "narrator2_id", "narrator3_id", "duration", "old_crc", "old_filesize", "crc_done", "suitable_for", "from_age", "to_age", "flag", "encrypted", "image_check", "encrypt_check", "sample_check", "seo_title", "seo_description", "tmp_title", "seo_problem", "canonical", "seo_front_show", "extradata", "last_update"}
+	bookAllColumns            = []string{"id", "title", "sub_title", "slug", "format", "content_type", "password", "password2", "publisher_id", "publish_date", "language", "author_id", "author2_id", "author3_id", "translator_id", "translator2_id", "translator3_id", "isbn", "isbn_int", "volume", "paper_price", "apply_paper_price", "price", "main_price", "multiple_price", "price_tmp", "base_price", "price2", "package_discount_publisher_participation", "free", "upload_time", "filename", "sample_filename", "image_name", "image_square", "original_title", "original_publisher_id", "description", "publish", "publish_time", "check_time", "bugs", "crc", "sample_crc", "keywords", "su", "sales", "sales_time", "sales_tmp", "sales_time_tmp", "rate", "rate_count", "new", "featured", "last_goodreads_check", "filesize", "sample_filesize", "bk_crc", "bk_sample_crc", "page_count", "provider", "narrator_id", "narrator2_id", "narrator3_id", "duration", "old_crc", "old_filesize", "crc_done", "suitable_for", "from_age", "to_age", "flag", "encrypted", "image_check", "encrypt_check", "sample_check", "seo_title", "seo_description", "tmp_title", "seo_problem", "canonical", "seo_front_show", "extradata", "last_update"}
 	bookColumnsWithoutDefault = []string{"title", "sub_title", "slug", "format", "password", "password2", "publisher_id", "publish_date", "language", "author_id", "author2_id", "author3_id", "translator_id", "translator2_id", "translator3_id", "isbn", "isbn_int", "volume", "paper_price", "apply_paper_price", "price", "main_price", "price_tmp", "price2", "package_discount_publisher_participation", "free", "upload_time", "filename", "sample_filename", "image_name", "image_square", "original_title", "original_publisher_id", "description", "publish", "publish_time", "check_time", "bugs", "crc", "sample_crc", "keywords", "su", "sales_tmp", "sales_time_tmp", "last_goodreads_check", "filesize", "sample_filesize", "bk_crc", "bk_sample_crc", "page_count", "narrator_id", "narrator2_id", "narrator3_id", "duration", "old_crc", "old_filesize", "from_age", "to_age", "flag", "image_check", "encrypt_check", "sample_check", "seo_title", "seo_description", "tmp_title", "canonical", "seo_front_show", "extradata"}
 	bookColumnsWithDefault    = []string{"id", "content_type", "multiple_price", "base_price", "sales", "sales_time", "rate", "rate_count", "new", "featured", "provider", "crc_done", "suitable_for", "encrypted", "seo_problem", "last_update"}
 	bookPrimaryKeyColumns     = []string{"id"}
@@ -1173,6 +1176,27 @@ func (o *Book) BookCategoryAssigns(mods ...qm.QueryMod) bookCategoryAssignQuery 
 
 	if len(queries.GetSelect(query.Query)) == 0 {
 		queries.SetSelect(query.Query, []string{"`book_category_assign`.*"})
+	}
+
+	return query
+}
+
+// ProposeBookListItems retrieves all the propose_book_list_item's ProposeBookListItems with an executor.
+func (o *Book) ProposeBookListItems(mods ...qm.QueryMod) proposeBookListItemQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`propose_book_list_item`.`book_id`=?", o.ID),
+	)
+
+	query := ProposeBookListItems(queryMods...)
+	queries.SetFrom(query.Query, "`propose_book_list_item`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`propose_book_list_item`.*"})
 	}
 
 	return query
@@ -2211,6 +2235,101 @@ func (bookL) LoadBookCategoryAssigns(ctx context.Context, e boil.ContextExecutor
 	return nil
 }
 
+// LoadProposeBookListItems allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (bookL) LoadProposeBookListItems(ctx context.Context, e boil.ContextExecutor, singular bool, maybeBook interface{}, mods queries.Applicator) error {
+	var slice []*Book
+	var object *Book
+
+	if singular {
+		object = maybeBook.(*Book)
+	} else {
+		slice = *maybeBook.(*[]*Book)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &bookR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &bookR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`propose_book_list_item`), qm.WhereIn(`book_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load propose_book_list_item")
+	}
+
+	var resultSlice []*ProposeBookListItem
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice propose_book_list_item")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on propose_book_list_item")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for propose_book_list_item")
+	}
+
+	if len(proposeBookListItemAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.ProposeBookListItems = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &proposeBookListItemR{}
+			}
+			foreign.R.Book = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.BookID {
+				local.R.ProposeBookListItems = append(local.R.ProposeBookListItems, foreign)
+				if foreign.R == nil {
+					foreign.R = &proposeBookListItemR{}
+				}
+				foreign.R.Book = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
 // SetPublisherG of the book to the related item.
 // Sets o.R.Publisher to related.
 // Adds o to related.R.Books.
@@ -3084,6 +3203,68 @@ func (o *Book) AddBookCategoryAssigns(ctx context.Context, exec boil.ContextExec
 	return nil
 }
 
+// AddProposeBookListItemsG adds the given related objects to the existing relationships
+// of the book, optionally inserting them as new records.
+// Appends related to o.R.ProposeBookListItems.
+// Sets related.R.Book appropriately.
+// Uses the global database handle.
+func (o *Book) AddProposeBookListItemsG(ctx context.Context, insert bool, related ...*ProposeBookListItem) error {
+	return o.AddProposeBookListItems(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddProposeBookListItems adds the given related objects to the existing relationships
+// of the book, optionally inserting them as new records.
+// Appends related to o.R.ProposeBookListItems.
+// Sets related.R.Book appropriately.
+func (o *Book) AddProposeBookListItems(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*ProposeBookListItem) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.BookID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `propose_book_list_item` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"book_id"}),
+				strmangle.WhereClause("`", "`", 0, proposeBookListItemPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.BookID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &bookR{
+			ProposeBookListItems: related,
+		}
+	} else {
+		o.R.ProposeBookListItems = append(o.R.ProposeBookListItems, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &proposeBookListItemR{
+				Book: o,
+			}
+		} else {
+			rel.R.Book = o
+		}
+	}
+	return nil
+}
+
 // Books retrieves all the records using an executor.
 func Books(mods ...qm.QueryMod) bookQuery {
 	mods = append(mods, qm.From("`book`"))
@@ -3148,7 +3329,7 @@ func (o *Book) Insert(ctx context.Context, exec boil.ContextExecutor, columns bo
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			bookColumns,
+			bookAllColumns,
 			bookColumnsWithDefault,
 			bookColumnsWithoutDefault,
 			nzDefaults,
@@ -3253,7 +3434,7 @@ func (o *Book) Update(ctx context.Context, exec boil.ContextExecutor, columns bo
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			bookColumns,
+			bookAllColumns,
 			bookPrimaryKeyColumns,
 		)
 
@@ -3431,13 +3612,13 @@ func (o *Book) Upsert(ctx context.Context, exec boil.ContextExecutor, updateColu
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			bookColumns,
+			bookAllColumns,
 			bookColumnsWithDefault,
 			bookColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			bookColumns,
+			bookAllColumns,
 			bookPrimaryKeyColumns,
 		)
 
@@ -3597,10 +3778,6 @@ func (o BookSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o BookSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no Book slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}

@@ -156,26 +156,26 @@ var PublisherWhere = struct {
 	FinanceName          whereHelpernull_String
 	FinanceTafsiliNumber whereHelperint
 }{
-	ID:                   whereHelperint{field: `id`},
-	UserID:               whereHelpernull_Int{field: `user_id`},
-	Title:                whereHelperstring{field: `title`},
-	Slug:                 whereHelpernull_String{field: `slug`},
-	PublisherType:        whereHelpernull_String{field: `publisher_type`},
-	Logo:                 whereHelpernull_String{field: `logo`},
-	Cover:                whereHelpernull_String{field: `cover`},
-	ContentProviderType:  whereHelperstring{field: `content_provider_type`},
-	BookPriceRatio:       whereHelpernull_Int8{field: `book_price_ratio`},
-	BookPriceRatioTMP:    whereHelpernull_Int{field: `book_price_ratio_tmp`},
-	Comment:              whereHelpernull_String{field: `comment`},
-	SaleRate:             whereHelpertypes_NullDecimal{field: `sale_rate`},
-	SystematicDiscount:   whereHelperbool{field: `systematic_discount`},
-	RulesViolation:       whereHelperint8{field: `rules_violation`},
-	PublisherMarketshare: whereHelperfloat32{field: `publisher_marketshare`},
-	FinanceShaba:         whereHelpernull_String{field: `finance_shaba`},
-	FinanceBank:          whereHelpernull_String{field: `finance_bank`},
-	FinanceCode:          whereHelpernull_String{field: `finance_code`},
-	FinanceName:          whereHelpernull_String{field: `finance_name`},
-	FinanceTafsiliNumber: whereHelperint{field: `finance_tafsili_number`},
+	ID:                   whereHelperint{field: "`publisher`.`id`"},
+	UserID:               whereHelpernull_Int{field: "`publisher`.`user_id`"},
+	Title:                whereHelperstring{field: "`publisher`.`title`"},
+	Slug:                 whereHelpernull_String{field: "`publisher`.`slug`"},
+	PublisherType:        whereHelpernull_String{field: "`publisher`.`publisher_type`"},
+	Logo:                 whereHelpernull_String{field: "`publisher`.`logo`"},
+	Cover:                whereHelpernull_String{field: "`publisher`.`cover`"},
+	ContentProviderType:  whereHelperstring{field: "`publisher`.`content_provider_type`"},
+	BookPriceRatio:       whereHelpernull_Int8{field: "`publisher`.`book_price_ratio`"},
+	BookPriceRatioTMP:    whereHelpernull_Int{field: "`publisher`.`book_price_ratio_tmp`"},
+	Comment:              whereHelpernull_String{field: "`publisher`.`comment`"},
+	SaleRate:             whereHelpertypes_NullDecimal{field: "`publisher`.`sale_rate`"},
+	SystematicDiscount:   whereHelperbool{field: "`publisher`.`systematic_discount`"},
+	RulesViolation:       whereHelperint8{field: "`publisher`.`rules_violation`"},
+	PublisherMarketshare: whereHelperfloat32{field: "`publisher`.`publisher_marketshare`"},
+	FinanceShaba:         whereHelpernull_String{field: "`publisher`.`finance_shaba`"},
+	FinanceBank:          whereHelpernull_String{field: "`publisher`.`finance_bank`"},
+	FinanceCode:          whereHelpernull_String{field: "`publisher`.`finance_code`"},
+	FinanceName:          whereHelpernull_String{field: "`publisher`.`finance_name`"},
+	FinanceTafsiliNumber: whereHelperint{field: "`publisher`.`finance_tafsili_number`"},
 }
 
 // PublisherRels is where relationship names are stored.
@@ -202,7 +202,7 @@ func (*publisherR) NewStruct() *publisherR {
 type publisherL struct{}
 
 var (
-	publisherColumns               = []string{"id", "user_id", "title", "slug", "publisher_type", "logo", "cover", "content_provider_type", "book_price_ratio", "book_price_ratio_tmp", "comment", "sale_rate", "systematic_discount", "rules_violation", "publisher_marketshare", "finance_shaba", "finance_bank", "finance_code", "finance_name", "finance_tafsili_number"}
+	publisherAllColumns            = []string{"id", "user_id", "title", "slug", "publisher_type", "logo", "cover", "content_provider_type", "book_price_ratio", "book_price_ratio_tmp", "comment", "sale_rate", "systematic_discount", "rules_violation", "publisher_marketshare", "finance_shaba", "finance_bank", "finance_code", "finance_name", "finance_tafsili_number"}
 	publisherColumnsWithoutDefault = []string{"user_id", "title", "slug", "publisher_type", "logo", "cover", "book_price_ratio", "book_price_ratio_tmp", "comment", "sale_rate", "finance_shaba", "finance_bank", "finance_code", "finance_name"}
 	publisherColumnsWithDefault    = []string{"id", "content_provider_type", "systematic_discount", "rules_violation", "publisher_marketshare", "finance_tafsili_number"}
 	publisherPrimaryKeyColumns     = []string{"id"}
@@ -1101,7 +1101,7 @@ func (o *Publisher) Insert(ctx context.Context, exec boil.ContextExecutor, colum
 
 	if !cached {
 		wl, returnColumns := columns.InsertColumnSet(
-			publisherColumns,
+			publisherAllColumns,
 			publisherColumnsWithDefault,
 			publisherColumnsWithoutDefault,
 			nzDefaults,
@@ -1206,7 +1206,7 @@ func (o *Publisher) Update(ctx context.Context, exec boil.ContextExecutor, colum
 
 	if !cached {
 		wl := columns.UpdateColumnSet(
-			publisherColumns,
+			publisherAllColumns,
 			publisherPrimaryKeyColumns,
 		)
 
@@ -1384,13 +1384,13 @@ func (o *Publisher) Upsert(ctx context.Context, exec boil.ContextExecutor, updat
 
 	if !cached {
 		insert, ret := insertColumns.InsertColumnSet(
-			publisherColumns,
+			publisherAllColumns,
 			publisherColumnsWithDefault,
 			publisherColumnsWithoutDefault,
 			nzDefaults,
 		)
 		update := updateColumns.UpdateColumnSet(
-			publisherColumns,
+			publisherAllColumns,
 			publisherPrimaryKeyColumns,
 		)
 
@@ -1550,10 +1550,6 @@ func (o PublisherSlice) DeleteAllG(ctx context.Context) (int64, error) {
 
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o PublisherSlice) DeleteAll(ctx context.Context, exec boil.ContextExecutor) (int64, error) {
-	if o == nil {
-		return 0, errors.New("models: no Publisher slice provided for delete all")
-	}
-
 	if len(o) == 0 {
 		return 0, nil
 	}
