@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"log"
 
+	"github.com/volatiletech/sqlboiler/boil"
+
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -21,13 +23,16 @@ func NewComponentByPage(pageID int) *Component {
 	}
 }
 
-func (c *Component) GetData() []flexComponent {
-	qComponent := qm.Where("page_id=?", c.pageID)
+func (c *Component) GetData(pageid int) []flexComponent {
+	itemsPerPage := 5
+	offset := (pageid - 1) * itemsPerPage
+	boil.DebugMode = true
 
 	fpc, err := models.FlexPageComponents(
-		qComponent,
-		qm.Where("deleted_at IS NULL AND active = 1"),
-		qm.Limit(10),
+		qm.Where("page_id=?", c.pageID),
+		qm.Where("deleted_at IS NULL AND active = ?", 1),
+		qm.Limit(itemsPerPage),
+		qm.Offset(offset),
 		qm.OrderBy("crud_order asc")).
 		AllG(context.Background())
 	if err != nil {

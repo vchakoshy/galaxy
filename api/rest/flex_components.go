@@ -51,7 +51,7 @@ func PageBlank(c *gin.Context) {
 
 	fs := flex.FlexStruct{
 		Output: flex.FlexOutput{
-			Components: flex.NewComponentByPage(fp.ID).GetData(),
+			Components: flex.NewComponentByPage(fp.ID).GetData(rq.Page),
 			FlexErrors: []string{},
 			Setting:    settings,
 			Title:      fp.Title,

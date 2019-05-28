@@ -25,6 +25,12 @@ func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
 	log.Println(string(req))
 
 	err = json.Unmarshal(req, &d)
+
+	// fix default zero page number
+	if d.Page == 0 {
+		d.Page = 1
+	}
+
 	return
 }
 
