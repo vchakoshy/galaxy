@@ -1,6 +1,8 @@
 package flex
 
 import (
+	"strings"
+
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
@@ -105,4 +107,14 @@ func (q QueryIdis) getInterfaceList() []interface{} {
 	}
 
 	return qidis
+}
+
+func (q QueryIdis) getInterfaceStringLowerList() []interface{} {
+	contentTypeList := q.getInterfaceList()
+
+	for index, ct := range contentTypeList {
+		contentTypeList[index] = strings.ToLower(ct.(string))
+	}
+
+	return contentTypeList
 }
