@@ -56,7 +56,7 @@ func PageBlank(c *gin.Context) {
 			Setting:    settings,
 			Title:      fp.Title,
 			Result:     true,
-			IsLastPage: true,
+			IsLastPage: false,
 		},
 	}
 
