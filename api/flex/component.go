@@ -62,6 +62,9 @@ func (c *Component) GetData(pageid int) []OutputComponent {
 			"VL_CARDS_SIMPLE_MORE", "VL_CARDS_FULL_MORE", "HL_GRID_SIMPLE",
 			"VL_BOOKS_DESCRIPTION":
 			componenets = append(componenets, handleListComponent(cs, compModel.Type))
+		case "SINGLE_BANNER_SIMPLE", "SINGLE_BUTTON_SIMPLE", "SINGLE_TEXT_LINK",
+			"SINGLE_TEXT_SIMPLE", "SERVER_BOOK_REQUEST":
+			componenets = append(componenets, handleSingleComponent(cs, compModel.Type))
 		case "HL_BOOKS_LIBRARY":
 			componenets = append(componenets, handleBooksLibraryComponent(cs))
 		default:
