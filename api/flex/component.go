@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"log"
 
-	"github.com/volatiletech/sqlboiler/boil"
-
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -26,7 +24,7 @@ func NewComponentByPage(pageID int) *Component {
 func (c *Component) GetData(pageid int) []flexComponent {
 	itemsPerPage := 5
 	offset := (pageid - 1) * itemsPerPage
-	boil.DebugMode = true
+	// boil.DebugMode = true
 
 	fpc, err := models.FlexPageComponents(
 		qm.Where("page_id=?", c.pageID),
