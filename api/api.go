@@ -33,6 +33,12 @@ func Run() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
+	ping := r.Group("/ping/")
+	{
+		ping.GET("/pong/", rest.Ping)
+		ping.GET("/http/", rest.PingHttp)
+	}
+
 	v1 := r.Group("/api/v1/")
 	{
 		authors := v1.Group("/authors/")
@@ -70,7 +76,12 @@ func Run() {
 		}()
 	}
 
-	err = r.Run("0.0.0.0:8080")
+	listenAddr := os.Getenv("LISTEN_ADDRESS")
+	if listenAddr == "" {
+		listenAddr = "0.0.0.0:8080"
+	}
+
+	err = r.Run(listenAddr)
 	log.Println(err.Error())
 }
 
