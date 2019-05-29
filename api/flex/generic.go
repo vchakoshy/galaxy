@@ -46,12 +46,7 @@ func newGenericBookByID(id int) (Generic, Book) {
 	}
 	boil.DebugMode = true
 
-	book, err := models.
-		Books(
-			qm.Where("id=?", id),
-			qm.Load("Publisher"),
-			qm.Load("Author")).
-		OneG(context.Background())
+	book, err := models.Books(qm.Where("id=?", id)).OneG(context.Background())
 
 	if err != nil {
 		return Generic{}, Book{}
@@ -88,17 +83,29 @@ func newGenericBookByQuery(queries []qm.QueryMod) ([]Generic, []Book) {
 	return res, resBook
 }
 
-func newGenericBookByIds(ids []int) ([]Generic, []Book) {
-	gens := make([]Generic, 0)
-	books := make([]Book, 0)
+func newBooksByIds(ids []int) (gens []Generic, books []Book) {
+	gens = make([]Generic, 0)
+	books = make([]Book, 0)
 
-	for _, id := range ids {
-		gen, book := newGenericBookByID(id)
+	iids := make([]interface{}, len(ids))
+	for index, num := range ids {
+		iids[index] = num
+	}
+
+	bs, err := models.Books(qm.WhereIn("id in ?", iids...), qm.Load("Publisher"), qm.Load("Author")).AllG(context.Background())
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+
+	for _, b := range bs {
+		gen := newGenericByModel(b)
+		book := newBookByModel(b)
 		gens = append(gens, gen)
 		books = append(books, book)
 	}
 
-	return gens, books
+	return
 }
 
 func newGenericByModel(b *models.Book) Generic {

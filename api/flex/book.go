@@ -58,17 +58,18 @@ type Book struct {
 }
 
 func newBookByModel(b *models.Book) Book {
+	// TODO Complete the incomplete fields
 	rs := Book{
 		BookID:          b.ID,
 		BookTitle:       b.Title,
 		Price:           b.Price,
 		PaperPrice:      b.PaperPrice.Float32,
 		BookImage:       modext.GetBookNormalImage(b),
-		BookImageSquare: nil,
+		BookImageSquare: b.ImageSquare,
 		Translator:      nil,
-		TranslatorID:    nil,
+		TranslatorID:    b.TranslatorID,
 		Narrator:        nil,
-		NarratorID:      nil,
+		NarratorID:      b.NarratorID,
 		Rtl:             modext.IsRtl(b),
 		Format:          b.Format,
 		ContentType:     b.ContentType,
@@ -98,19 +99,11 @@ func newBookByModel(b *models.Book) Book {
 		Featured:        false,
 		Favorite:        false,
 		MyRate:          0,
-		AuthorLogo:      "",
-	}
-
-	publisher, err := newPublisherByID(b.PublisherID.Int)
-	if err == nil {
-		rs.PublisherID = publisher.ID
-		rs.PublisherTitle = publisher.Title
-	}
-
-	author, err := newAuthorByID(b.AuthorID.Int)
-	if err == nil {
-		rs.AuthorID = author.ID
-		rs.Author = author.Name
+		AuthorLogo:      b.R.Author.Logo.String,
+		PublisherID:     b.PublisherID.Int,
+		PublisherTitle:  b.R.Publisher.Title,
+		AuthorID:        b.AuthorID.Int,
+		Author:          b.R.Author.Name,
 	}
 
 	return rs
