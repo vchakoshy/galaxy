@@ -27,7 +27,7 @@ type Book struct {
 	Format          string      `json:"format"`
 	ContentType     string      `json:"content_type"`
 	Rate            float64     `json:"rate"`
-	Free            int8        `json:"free"`
+	Free            bool        `json:"free"`
 	Action          *BaseAction `json:"action,omitempty"`
 	Path            string      `json:"path"`
 	Badge           *Badge      `json:"badge,omitempty"`
@@ -65,19 +65,15 @@ func newBookByModel(b *models.Book) Book {
 		PaperPrice:      b.PaperPrice.Float32,
 		BookImage:       modext.GetBookNormalImage(b),
 		BookImageSquare: nil,
-		Author:          b.R.Author.Name,
-		AuthorID:        b.R.Author.ID,
 		Translator:      nil,
 		TranslatorID:    nil,
 		Narrator:        nil,
 		NarratorID:      nil,
-		PublisherID:     b.R.Publisher.ID,
-		PublisherTitle:  b.R.Publisher.Title,
 		Rtl:             modext.IsRtl(b),
 		Format:          b.Format,
 		ContentType:     b.ContentType,
 		Rate:            b.Rate,
-		Free:            b.Free,
+		Free:            modext.IsFree(b),
 		Path:            "",
 		PublishDate:     b.PublishDate.Time,
 		RateCount:       b.RateCount,
@@ -103,6 +99,18 @@ func newBookByModel(b *models.Book) Book {
 		Favorite:        false,
 		MyRate:          0,
 		AuthorLogo:      "",
+	}
+
+	publisher, err := newPublisherByID(b.PublisherID.Int)
+	if err == nil {
+		rs.PublisherID = publisher.ID
+		rs.PublisherTitle = publisher.Title
+	}
+
+	author, err := newAuthorByID(b.AuthorID.Int)
+	if err == nil {
+		rs.AuthorID = author.ID
+		rs.Author = author.Name
 	}
 
 	return rs

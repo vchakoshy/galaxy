@@ -5,7 +5,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/hubble"
 )
 
@@ -77,21 +76,13 @@ func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) OutputComp
 		bookIdis = append(bookIdis, itemID)
 	}
 
-	queries := []qm.QueryMod{}
+	gens, mods := newGenericBookByIds(bookIdis.getInts())
 
-	if len(bookIdis) > 0 {
-		queries = append(queries, qm.WhereIn("id in ?", bookIdis...))
-	}
-
-	queries = append(queries, qm.Limit(8))
-
-	res, modelRes := newGenericBookByQuery(queries)
-
-	com.Data.Items.Generic = make([]Generic, len(res))
-	com.Data.Items.Model = make([]Book, len(res))
-	for i, v := range res {
+	com.Data.Items.Generic = make([]Generic, len(gens))
+	com.Data.Items.Model = make([]Book, len(gens))
+	for i, v := range gens {
 		com.Data.Items.Generic[i] = v
-		com.Data.Items.Model[i] = modelRes[i]
+		com.Data.Items.Model[i] = mods[i]
 	}
 
 	return com
