@@ -50,7 +50,7 @@ func Run() {
 	}
 
 	r.NoRoute(func(c *gin.Context) {
-		if strings.HasPrefix(c.Request.URL.Path, "/v2/") {
+		if strings.HasPrefix(c.Request.URL.Path, "/") {
 			rest.PastVersion(c)
 			return
 		}
