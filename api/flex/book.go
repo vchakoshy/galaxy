@@ -77,8 +77,6 @@ func newBookByModel(b *models.Book) Book {
 		PaperPrice:      b.PaperPrice.Float32,
 		BookImage:       modext.GetBookNormalImage(b),
 		BookImageSquare: nil,
-		Author:          b.R.Author.Name,
-		AuthorID:        b.R.Author.ID,
 		Translator:      nil,
 		TranslatorID:    nil,
 		Narrator:        nil,
@@ -119,6 +117,12 @@ func newBookByModel(b *models.Book) Book {
 	if err == nil {
 		rs.PublisherID = publisher.ID
 		rs.PublisherTitle = publisher.Title
+	}
+
+	author, err := newAuthorByID(b.AuthorID.Int)
+	if err == nil {
+		rs.AuthorID = author.ID
+		rs.Author = author.Name
 	}
 
 	return rs
