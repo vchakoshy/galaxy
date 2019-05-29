@@ -10,7 +10,7 @@ import (
 
 func PastVersion(c *gin.Context) {
 
-	u := "https://api2.fidibo.com" + c.Request.URL.Path
+	u := "http://api2.fidibo.com" + c.Request.URL.Path
 
 	req, err := http.NewRequest("POST", u, c.Request.Body)
 
