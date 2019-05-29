@@ -48,7 +48,7 @@ func (s Setup) GetQueries() *elastic.BoolQuery {
 
 	catIds := s.Category.GetIdis()
 	if len(catIds) > 0 {
-		q.Must(elastic.NewTermsQuery("categories.id", catIds...))
+		q.Should(elastic.NewTermsQuery("categories.id", catIds...))
 	}
 
 	formatList := s.Format.Value.getInterfaceList()
