@@ -25,6 +25,6 @@ deplop:
 
   script:
     - git --work-tree=$WORK_DIR checkout -f origin/master
-    - docker build . -t galaxy -f Dockerfile.just.push
+    - docker build . -t galaxy # -f Dockerfile.just.push
     - docker-compose stop
     - docker-compose up -d
