@@ -41,6 +41,11 @@ type Setup struct {
 func (s Setup) GetQueries() *elastic.BoolQuery {
 	q := elastic.NewBoolQuery()
 
+	bookIdis := s.Book.GetIdis()
+	if len(bookIdis) > 0 {
+		q.Must(elastic.NewTermsQuery("id", bookIdis...))
+	}
+
 	catIds := s.Category.GetIdis()
 	if len(catIds) > 0 {
 		q.Must(elastic.NewTermsQuery("categories.id", catIds...))
