@@ -21,23 +21,23 @@ func handleSingleComponent(cs ComponentSettings, t string) (com OutputComponent)
 	com.Type = t
 	com.ResourceType = "CUSTOM"
 
-	m := make(map[string]interface{})
+	var g Generic
 
-	m["image"] = cs.Settings.ChildElements.Image.Value.Static
-	m["ratio"] = cs.Settings.ChildElements.Ratio.Value
+	g.Image = cs.Settings.ChildElements.Image.Value.Static
+	g.Ratio = cs.Settings.ChildElements.Ratio.Value
 	a := getAction(cs.Settings.ChildElements.Action.Action)
 	if a.Type != "" {
-		m["action"] = a
+		g.Action = a
 	}
-	com.Data.Items.Generic = append(com.Data.Items.Generic, m)
+	com.Data.Items.Generic = append(com.Data.Items.Generic, g)
 	return
 }
 
 func handleBooksLibraryComponent(cs ComponentSettings) (com OutputComponent) {
-	m := make(map[string]string)
-	m["format"] = cs.Settings.Format
-	m["content_type"] = cs.Settings.ContentType
-	com.Data.Items.Generic = append(com.Data.Items.Generic, m)
+	var g Generic
+	g.Format = cs.Settings.Format
+	g.ContentType = cs.Settings.ContentType
+	com.Data.Items.Generic = append(com.Data.Items.Generic, g)
 	com.Title = cs.Elements.Title.Value.Static
 	com.Icon = cs.Elements.Icon.Value
 	com.Type = "HL_BOOKS_LIBRARY"
