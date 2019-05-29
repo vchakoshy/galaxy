@@ -63,7 +63,9 @@ func newGenericBookByID(id int) (Generic, Book) {
 
 	fb := newGenericByModel(book)
 	rs := newBookByModel(book)
+
 	genericsCache.Set(cacheKey, genericCache{fb, rs}, cache.DefaultExpiration)
+
 	return fb, rs
 }
 
@@ -98,7 +100,6 @@ func newGenericBookByIds(ids []int) ([]Generic, []Book) {
 		gen, book := newGenericBookByID(id)
 		gens = append(gens, gen)
 		books = append(books, book)
-
 	}
 
 	return gens, books

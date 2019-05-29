@@ -83,8 +83,6 @@ func newBookByModel(b *models.Book) Book {
 		TranslatorID:    nil,
 		Narrator:        nil,
 		NarratorID:      nil,
-		PublisherID:     b.R.Publisher.ID,
-		PublisherTitle:  b.R.Publisher.Title,
 		Rtl:             modext.IsRtl(b),
 		Format:          b.Format,
 		ContentType:     b.ContentType,
@@ -115,6 +113,12 @@ func newBookByModel(b *models.Book) Book {
 		Favorite:        false,
 		MyRate:          0,
 		AuthorLogo:      "",
+	}
+
+	publisher, err := newPublisherByID(b.PublisherID.Int)
+	if err == nil {
+		rs.PublisherID = publisher.ID
+		rs.PublisherTitle = publisher.Title
 	}
 
 	return rs
