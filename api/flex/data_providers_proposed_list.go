@@ -48,21 +48,21 @@ func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) Ou
 	queries = append(queries, qm.Limit(10))
 	queries = append(queries, qm.Load("Author"))
 
-	proposeList, err := models.ProposeBookLists(queries...).AllG(context.Background())
+	proposeLists, err := models.ProposeBookLists(queries...).AllG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
 		return com
 	}
 
-	com.Data.Items.Generic = make([]Generic, len(proposeList))
-	for i, v := range proposeList {
+	com.Data.Items.Generic = make([]Generic, len(proposeLists))
+	for i, v := range proposeLists {
 		com.Data.Items.Generic[i] = Generic{
 			Title:     v.Title.String,
 			SubTitle:  v.SubTitle.String,
 			Image:     v.CoverImage.String,
 			IconTitle: v.R.Author.Name,
 			Icon:      v.R.Author.Logo.String,
-			// FooterText: v., // TODO count
+			// FooterText: v.R.ProposeBookListItems, // Count proposeBookListItems
 			Action: &BaseAction{ // TODO fix actions
 				Type:   "proposed_list_page",
 				Method: "/general/proposed-list/get",
@@ -92,6 +92,8 @@ func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) Ou
 				},
 			},
 		}
+
+		com.Data.Items.Model = append(com.Data.Items.Model, v)
 	}
 
 	return com
