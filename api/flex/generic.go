@@ -115,7 +115,6 @@ func newGenericByModel(b *models.Book) Generic {
 	bookIDStr := strconv.Itoa(b.ID)
 	fb := Generic{
 		Title:       b.Title,
-		SubTitle:    b.R.Author.Name,
 		BookID:      bookIDStr,
 		Image:       modext.GetBookNormalImage(b),
 		Icon:        modext.GetBookNormalImage(b),
@@ -150,6 +149,10 @@ func newGenericByModel(b *models.Book) Generic {
 			},
 			Method: "/book/" + bookIDStr + "/get",
 		},
+	}
+
+	if b.R.Author != nil {
+		fb.SubTitle = b.R.Author.Name
 	}
 
 	return fb
