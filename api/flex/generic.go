@@ -30,6 +30,7 @@ type Generic struct {
 	Badge       *Badge      `json:"badge,omitempty"`
 	Action      *BaseAction `json:"action,omitempty"`
 	BookID      string      `json:"bookId,omitempty"`
+	Rate        string      `json:"rate,omitempty"`
 }
 
 var genericsCache = cache.New(time.Minute*5, time.Minute*10)
@@ -113,7 +114,7 @@ func newGenericByModel(b *models.Book) Generic {
 	bookIDStr := strconv.Itoa(b.ID)
 	fb := Generic{
 		Title:       b.Title,
-		SubTitle:    b.SubTitle.String,
+		SubTitle:    b.R.Author.Name,
 		BookID:      bookIDStr,
 		Image:       modext.GetBookNormalImage(b),
 		Icon:        modext.GetBookNormalImage(b),
