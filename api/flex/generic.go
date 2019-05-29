@@ -91,11 +91,20 @@ func newBooksByIds(ids []int) (gens []Generic, books []Book) {
 	books = make([]Book, 0)
 
 	iids := make([]interface{}, len(ids))
+	idStrs := make([]string, len(ids))
 	for index, num := range ids {
 		iids[index] = num
+		idStrs[index] = strconv.Itoa(num)
 	}
 
-	bs, err := models.Books(qm.WhereIn("id in ?", iids...), qm.Load("Publisher"), qm.Load("Author")).AllG(context.Background())
+	orderByIdid := fmt.Sprintf("FIELD(id,%s)", strings.Join(idStrs, ","))
+
+	bs, err := models.Books(
+		qm.WhereIn("id in ?", iids...),
+		qm.OrderBy(orderByIdid),
+		qm.Load("Publisher"),
+		qm.Load("Author")).
+		AllG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
 		return
