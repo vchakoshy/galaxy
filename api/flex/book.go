@@ -101,9 +101,15 @@ func newBookByModel(b *models.Book) Book {
 		MyRate:          0,
 		AuthorLogo:      b.R.Author.Logo.String,
 		PublisherID:     b.PublisherID.Int,
-		PublisherTitle:  b.R.Publisher.Title,
 		AuthorID:        b.AuthorID.Int,
-		Author:          b.R.Author.Name,
+	}
+
+	if b.R.Publisher != nil {
+		rs.PublisherTitle = b.R.Publisher.Title
+	}
+
+	if b.R.Author != nil {
+		rs.Author = b.R.Author.Name
 	}
 
 	return rs
