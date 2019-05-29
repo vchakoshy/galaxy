@@ -21,10 +21,10 @@ func handleSingleComponent(cs ComponentSettings, t string) (com OutputComponent)
 	com.Type = t
 	com.ResourceType = "CUSTOM"
 
-	var g Generic
-
-	g.Image = cs.Settings.ChildElements.Image.Value.Static
-	g.Ratio = cs.Settings.ChildElements.Ratio.Value
+	g := Generic{
+		Image: cs.Settings.ChildElements.Image.Value.Static,
+		Ratio: cs.Settings.ChildElements.Ratio.Value,
+	}
 	a := getAction(cs.Settings.ChildElements.Action.Action)
 	if a.Type != "" {
 		g.Action = a
