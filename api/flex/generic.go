@@ -1,6 +1,7 @@
 package flex
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -120,6 +121,7 @@ func newGenericByModel(b *models.Book) Generic {
 		Icon:        modext.GetBookNormalImage(b),
 		Format:      strings.ToLower(b.Format),
 		ContentType: strings.ToUpper(b.ContentType),
+		Rate:        fmt.Sprintf("%.2f", b.Rate),
 		Action: &BaseAction{
 			Type: "book",
 			Input: []ComponentAction{
