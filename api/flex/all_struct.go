@@ -9,7 +9,7 @@ type Tabs struct {
 	Title  string     `json:"title"`
 	PageID string     `json:"pageId"`
 	Active bool       `json:"active"`
-	Action FlexAction `json:"action"`
+	Action BaseAction `json:"action"`
 }
 
 type Setting struct {
@@ -25,7 +25,7 @@ type ComponentAction struct {
 type BaseAction struct {
 	Type      string            `json:"type"`
 	Input     []ComponentAction `json:"input"`
-	ExtraData interface{}       `json:"extraData"`
+	ExtraData interface{}       `json:"extraData,omitempty"`
 	Method    string            `json:"method"`
 }
 
@@ -34,8 +34,8 @@ type OutputComponent struct {
 	Icon  string `json:"icon,omitempty"`
 	Data  struct {
 		Items struct {
-			Generic []interface{} `json:"generic"`
-			Model   []Book        `json:"model"`
+			Generic []Generic `json:"generic"`
+			Model   []Book    `json:"model"`
 		} `json:"items"`
 	} `json:"data,omitempty"`
 	Type         string      `json:"type,omitempty"`

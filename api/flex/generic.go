@@ -15,24 +15,20 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
 )
 
-type GenericChildAction struct {
-	Type      string        `json:"type"`
-	Input     []ActionInput `json:"input"`
-	ExtraData interface{}   `json:"extraData"`
-	Method    string        `json:"method"`
-}
-
 type Generic struct {
-	ChildAction GenericChildAction `json:"childAction"`
-	Title       string             `json:"title"`
-	SubTitle    string             `json:"subTitle"`
-	Icon        string             `json:"icon"`
-	Image       string             `json:"image"`
-	Format      string             `json:"format"`
-	ContentType string             `json:"content_type"`
-	Badge       Badge              `json:"badge"`
-	Action      GenericChildAction `json:"action"`
-	BookID      string             `json:"bookId,omitempty"`
+	ChildAction *BaseAction `json:"childAction,omitempty"`
+	Title       string      `json:"title,omitempty"`
+	SubTitle    string      `json:"subTitle,omitempty"`
+	Icon        string      `json:"icon,omitempty"`
+	IconTitle   string      `json:"iconTitle,omitempty"`
+	FooterText  string      `json:"footerText,omitempty"`
+	Image       string      `json:"image,omitempty"`
+	Ratio       string      `json:"ratio,omitempty"`
+	Format      string      `json:"format,omitempty"`
+	ContentType string      `json:"content_type,omitempty"`
+	Badge       *Badge      `json:"badge,omitempty"`
+	Action      *BaseAction `json:"action,omitempty"`
+	BookID      string      `json:"bookId,omitempty"`
 }
 
 var genericsCache = cache.New(time.Minute*5, time.Minute*10)
@@ -115,28 +111,28 @@ func newGenericByModel(b *models.Book) Generic {
 		Icon:        modext.GetBookNormalImage(b),
 		Format:      b.Format,
 		ContentType: b.ContentType,
-		Action: GenericChildAction{
+		Action: &BaseAction{
 			Type: "book",
-			Input: []ActionInput{
-				ActionInput{
+			Input: []ComponentAction{
+				ComponentAction{
 					Key:   "bookId",
 					Value: bookIDStr,
 				},
-				ActionInput{
+				ComponentAction{
 					Key:   "pageName",
 					Value: "BOOK_OVERVIEW_PAGE",
 				},
 			},
 			Method: "/book/" + bookIDStr + "/get",
 		},
-		ChildAction: GenericChildAction{
+		ChildAction: &BaseAction{
 			Type: "book",
-			Input: []ActionInput{
-				ActionInput{
+			Input: []ComponentAction{
+				ComponentAction{
 					Key:   "bookId",
 					Value: bookIDStr,
 				},
-				ActionInput{
+				ComponentAction{
 					Key:   "pageName",
 					Value: "BOOK_OVERVIEW_PAGE",
 				},

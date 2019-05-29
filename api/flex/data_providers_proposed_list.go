@@ -3,6 +3,7 @@ package flex
 import (
 	"context"
 	"log"
+	"strconv"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
@@ -53,9 +54,17 @@ func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) Ou
 		return com
 	}
 
-	com.Data.Items.Generic = make([]interface{}, len(proposeList))
+	com.Data.Items.Generic = make([]Generic, len(proposeList))
 	for i, v := range proposeList {
-		com.Data.Items.Generic[i] = v
+		com.Data.Items.Generic[i] = Generic{
+			Title:     v.Title.String,
+			SubTitle:  v.SubTitle.String,
+			Image:     v.CoverImage.String,
+			IconTitle: strconv.Itoa(v.AuthorID.Int), // TODO author title
+			// Icon: , // TODO author image
+			// FooterText: v., // TODO count
+			// Action: , // TODO handle static actions
+		}
 	}
 
 	return com
