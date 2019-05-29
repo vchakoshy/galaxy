@@ -3,7 +3,6 @@ package flex
 import (
 	"context"
 	"log"
-	"strconv"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
@@ -47,6 +46,7 @@ func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) Ou
 	}
 
 	queries = append(queries, qm.Limit(10))
+	queries = append(queries, qm.Load("Author"))
 
 	proposeList, err := models.ProposeBookLists(queries...).AllG(context.Background())
 	if err != nil {
@@ -60,10 +60,37 @@ func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) Ou
 			Title:     v.Title.String,
 			SubTitle:  v.SubTitle.String,
 			Image:     v.CoverImage.String,
-			IconTitle: strconv.Itoa(v.AuthorID.Int), // TODO author title
-			// Icon: , // TODO author image
+			IconTitle: v.R.Author.Name,
+			Icon:      v.R.Author.Logo.String,
 			// FooterText: v., // TODO count
-			// Action: , // TODO handle static actions
+			Action: &BaseAction{ // TODO fix actions
+				Type:   "proposed_list_page",
+				Method: "/general/proposed-list/get",
+				Input: []ComponentAction{
+					ComponentAction{
+						Key:   "proposedListId",
+						Value: v.ID,
+					},
+					ComponentAction{
+						Key:   "pageName",
+						Value: "READING_LIST_PAGE",
+					},
+				},
+			},
+			ChildAction: &BaseAction{
+				Type:   "proposed_list_page",
+				Method: "/general/proposed-list/get",
+				Input: []ComponentAction{
+					ComponentAction{
+						Key:   "proposedListId",
+						Value: v.ID,
+					},
+					ComponentAction{
+						Key:   "pageName",
+						Value: "READING_LIST_PAGE",
+					},
+				},
+			},
 		}
 	}
 
