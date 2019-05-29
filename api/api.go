@@ -31,6 +31,12 @@ func Run() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
+	ping := r.Group("/ping/")
+	{
+		ping.GET("/pong/", rest.Ping)
+		ping.GET("/http/", rest.PingHttp)
+	}
+
 	v1 := r.Group("/api/v1/")
 	{
 		authors := v1.Group("/authors/")
