@@ -18,6 +18,7 @@ COPY --from=builder /go/bin/app /app
 EXPOSE 8080
 
 ENV HUBBLE_REINDEXER="1"
+ENV LISTEN_ADDRESS="0.0.0.0:8080"
 
 CMD ["./app", "api"]
 LABEL Name=galaxy Version=1.0

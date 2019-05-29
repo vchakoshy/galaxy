@@ -68,7 +68,12 @@ func Run() {
 		}()
 	}
 
-	err = r.Run("0.0.0.0:8080")
+	listenAddr := os.Getenv("LISTEN_ADDRESS")
+	if listenAddr == "" {
+		listenAddr = "0.0.0.0:8080"
+	}
+
+	err = r.Run(listenAddr)
 	log.Println(err.Error())
 }
 
