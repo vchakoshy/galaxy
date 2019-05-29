@@ -99,7 +99,6 @@ func newBookByModel(b *models.Book) Book {
 		Featured:        false,
 		Favorite:        false,
 		MyRate:          0,
-		AuthorLogo:      b.R.Author.Logo.String,
 		PublisherID:     b.PublisherID.Int,
 		AuthorID:        b.AuthorID.Int,
 	}
@@ -110,6 +109,7 @@ func newBookByModel(b *models.Book) Book {
 
 	if b.R.Author != nil {
 		rs.Author = b.R.Author.Name
+		rs.AuthorLogo = b.R.Author.Logo.String
 	}
 
 	return rs
