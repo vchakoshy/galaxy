@@ -27,7 +27,7 @@ type Book struct {
 	Format          string      `json:"format"`
 	ContentType     string      `json:"content_type"`
 	Rate            float64     `json:"rate"`
-	Free            int8        `json:"free"`
+	Free            bool        `json:"free"`
 	Action          struct {
 		Type  string `json:"type"`
 		Input []struct {
@@ -89,7 +89,7 @@ func newBookByModel(b *models.Book) Book {
 		Format:          b.Format,
 		ContentType:     b.ContentType,
 		Rate:            b.Rate,
-		Free:            b.Free,
+		Free:            modext.IsFree(b),
 		Path:            "",
 		PublishDate:     b.PublishDate.Time,
 		RateCount:       b.RateCount,

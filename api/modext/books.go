@@ -18,6 +18,14 @@ func GetBookNormalImage(b *models.Book) string {
 	return baseImageURL + getNormalImagePath(b)
 }
 
+func IsFree(b *models.Book) bool {
+	if b.Free == 1 {
+		return true
+	}
+
+	return false
+}
+
 func IsRtl(b *models.Book) bool {
 	return true
 }
