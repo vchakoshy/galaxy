@@ -49,14 +49,21 @@ func PageBlank(c *gin.Context) {
 		}
 	}
 
+	cData := flex.NewComponentByPage(fp.ID).GetData(rq.Page)
+
+	isLastPage := false
+	if len(cData) == 0 {
+		isLastPage = true
+	}
+
 	fs := flex.Response{
 		Output: flex.Output{
-			Components: flex.NewComponentByPage(fp.ID).GetData(rq.Page),
+			Components: cData,
 			FlexErrors: []string{},
 			Setting:    settings,
 			Title:      fp.Title,
 			Result:     true,
-			IsLastPage: false,
+			IsLastPage: isLastPage,
 		},
 	}
 

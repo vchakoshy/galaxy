@@ -24,7 +24,6 @@ func NewComponentByPage(pageID int) *Component {
 func (c *Component) GetData(pageid int) []OutputComponent {
 	itemsPerPage := 5
 	offset := (pageid - 1) * itemsPerPage
-	// boil.DebugMode = true
 
 	fpc, err := models.FlexPageComponents(
 		qm.Where("page_id=?", c.pageID),
