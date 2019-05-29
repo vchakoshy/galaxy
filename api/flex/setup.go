@@ -1,6 +1,7 @@
 package flex
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/olivere/elastic"
@@ -79,6 +80,25 @@ func (s Setup) getInputActions() []ComponentAction {
 }
 
 type QueryIdis []interface{}
+
+func (q QueryIdis) getInts() []int {
+	r := make([]int, 0)
+	for _, id := range q {
+		switch id.(type) {
+		case string:
+			intval, err := strconv.Atoi(id.(string))
+			if err == nil {
+				r = append(r, intval)
+			}
+
+		case int:
+			r = append(r, id.(int))
+		}
+
+	}
+
+	return r
+}
 
 func (q QueryIdis) getInterfaceList() []interface{} {
 	qidis := make([]interface{}, 0)
