@@ -5,7 +5,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/olivere/elastic"
 	"gitlab.fidibo.com/backend/galaxy/hubble"
 )
 
@@ -59,7 +58,9 @@ func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) OutputComp
 	}
 
 	q := cs.Settings.Setup.GetQueries()
-	q.Must(elastic.NewTermQuery("publish", 1))
+
+	// TODO: enable this in future
+	// q.Must(elastic.NewTermQuery("publish", 1))
 
 	esres, err := ss.
 		StoredFields("id").
