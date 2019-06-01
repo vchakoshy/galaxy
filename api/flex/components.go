@@ -1,27 +1,40 @@
 package flex
 
-func handleListComponent(cs ComponentSettings, t string) OutputComponent {
+const (
+	dataProviderTypeBook         = "BOOK"
+	dataProviderTypeProposedList = "PROPOSED_LIST"
+	dataproviderTypePublisher    = "PUBLISHER"
+	dataproviderTypeNews         = "NEWS"
+)
 
+func handleListComponent(cs ComponentSettings, t string) OutputComponent {
 	switch cs.Settings.DataProvider {
-	case "BOOK":
+	case dataProviderTypeBook:
 		return getOutputComponent(BookDataProvider{}, cs, t)
-	case "PROPOSED_LIST":
+	case dataProviderTypeProposedList:
 		return getOutputComponent(ProposedListDataProvider{}, cs, t)
-	case "PUBLISHER":
+	case dataproviderTypePublisher:
 		return getOutputComponent(PublisherDataProvider{}, cs, t)
-	case "NEWS":
-		var com NewsDataProvider
-		return com.getOutputComponent(cs, t)
+	case dataproviderTypeNews:
+		return getOutputComponent(NewsDataProvider{}, cs, t)
 	}
 
 	return OutputComponent{}
 }
 
+const (
+	resourceTypeCustom = "CUSTOM"
+)
+
+const (
+	componentTypeHlBooksLibrary = "HL_BOOKS_LIBRARY"
+)
+
 func handleSingleComponent(cs ComponentSettings, t string) (com OutputComponent) {
 	com.Title = cs.Elements.Title.Value.Static
 	com.Icon = cs.Elements.Icon.Value
 	com.Type = t
-	com.ResourceType = "CUSTOM"
+	com.ResourceType = resourceTypeCustom
 
 	g := Generic{
 		Image: cs.Settings.ChildElements.Image.Value.Static,
@@ -42,7 +55,7 @@ func handleBooksLibraryComponent(cs ComponentSettings) (com OutputComponent) {
 	com.Data.Items.Generic = append(com.Data.Items.Generic, g)
 	com.Title = cs.Elements.Title.Value.Static
 	com.Icon = cs.Elements.Icon.Value
-	com.Type = "HL_BOOKS_LIBRARY"
-	com.ResourceType = "CUSTOM"
+	com.Type = componentTypeHlBooksLibrary
+	com.ResourceType = resourceTypeCustom
 	return
 }
