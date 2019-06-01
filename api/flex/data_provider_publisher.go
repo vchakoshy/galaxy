@@ -28,6 +28,8 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 
 	queries := []qm.QueryMod{}
 
+	qm.Where("content_provider_type='BOOK'")
+
 	publisherIDs := cs.Settings.Setup.Publisher.GetIdis()
 	if len(publisherIDs) > 0 {
 		qm.WhereIn("publisher.id", publisherIDs)

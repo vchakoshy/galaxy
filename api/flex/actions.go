@@ -10,7 +10,8 @@ type Action struct {
 const (
 	ActionContentListPanelType      = "CONTENT_LIST"
 	ActionBookPanelType             = "BOOK_PAGE"
-	ActionProposedListPagePanelType = "PROPOSED_LIST_PAGE"
+	ActionProposedListPagePanelType = "PUBLISHER_LIST"
+	ActionPublisherListPanelType    = "PROPOSED_LIST_PAGE"
 )
 
 func ContentListAction() Action {
@@ -26,6 +27,14 @@ func BookAction() Action {
 		PanelType:  "BOOK_PAGE",
 		ClientType: "book",
 		Method:     "/",
+	}
+}
+
+func PublisherListAction() Action {
+	return Action{
+		PanelType:  "PUBLISHER_LIST",
+		ClientType: "publisher_list",
+		Method:     "/v2/general/list/publisher",
 	}
 }
 
@@ -45,6 +54,8 @@ func GetActionByPanelType(t string) (action Action) {
 		action = BookAction()
 	case ActionProposedListPagePanelType:
 		action = ProposedListPageAction()
+	case ActionPublisherListPanelType:
+		action = PublisherListAction()
 	default:
 		action = Action{}
 	}
