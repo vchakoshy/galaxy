@@ -4,14 +4,10 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"time"
 
 	"context"
 	"log"
 
-	// "github.com/volatiletech/sqlboiler/boil"
-	"github.com/patrickmn/go-cache"
-	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
@@ -32,58 +28,6 @@ type Generic struct {
 	Action      *BaseAction `json:"action,omitempty"`
 	BookID      string      `json:"bookId,omitempty"`
 	Rate        string      `json:"rate,omitempty"`
-}
-
-var genericsCache = cache.New(time.Minute*5, time.Minute*10)
-
-type genericCache struct {
-	Generic Generic
-	Book    Book
-}
-
-func newGenericBookByID(id int) (Generic, Book) {
-	cacheKey := strconv.Itoa(id)
-	if val, ex := genericsCache.Get(cacheKey); ex {
-		s := val.(genericCache)
-		return s.Generic, s.Book
-	}
-	boil.DebugMode = true
-
-	book, err := models.Books(qm.Where("id=?", id)).OneG(context.Background())
-
-	if err != nil {
-		return Generic{}, Book{}
-	}
-
-	fb := newGenericByModel(book)
-	rs := newBookByModel(book)
-
-	genericsCache.Set(cacheKey, genericCache{fb, rs}, cache.DefaultExpiration)
-
-	return fb, rs
-}
-
-func newGenericBookByQuery(queries []qm.QueryMod) ([]Generic, []Book) {
-	res := make([]Generic, 0)
-	resBook := make([]Book, 0)
-
-	queries = append(queries, qm.Load("Publisher"), qm.Load("Author"))
-
-	books, err := models.Books(queries...).AllG(context.Background())
-	if err != nil {
-		log.Println(err.Error())
-	}
-
-	for _, b := range books {
-
-		fb := newGenericByModel(b)
-		res = append(res, fb)
-
-		rs := newBookByModel(b)
-		resBook = append(resBook, rs)
-	}
-
-	return res, resBook
 }
 
 func newBooksByIds(ids []int) (gens []Generic, books []Book) {
