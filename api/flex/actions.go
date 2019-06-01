@@ -12,6 +12,7 @@ const (
 	ActionBookPanelType             = "BOOK_PAGE"
 	ActionProposedListPagePanelType = "PROPOSED_LIST_PAGE"
 	ActionPublisherListPanelType    = "PUBLISHER_LIST"
+	ActionNewsListPanelType         = "NEWS_LIST"
 )
 
 func ContentListAction() Action {
@@ -43,6 +44,14 @@ func ProposedListPageAction() Action {
 		PanelType:  "PROPOSED_LIST_PAGE",
 		ClientType: "proposed_list_page",
 		Method:     "/general/proposed-list/get",
+	}
+}
+
+func NewsListAction() Action {
+	return Action{
+		PanelType:  "NEWS_LIST",
+		ClientType: "news_list",
+		Method:     "/v2/general/list/news",
 	}
 }
 
