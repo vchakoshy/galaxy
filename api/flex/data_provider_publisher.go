@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	dataproviderTypePublisher = "PUBLISHER"
+	dataProviderTypePublisher = "PUBLISHER"
 )
 
 type PublisherDataProvider struct{}
@@ -19,7 +19,7 @@ type PublisherDataProvider struct{}
 func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	com := OutputComponent{
 		Type:         t,
-		ResourceType: dataproviderTypePublisher,
+		ResourceType: dataProviderTypePublisher,
 		Title:        cs.Elements.Title.Value.Static,
 	}
 	boil.DebugMode = true

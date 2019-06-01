@@ -8,7 +8,7 @@ func handleListComponent(cs ComponentSettings, t string) OutputComponent {
 	case dataProviderTypeProposedList:
 		return getOutputComponent(ProposedListDataProvider{}, cs, t)
 
-	case dataproviderTypePublisher:
+	case dataProviderTypePublisher:
 		return getOutputComponent(PublisherDataProvider{}, cs, t)
 
 	case dataProviderTypeNews:
