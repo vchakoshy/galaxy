@@ -70,7 +70,7 @@ func (b NewsDataProvider) getOutputComponent(cs ComponentSettings, t string) Out
 
 		com.Data.Items.Generic[i] = g
 
-		com.Data.Items.Model = append(com.Data.Items.Model, v)
+		// com.Data.Items.Model = append(com.Data.Items.Model, v)
 	}
 
 	return com

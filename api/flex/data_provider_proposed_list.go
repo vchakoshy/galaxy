@@ -93,7 +93,7 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 			},
 		}
 
-		com.Data.Items.Model = append(com.Data.Items.Model, v)
+		// com.Data.Items.Model = append(com.Data.Items.Model, v)
 	}
 
 	return com
