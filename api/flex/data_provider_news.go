@@ -12,6 +12,7 @@ const (
 	dataProviderTypeNews = "NEWS"
 )
 
+// NewsDataProvider struct
 type NewsDataProvider struct{}
 
 func (b NewsDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {

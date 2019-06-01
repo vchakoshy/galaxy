@@ -13,6 +13,7 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
 )
 
+// Generic struct
 type Generic struct {
 	ChildAction  *Action `json:"childAction,omitempty"`
 	Title        string  `json:"title,omitempty"`

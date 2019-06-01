@@ -12,6 +12,7 @@ const (
 	dataProviderTypeProposedList = "PROPOSED_LIST"
 )
 
+// ProposedListDataProvider struct
 type ProposedListDataProvider struct{}
 
 func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
