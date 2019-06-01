@@ -51,7 +51,7 @@ func (b NewsDataProvider) getOutputComponent(cs ComponentSettings, t string) Out
 			Title: v.Title,
 			Image: v.Thumbnail.String,
 			// IconSubtitle: , // TODO reading time
-			Action: &BaseAction{ // TODO fix actions
+			Action: &Action{ // TODO fix actions
 				Type:   "news_page",
 				Method: "/general/news/get",
 				Input: []ComponentAction{

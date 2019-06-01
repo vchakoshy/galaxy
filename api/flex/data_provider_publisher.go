@@ -61,7 +61,7 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 		com.Data.Items.Generic[i] = Generic{
 			Title: v.Title,
 			Image: v.Cover.String,
-			Action: &BaseAction{ // TODO fix actions
+			Action: &Action{ // TODO fix actions
 				Type:   "publisher_page",
 				Method: "/general/profile/publisher/get",
 				Input: []ComponentAction{

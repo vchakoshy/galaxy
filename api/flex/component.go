@@ -81,8 +81,8 @@ const (
 	actionNewsListPanelType         = "NEWS_LIST"
 )
 
-func (acs ActionCS) getAction() (ba *BaseAction) {
-	ba = &BaseAction{
+func (acs ActionCS) getAction() (a *Action) {
+	a = &Action{
 		Type:      acs.Type,
 		Input:     acs.Setup.getInputActions(),
 		ExtraData: nil,
@@ -90,17 +90,17 @@ func (acs ActionCS) getAction() (ba *BaseAction) {
 
 	switch acs.Type {
 	case actionContentListPanelType:
-		ba.Method = "/v2/general/list/book"
+		a.Method = "/v2/general/list/book"
 	case actionBookPanelType:
-		ba.Method = "/"
+		a.Method = "/"
 	case actionProposedListPagePanelType:
-		ba.Method = "/general/proposed-list/get"
+		a.Method = "/general/proposed-list/get"
 	case actionPublisherListPanelType:
-		ba.Method = "/v2/general/list/publisher"
+		a.Method = "/v2/general/list/publisher"
 	case actionNewsListPanelType:
-		ba.Method = "/v2/general/list/news"
+		a.Method = "/v2/general/list/news"
 	default:
-		ba.Method = "/"
+		a.Method = "/"
 	}
 
 	return

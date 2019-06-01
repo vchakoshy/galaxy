@@ -67,7 +67,7 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 			IconTitle: v.R.Author.Name,
 			Icon:      v.R.Author.Logo.String,
 			// FooterText: v.R.ProposeBookListItems, // Count proposeBookListItems
-			Action: &BaseAction{ // TODO fix actions
+			Action: &Action{ // TODO fix actions
 				Type:   "proposed_list_page",
 				Method: "/general/proposed-list/get",
 				Input: []ComponentAction{
@@ -81,7 +81,7 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 					},
 				},
 			},
-			ChildAction: &BaseAction{
+			ChildAction: &Action{
 				Type:   "proposed_list_page",
 				Method: "/general/proposed-list/get",
 				Input: []ComponentAction{

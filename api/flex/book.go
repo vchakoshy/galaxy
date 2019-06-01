@@ -28,7 +28,7 @@ type Book struct {
 	ContentType     string      `json:"content_type"`
 	Rate            float64     `json:"rate"`
 	Free            bool        `json:"free"`
-	Action          *BaseAction `json:"action,omitempty"`
+	Action          *Action     `json:"action,omitempty"`
 	Path            string      `json:"path"`
 	Badge           *Badge      `json:"badge,omitempty"`
 	PublishDate     time.Time   `json:"publishDate"`

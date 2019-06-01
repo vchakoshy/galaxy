@@ -6,10 +6,10 @@ type ActionInput struct {
 }
 
 type Tabs struct {
-	Title  string     `json:"title"`
-	PageID string     `json:"pageId"`
-	Active bool       `json:"active"`
-	Action BaseAction `json:"action"`
+	Title  string `json:"title"`
+	PageID string `json:"pageId"`
+	Active bool   `json:"active"`
+	Action Action `json:"action"`
 }
 
 type Setting struct {
@@ -22,7 +22,7 @@ type ComponentAction struct {
 	Value      interface{} `json:"value,omitempty"`
 }
 
-type BaseAction struct {
+type Action struct {
 	Type      string            `json:"type"`
 	Input     []ComponentAction `json:"input"`
 	ExtraData interface{}       `json:"extraData,omitempty"`
@@ -38,10 +38,10 @@ type OutputComponent struct {
 			Model   []interface{} `json:"model"`
 		} `json:"items"`
 	} `json:"data,omitempty"`
-	Type         string      `json:"type,omitempty"`
-	ResourceType string      `json:"resource_type,omitempty"`
-	Action       *BaseAction `json:"action,omitempty"`
-	ActionTitle  string      `json:"actionTitle,omitempty"`
+	Type         string  `json:"type,omitempty"`
+	ResourceType string  `json:"resource_type,omitempty"`
+	Action       *Action `json:"action,omitempty"`
+	ActionTitle  string  `json:"actionTitle,omitempty"`
 }
 
 type Output struct {
