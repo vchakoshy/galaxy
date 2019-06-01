@@ -10,12 +10,16 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
+const (
+	dataproviderTypePublisher = "PUBLISHER"
+)
+
 type PublisherDataProvider struct{}
 
 func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	com := OutputComponent{
 		Type:         t,
-		ResourceType: "PUBLISHER",
+		ResourceType: dataproviderTypePublisher,
 		Title:        cs.Elements.Title.Value.Static,
 	}
 	boil.DebugMode = true

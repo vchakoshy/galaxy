@@ -18,12 +18,26 @@ const (
 	sortTypeMostCommented  = "MOST_COMMENTED"
 )
 
+const (
+	dataProviderTypeBook = "BOOK"
+
+	elasticFieldID                 = "id"
+	elasticFieldPublishDate        = "publish_date"
+	elasticFieldPrice              = "price"
+	elasticFieldAllSalesCount      = "all_sales_count"
+	elasticFieldWeekSalesCount     = "week_sales_count"
+	elasticFieldMonthDownloadCount = "month_download_count"
+	elasticFieldAllCommentCount    = "all_comment_count"
+	elasticFieldPublishTime        = "publish_time"
+)
+
+// BookDataProvider struct
 type BookDataProvider struct{}
 
 func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	com := OutputComponent{
 		Type:         t,
-		ResourceType: "BOOK",
+		ResourceType: dataProviderTypeBook,
 		Title:        cs.Elements.Title.Value.Static,
 	}
 
@@ -40,21 +54,21 @@ func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) Out
 
 	switch cs.Settings.Setup.Sort.Value {
 	case sortTypeRecent:
-		ss.Sort("id", false)
+		ss.Sort(elasticFieldID, false)
 	case sortTypeRecentPublish:
-		ss.Sort("publish_date", false)
+		ss.Sort(elasticFieldPublishDate, false)
 	case sortTypeLowestPrice:
-		ss.Sort("price", true)
+		ss.Sort(elasticFieldPrice, true)
 	case sortTypeBestSellect:
-		ss.Sort("all_sales_count", false)
+		ss.Sort(elasticFieldAllSalesCount, false)
 	case sortTypeWeekBestSeller:
-		ss.Sort("week_sales_count", false)
+		ss.Sort(elasticFieldWeekSalesCount, false)
 	case sortTypePopular:
-		ss.Sort("month_download_count", false)
+		ss.Sort(elasticFieldMonthDownloadCount, false)
 	case sortTypeMostCommented:
-		ss.Sort("all_comment_count", false)
+		ss.Sort(elasticFieldAllCommentCount, false)
 	default:
-		ss.Sort("publish_time", false)
+		ss.Sort(elasticFieldPublishTime, false)
 	}
 
 	q := cs.Settings.Setup.GetQueries()

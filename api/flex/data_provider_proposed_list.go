@@ -8,12 +8,16 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
+const (
+	dataProviderTypeProposedList = "PROPOSED_LIST"
+)
+
 type ProposedListDataProvider struct{}
 
 func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	com := OutputComponent{
 		Type:         t,
-		ResourceType: "PROPOSED_LIST",
+		ResourceType: dataProviderTypeProposedList,
 		Title:        cs.Elements.Title.Value.Static,
 	}
 
