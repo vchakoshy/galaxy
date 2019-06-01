@@ -4,6 +4,8 @@ import (
 	"context"
 	"log"
 
+	"github.com/volatiletech/sqlboiler/boil"
+
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -16,6 +18,7 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 		ResourceType: "PUBLISHER",
 		Title:        cs.Elements.Title.Value.Static,
 	}
+	boil.DebugMode = true
 
 	a := getAction(cs.Elements.MoreTitle.Action)
 	if a.Type != "" {
@@ -28,17 +31,17 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 
 	queries := []qm.QueryMod{}
 
-	queries = append(queries, qm.Where("content_provider_type=?", "BOOK"))
+	queries = append(queries, qm.Where("content_provider_type='?'", "BOOK"))
 
 	publisherIDs := cs.Settings.Setup.Publisher.GetIdis()
 	if len(publisherIDs) > 0 {
-		queries = append(queries, qm.WhereIn("publisher.id in ?", publisherIDs))
+		queries = append(queries, qm.WhereIn("publisher.id in ?", publisherIDs...))
 	}
 
 	channelIDs := cs.Settings.Setup.ProposedList.GetIdis()
 	if len(channelIDs) > 0 {
 		queries = append(queries, qm.InnerJoin("channel ON channel.publisher_id = publisher.id"))
-		queries = append(queries, qm.WhereIn("channel.id in ?", channelIDs))
+		queries = append(queries, qm.WhereIn("channel.id in ?", channelIDs...))
 	}
 
 	queries = append(queries, qm.Limit(10))
