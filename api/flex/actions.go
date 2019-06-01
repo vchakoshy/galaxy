@@ -10,8 +10,8 @@ type Action struct {
 const (
 	ActionContentListPanelType      = "CONTENT_LIST"
 	ActionBookPanelType             = "BOOK_PAGE"
-	ActionProposedListPagePanelType = "PUBLISHER_LIST"
-	ActionPublisherListPanelType    = "PROPOSED_LIST_PAGE"
+	ActionProposedListPagePanelType = "PROPOSED_LIST_PAGE"
+	ActionPublisherListPanelType    = "PUBLISHER_LIST"
 )
 
 func ContentListAction() Action {
