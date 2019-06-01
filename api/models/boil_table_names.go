@@ -15,6 +15,7 @@ var TableNames = struct {
 	FlexPageComponents    string
 	FlexPages             string
 	GeneralCategoryAssign string
+	News                  string
 	ProposeBookList       string
 	ProposeBookListItem   string
 	Publisher             string
@@ -30,6 +31,7 @@ var TableNames = struct {
 	FlexPageComponents:    "flex_page_components",
 	FlexPages:             "flex_pages",
 	GeneralCategoryAssign: "general_category_assign",
+	News:                  "news",
 	ProposeBookList:       "propose_book_list",
 	ProposeBookListItem:   "propose_book_list_item",
 	Publisher:             "publisher",

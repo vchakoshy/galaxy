@@ -956,6 +956,160 @@ func testAuthorToManyTranslator3Books(t *testing.T) {
 	}
 }
 
+func testAuthorToManyNews(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, true, authorColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Author struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, newsDBTypes, false, newsColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, newsDBTypes, false, newsColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	queries.Assign(&b.AuthorID, a.ID)
+	queries.Assign(&c.AuthorID, a.ID)
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.News().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if queries.Equal(v.AuthorID, b.AuthorID) {
+			bFound = true
+		}
+		if queries.Equal(v.AuthorID, c.AuthorID) {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := AuthorSlice{&a}
+	if err = a.L.LoadNews(ctx, tx, false, (*[]*Author)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.News); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.News = nil
+	if err = a.L.LoadNews(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.News); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testAuthorToManyTranslatorNews(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, true, authorColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Author struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, newsDBTypes, false, newsColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, newsDBTypes, false, newsColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	queries.Assign(&b.TranslatorID, a.ID)
+	queries.Assign(&c.TranslatorID, a.ID)
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.TranslatorNews().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if queries.Equal(v.TranslatorID, b.TranslatorID) {
+			bFound = true
+		}
+		if queries.Equal(v.TranslatorID, c.TranslatorID) {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := AuthorSlice{&a}
+	if err = a.L.LoadTranslatorNews(ctx, tx, false, (*[]*Author)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.TranslatorNews); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.TranslatorNews = nil
+	if err = a.L.LoadTranslatorNews(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.TranslatorNews); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
 func testAuthorToManyProposeBookLists(t *testing.T) {
 	var err error
 	ctx := context.Background()
@@ -2535,6 +2689,508 @@ func testAuthorToManyRemoveOpTranslator3Books(t *testing.T) {
 		t.Error("relationship to d should have been preserved")
 	}
 	if a.R.Translator3Books[0] != &e {
+		t.Error("relationship to e should have been preserved")
+	}
+}
+
+func testAuthorToManyAddOpNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*News{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddNews(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if !queries.Equal(a.ID, first.AuthorID) {
+			t.Error("foreign key was wrong value", a.ID, first.AuthorID)
+		}
+		if !queries.Equal(a.ID, second.AuthorID) {
+			t.Error("foreign key was wrong value", a.ID, second.AuthorID)
+		}
+
+		if first.R.Author != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Author != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.News[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.News[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.News().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+
+func testAuthorToManySetOpNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err = a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.SetNews(ctx, tx, false, &b, &c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.SetNews(ctx, tx, true, &d, &e)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.AuthorID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.AuthorID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+	if !queries.Equal(a.ID, d.AuthorID) {
+		t.Error("foreign key was wrong value", a.ID, d.AuthorID)
+	}
+	if !queries.Equal(a.ID, e.AuthorID) {
+		t.Error("foreign key was wrong value", a.ID, e.AuthorID)
+	}
+
+	if b.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Author != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+	if e.R.Author != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+
+	if a.R.News[0] != &d {
+		t.Error("relationship struct slice not set to correct value")
+	}
+	if a.R.News[1] != &e {
+		t.Error("relationship struct slice not set to correct value")
+	}
+}
+
+func testAuthorToManyRemoveOpNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.AddNews(ctx, tx, true, foreigners...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 4 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.RemoveNews(ctx, tx, foreigners[:2]...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.AuthorID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.AuthorID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+
+	if b.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Author != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Author != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+	if e.R.Author != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+
+	if len(a.R.News) != 2 {
+		t.Error("should have preserved two relationships")
+	}
+
+	// Removal doesn't do a stable deletion for performance so we have to flip the order
+	if a.R.News[1] != &d {
+		t.Error("relationship to d should have been preserved")
+	}
+	if a.R.News[0] != &e {
+		t.Error("relationship to e should have been preserved")
+	}
+}
+
+func testAuthorToManyAddOpTranslatorNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*News{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddTranslatorNews(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if !queries.Equal(a.ID, first.TranslatorID) {
+			t.Error("foreign key was wrong value", a.ID, first.TranslatorID)
+		}
+		if !queries.Equal(a.ID, second.TranslatorID) {
+			t.Error("foreign key was wrong value", a.ID, second.TranslatorID)
+		}
+
+		if first.R.Translator != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Translator != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.TranslatorNews[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.TranslatorNews[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.TranslatorNews().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+
+func testAuthorToManySetOpTranslatorNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err = a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.SetTranslatorNews(ctx, tx, false, &b, &c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.TranslatorNews().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.SetTranslatorNews(ctx, tx, true, &d, &e)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.TranslatorNews().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.TranslatorID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.TranslatorID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+	if !queries.Equal(a.ID, d.TranslatorID) {
+		t.Error("foreign key was wrong value", a.ID, d.TranslatorID)
+	}
+	if !queries.Equal(a.ID, e.TranslatorID) {
+		t.Error("foreign key was wrong value", a.ID, e.TranslatorID)
+	}
+
+	if b.R.Translator != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Translator != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Translator != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+	if e.R.Translator != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+
+	if a.R.TranslatorNews[0] != &d {
+		t.Error("relationship struct slice not set to correct value")
+	}
+	if a.R.TranslatorNews[1] != &e {
+		t.Error("relationship struct slice not set to correct value")
+	}
+}
+
+func testAuthorToManyRemoveOpTranslatorNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Author
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, authorDBTypes, false, strmangle.SetComplement(authorPrimaryKeyColumns, authorColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.AddTranslatorNews(ctx, tx, true, foreigners...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.TranslatorNews().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 4 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.RemoveTranslatorNews(ctx, tx, foreigners[:2]...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.TranslatorNews().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.TranslatorID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.TranslatorID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+
+	if b.R.Translator != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Translator != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Translator != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+	if e.R.Translator != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+
+	if len(a.R.TranslatorNews) != 2 {
+		t.Error("should have preserved two relationships")
+	}
+
+	// Removal doesn't do a stable deletion for performance so we have to flip the order
+	if a.R.TranslatorNews[1] != &d {
+		t.Error("relationship to d should have been preserved")
+	}
+	if a.R.TranslatorNews[0] != &e {
 		t.Error("relationship to e should have been preserved")
 	}
 }

@@ -28,6 +28,8 @@ func TestUpsert(t *testing.T) {
 
 	t.Run("GeneralCategoryAssigns", testGeneralCategoryAssignsUpsert)
 
+	t.Run("AllNews", testAllNewsUpsert)
+
 	t.Run("ProposeBookLists", testProposeBookListsUpsert)
 
 	t.Run("ProposeBookListItems", testProposeBookListItemsUpsert)

@@ -128,6 +128,8 @@ var AuthorRels = struct {
 	Author3Books     string
 	Translator2Books string
 	Translator3Books string
+	News             string
+	TranslatorNews   string
 	ProposeBookLists string
 }{
 	Books:            "Books",
@@ -136,6 +138,8 @@ var AuthorRels = struct {
 	Author3Books:     "Author3Books",
 	Translator2Books: "Translator2Books",
 	Translator3Books: "Translator3Books",
+	News:             "News",
+	TranslatorNews:   "TranslatorNews",
 	ProposeBookLists: "ProposeBookLists",
 }
 
@@ -147,6 +151,8 @@ type authorR struct {
 	Author3Books     BookSlice
 	Translator2Books BookSlice
 	Translator3Books BookSlice
+	News             NewsSlice
+	TranslatorNews   NewsSlice
 	ProposeBookLists ProposeBookListSlice
 }
 
@@ -581,6 +587,48 @@ func (o *Author) Translator3Books(mods ...qm.QueryMod) bookQuery {
 
 	if len(queries.GetSelect(query.Query)) == 0 {
 		queries.SetSelect(query.Query, []string{"`book`.*"})
+	}
+
+	return query
+}
+
+// News retrieves all the news's AllNews with an executor via author_id column.
+func (o *Author) News(mods ...qm.QueryMod) newsQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`news`.`author_id`=?", o.ID),
+	)
+
+	query := AllNews(queryMods...)
+	queries.SetFrom(query.Query, "`news`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`news`.*"})
+	}
+
+	return query
+}
+
+// TranslatorNews retrieves all the news's AllNews with an executor via translator_id column.
+func (o *Author) TranslatorNews(mods ...qm.QueryMod) newsQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`news`.`translator_id`=?", o.ID),
+	)
+
+	query := AllNews(queryMods...)
+	queries.SetFrom(query.Query, "`news`")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"`news`.*"})
 	}
 
 	return query
@@ -1169,6 +1217,196 @@ func (authorL) LoadTranslator3Books(ctx context.Context, e boil.ContextExecutor,
 					foreign.R = &bookR{}
 				}
 				foreign.R.Translator3 = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadNews allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadNews(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`news`), qm.WhereIn(`author_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load news")
+	}
+
+	var resultSlice []*News
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice news")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on news")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for news")
+	}
+
+	if len(newsAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.News = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &newsR{}
+			}
+			foreign.R.Author = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.AuthorID) {
+				local.R.News = append(local.R.News, foreign)
+				if foreign.R == nil {
+					foreign.R = &newsR{}
+				}
+				foreign.R.Author = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadTranslatorNews allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (authorL) LoadTranslatorNews(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuthor interface{}, mods queries.Applicator) error {
+	var slice []*Author
+	var object *Author
+
+	if singular {
+		object = maybeAuthor.(*Author)
+	} else {
+		slice = *maybeAuthor.(*[]*Author)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &authorR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &authorR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(qm.From(`news`), qm.WhereIn(`translator_id in ?`, args...))
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load news")
+	}
+
+	var resultSlice []*News
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice news")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on news")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for news")
+	}
+
+	if len(newsAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.TranslatorNews = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &newsR{}
+			}
+			foreign.R.Translator = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.TranslatorID) {
+				local.R.TranslatorNews = append(local.R.TranslatorNews, foreign)
+				if foreign.R == nil {
+					foreign.R = &newsR{}
+				}
+				foreign.R.Translator = local
 				break
 			}
 		}
@@ -2171,6 +2409,308 @@ func (o *Author) RemoveTranslator3Books(ctx context.Context, exec boil.ContextEx
 				o.R.Translator3Books[i] = o.R.Translator3Books[ln-1]
 			}
 			o.R.Translator3Books = o.R.Translator3Books[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddNewsG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.News.
+// Sets related.R.Author appropriately.
+// Uses the global database handle.
+func (o *Author) AddNewsG(ctx context.Context, insert bool, related ...*News) error {
+	return o.AddNews(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddNews adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.News.
+// Sets related.R.Author appropriately.
+func (o *Author) AddNews(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*News) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.AuthorID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `news` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"author_id"}),
+				strmangle.WhereClause("`", "`", 0, newsPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.AuthorID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			News: related,
+		}
+	} else {
+		o.R.News = append(o.R.News, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &newsR{
+				Author: o,
+			}
+		} else {
+			rel.R.Author = o
+		}
+	}
+	return nil
+}
+
+// SetNewsG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author's News accordingly.
+// Replaces o.R.News with related.
+// Sets related.R.Author's News accordingly.
+// Uses the global database handle.
+func (o *Author) SetNewsG(ctx context.Context, insert bool, related ...*News) error {
+	return o.SetNews(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetNews removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Author's News accordingly.
+// Replaces o.R.News with related.
+// Sets related.R.Author's News accordingly.
+func (o *Author) SetNews(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*News) error {
+	query := "update `news` set `author_id` = null where `author_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.News {
+			queries.SetScanner(&rel.AuthorID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Author = nil
+		}
+
+		o.R.News = nil
+	}
+	return o.AddNews(ctx, exec, insert, related...)
+}
+
+// RemoveNewsG relationships from objects passed in.
+// Removes related items from R.News (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author.
+// Uses the global database handle.
+func (o *Author) RemoveNewsG(ctx context.Context, related ...*News) error {
+	return o.RemoveNews(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveNews relationships from objects passed in.
+// Removes related items from R.News (uses pointer comparison, removal does not keep order)
+// Sets related.R.Author.
+func (o *Author) RemoveNews(ctx context.Context, exec boil.ContextExecutor, related ...*News) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.AuthorID, nil)
+		if rel.R != nil {
+			rel.R.Author = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("author_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.News {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.News)
+			if ln > 1 && i < ln-1 {
+				o.R.News[i] = o.R.News[ln-1]
+			}
+			o.R.News = o.R.News[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddTranslatorNewsG adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.TranslatorNews.
+// Sets related.R.Translator appropriately.
+// Uses the global database handle.
+func (o *Author) AddTranslatorNewsG(ctx context.Context, insert bool, related ...*News) error {
+	return o.AddTranslatorNews(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// AddTranslatorNews adds the given related objects to the existing relationships
+// of the author, optionally inserting them as new records.
+// Appends related to o.R.TranslatorNews.
+// Sets related.R.Translator appropriately.
+func (o *Author) AddTranslatorNews(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*News) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.TranslatorID, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `news` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"translator_id"}),
+				strmangle.WhereClause("`", "`", 0, newsPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.DebugMode {
+				fmt.Fprintln(boil.DebugWriter, updateQuery)
+				fmt.Fprintln(boil.DebugWriter, values)
+			}
+
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.TranslatorID, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &authorR{
+			TranslatorNews: related,
+		}
+	} else {
+		o.R.TranslatorNews = append(o.R.TranslatorNews, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &newsR{
+				Translator: o,
+			}
+		} else {
+			rel.R.Translator = o
+		}
+	}
+	return nil
+}
+
+// SetTranslatorNewsG removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator's TranslatorNews accordingly.
+// Replaces o.R.TranslatorNews with related.
+// Sets related.R.Translator's TranslatorNews accordingly.
+// Uses the global database handle.
+func (o *Author) SetTranslatorNewsG(ctx context.Context, insert bool, related ...*News) error {
+	return o.SetTranslatorNews(ctx, boil.GetContextDB(), insert, related...)
+}
+
+// SetTranslatorNews removes all previously related items of the
+// author replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.Translator's TranslatorNews accordingly.
+// Replaces o.R.TranslatorNews with related.
+// Sets related.R.Translator's TranslatorNews accordingly.
+func (o *Author) SetTranslatorNews(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*News) error {
+	query := "update `news` set `translator_id` = null where `translator_id` = ?"
+	values := []interface{}{o.ID}
+	if boil.DebugMode {
+		fmt.Fprintln(boil.DebugWriter, query)
+		fmt.Fprintln(boil.DebugWriter, values)
+	}
+
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.TranslatorNews {
+			queries.SetScanner(&rel.TranslatorID, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.Translator = nil
+		}
+
+		o.R.TranslatorNews = nil
+	}
+	return o.AddTranslatorNews(ctx, exec, insert, related...)
+}
+
+// RemoveTranslatorNewsG relationships from objects passed in.
+// Removes related items from R.TranslatorNews (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator.
+// Uses the global database handle.
+func (o *Author) RemoveTranslatorNewsG(ctx context.Context, related ...*News) error {
+	return o.RemoveTranslatorNews(ctx, boil.GetContextDB(), related...)
+}
+
+// RemoveTranslatorNews relationships from objects passed in.
+// Removes related items from R.TranslatorNews (uses pointer comparison, removal does not keep order)
+// Sets related.R.Translator.
+func (o *Author) RemoveTranslatorNews(ctx context.Context, exec boil.ContextExecutor, related ...*News) error {
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.TranslatorID, nil)
+		if rel.R != nil {
+			rel.R.Translator = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("translator_id")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.TranslatorNews {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.TranslatorNews)
+			if ln > 1 && i < ln-1 {
+				o.R.TranslatorNews[i] = o.R.TranslatorNews[ln-1]
+			}
+			o.R.TranslatorNews = o.R.TranslatorNews[:ln-1]
 			break
 		}
 	}

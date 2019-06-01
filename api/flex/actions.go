@@ -12,6 +12,7 @@ const (
 	ActionBookPanelType             = "BOOK_PAGE"
 	ActionProposedListPagePanelType = "PROPOSED_LIST_PAGE"
 	ActionPublisherListPanelType    = "PUBLISHER_LIST"
+	ActionNewsListPanelType         = "NEWS_LIST"
 )
 
 func ContentListAction() Action {
@@ -46,6 +47,14 @@ func ProposedListPageAction() Action {
 	}
 }
 
+func NewsListAction() Action {
+	return Action{
+		PanelType:  "NEWS_LIST",
+		ClientType: "news_list",
+		Method:     "/v2/general/list/news",
+	}
+}
+
 func GetActionByPanelType(t string) (action Action) {
 	switch t {
 	case ActionContentListPanelType:
@@ -56,6 +65,8 @@ func GetActionByPanelType(t string) (action Action) {
 		action = ProposedListPageAction()
 	case ActionPublisherListPanelType:
 		action = PublisherListAction()
+	case ActionNewsListPanelType:
+		action = NewsListAction()
 	default:
 		action = Action{}
 	}
