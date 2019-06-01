@@ -14,6 +14,10 @@ func handleListComponent(cs ComponentSettings, t string) OutputComponent {
 	case "PUBLISHER":
 		var com PublisherDataProvider
 		return com.getOutputComponent(cs, t)
+
+	case "NEWS":
+		var com NewsDataProvider
+		return com.getOutputComponent(cs, t)
 	}
 
 	return OutputComponent{}

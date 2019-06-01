@@ -648,6 +648,83 @@ func testPublisherToManyOriginalPublisherBooks(t *testing.T) {
 	}
 }
 
+func testPublisherToManyNews(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Publisher
+	var b, c News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, publisherDBTypes, true, publisherColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Publisher struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, newsDBTypes, false, newsColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, newsDBTypes, false, newsColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	queries.Assign(&b.PublisherID, a.ID)
+	queries.Assign(&c.PublisherID, a.ID)
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.News().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if queries.Equal(v.PublisherID, b.PublisherID) {
+			bFound = true
+		}
+		if queries.Equal(v.PublisherID, c.PublisherID) {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := PublisherSlice{&a}
+	if err = a.L.LoadNews(ctx, tx, false, (*[]*Publisher)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.News); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.News = nil
+	if err = a.L.LoadNews(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.News); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
 func testPublisherToManyAddOpBooks(t *testing.T) {
 	var err error
 
@@ -1146,6 +1223,257 @@ func testPublisherToManyRemoveOpOriginalPublisherBooks(t *testing.T) {
 		t.Error("relationship to d should have been preserved")
 	}
 	if a.R.OriginalPublisherBooks[0] != &e {
+		t.Error("relationship to e should have been preserved")
+	}
+}
+
+func testPublisherToManyAddOpNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Publisher
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*News{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddNews(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if !queries.Equal(a.ID, first.PublisherID) {
+			t.Error("foreign key was wrong value", a.ID, first.PublisherID)
+		}
+		if !queries.Equal(a.ID, second.PublisherID) {
+			t.Error("foreign key was wrong value", a.ID, second.PublisherID)
+		}
+
+		if first.R.Publisher != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Publisher != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.News[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.News[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.News().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+
+func testPublisherToManySetOpNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Publisher
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err = a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.SetNews(ctx, tx, false, &b, &c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.SetNews(ctx, tx, true, &d, &e)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.PublisherID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.PublisherID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+	if !queries.Equal(a.ID, d.PublisherID) {
+		t.Error("foreign key was wrong value", a.ID, d.PublisherID)
+	}
+	if !queries.Equal(a.ID, e.PublisherID) {
+		t.Error("foreign key was wrong value", a.ID, e.PublisherID)
+	}
+
+	if b.R.Publisher != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Publisher != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Publisher != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+	if e.R.Publisher != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+
+	if a.R.News[0] != &d {
+		t.Error("relationship struct slice not set to correct value")
+	}
+	if a.R.News[1] != &e {
+		t.Error("relationship struct slice not set to correct value")
+	}
+}
+
+func testPublisherToManyRemoveOpNews(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Publisher
+	var b, c, d, e News
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, publisherDBTypes, false, strmangle.SetComplement(publisherPrimaryKeyColumns, publisherColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*News{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, newsDBTypes, false, strmangle.SetComplement(newsPrimaryKeyColumns, newsColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	err = a.AddNews(ctx, tx, true, foreigners...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err := a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 4 {
+		t.Error("count was wrong:", count)
+	}
+
+	err = a.RemoveNews(ctx, tx, foreigners[:2]...)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.News().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.PublisherID) {
+		t.Error("want b's foreign key value to be nil")
+	}
+	if !queries.IsValuerNil(c.PublisherID) {
+		t.Error("want c's foreign key value to be nil")
+	}
+
+	if b.R.Publisher != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Publisher != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Publisher != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+	if e.R.Publisher != &a {
+		t.Error("relationship to a should have been preserved")
+	}
+
+	if len(a.R.News) != 2 {
+		t.Error("should have preserved two relationships")
+	}
+
+	// Removal doesn't do a stable deletion for performance so we have to flip the order
+	if a.R.News[1] != &d {
+		t.Error("relationship to d should have been preserved")
+	}
+	if a.R.News[0] != &e {
 		t.Error("relationship to e should have been preserved")
 	}
 }

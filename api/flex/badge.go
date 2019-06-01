@@ -1,4 +1,4 @@
-package flex 
+package flex
 
 type Badge struct {
 	Text     string `json:"text"`

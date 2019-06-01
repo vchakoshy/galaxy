@@ -126,6 +126,12 @@ const (
 	FlexPagesTypeDYNAMIC = "DYNAMIC"
 )
 
+// Enum values for news.news_type
+const (
+	NewsNewsTypePUBLIC  = "PUBLIC"
+	NewsNewsTypePRIVATE = "PRIVATE"
+)
+
 // Enum values for publisher.publisher_type
 const (
 	PublisherPublisherTypeDOMESTIC  = "DOMESTIC"

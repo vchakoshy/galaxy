@@ -13,6 +13,7 @@ type Setup struct {
 	Category     ProviderSetup       `json:"category"`
 	Channel      ProviderSetup       `json:"channel"`
 	Publisher    ProviderSetup       `json:"publisher"`
+	News         ProviderSetup       `json:"news"`
 	ProposedList ProviderSetup       `json:"proposedList"`
 	Tag          ProviderSetup       `json:"tag"`
 	Free         ProviderSimpleSetup `json:"free"`
