@@ -91,11 +91,20 @@ func newBooksByIds(ids []int) (gens []Generic, books []Book) {
 	books = make([]Book, 0)
 
 	iids := make([]interface{}, len(ids))
+	idStrs := make([]string, len(ids))
 	for index, num := range ids {
 		iids[index] = num
+		idStrs[index] = strconv.Itoa(num)
 	}
 
-	bs, err := models.Books(qm.WhereIn("id in ?", iids...), qm.Load("Publisher"), qm.Load("Author")).AllG(context.Background())
+	orderByIdid := fmt.Sprintf("FIELD(id,%s)", strings.Join(idStrs, ","))
+
+	bs, err := models.Books(
+		qm.WhereIn("id in ?", iids...),
+		qm.OrderBy(orderByIdid),
+		qm.Load("Publisher"),
+		qm.Load("Author")).
+		AllG(context.Background())
 	if err != nil {
 		log.Println(err.Error())
 		return
@@ -115,7 +124,6 @@ func newGenericByModel(b *models.Book) Generic {
 	bookIDStr := strconv.Itoa(b.ID)
 	fb := Generic{
 		Title:       b.Title,
-		SubTitle:    b.R.Author.Name,
 		BookID:      bookIDStr,
 		Image:       modext.GetBookNormalImage(b),
 		Icon:        modext.GetBookNormalImage(b),
@@ -150,6 +158,10 @@ func newGenericByModel(b *models.Book) Generic {
 			},
 			Method: "/book/" + bookIDStr + "/get",
 		},
+	}
+
+	if b.R.Author != nil {
+		fb.SubTitle = b.R.Author.Name
 	}
 
 	return fb

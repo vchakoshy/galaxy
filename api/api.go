@@ -28,7 +28,7 @@ func Run() {
 
 	boil.SetDB(db)
 
-	boil.DebugMode = true
+	// boil.DebugMode = true
 
 	r := gin.Default()
 	r.Use(CORSMiddleware())

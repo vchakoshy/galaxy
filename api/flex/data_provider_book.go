@@ -59,6 +59,9 @@ func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) Out
 
 	q := cs.Settings.Setup.GetQueries()
 
+	// TODO: enable this in future
+	// q.Must(elastic.NewTermQuery("publish", 1))
+
 	esres, err := ss.
 		StoredFields("id").
 		Query(q).
