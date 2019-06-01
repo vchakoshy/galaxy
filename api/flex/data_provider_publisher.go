@@ -31,7 +31,7 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 
 	queries := []qm.QueryMod{}
 
-	queries = append(queries, qm.Where("content_provider_type='?'", "BOOK"))
+	queries = append(queries, qm.Where("content_provider_type=?", "BOOK"))
 
 	publisherIDs := cs.Settings.Setup.Publisher.GetIdis()
 	if len(publisherIDs) > 0 {
