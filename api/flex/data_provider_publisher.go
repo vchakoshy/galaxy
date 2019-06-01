@@ -14,6 +14,7 @@ const (
 	dataProviderTypePublisher = "PUBLISHER"
 )
 
+// PublisherDataProvider struct
 type PublisherDataProvider struct{}
 
 func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {

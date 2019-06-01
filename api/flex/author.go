@@ -6,6 +6,7 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
+// Author struct
 type Author struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
