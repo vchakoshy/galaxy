@@ -9,16 +9,16 @@ ENV GO111MODULE=on
 RUN go mod download
 
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $GOPATH/bin/app
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $GOPATH/bin/galaxy
 
 #final stage
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-COPY --from=builder /go/bin/app /app
+COPY --from=builder /go/bin/galaxy /galaxy
 EXPOSE 8080
 
-ENV HUBBLE_REINDEXER="1"
+ENV HUBBLE_REINDEXER="0"
 ENV LISTEN_ADDRESS="0.0.0.0:8080"
 
-CMD ["./app", "api"]
+CMD ["./galaxy", "api"]
 LABEL Name=galaxy Version=1.0
