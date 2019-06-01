@@ -24,7 +24,7 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 	}
 	boil.DebugMode = true
 
-	a := getAction(cs.Elements.MoreTitle.Action)
+	a := cs.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
 		com.Action = a
 	}

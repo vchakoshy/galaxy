@@ -37,7 +37,7 @@ func handleSingleComponent(cs ComponentSettings, t string) (com OutputComponent)
 		Ratio: cs.Settings.ChildElements.Ratio.Value,
 	}
 
-	a := getAction(cs.Settings.ChildElements.Action.Action)
+	a := cs.Settings.ChildElements.Action.Action.getAction()
 	if a.Type != "" {
 		g.Action = a
 	}

@@ -73,13 +73,35 @@ func (c *Component) GetData(pageid int) []OutputComponent {
 	return componenets
 }
 
-func getAction(acs ActionCS) *BaseAction {
-	action := GetActionByPanelType(acs.Type)
+const (
+	actionContentListPanelType      = "CONTENT_LIST"
+	actionBookPanelType             = "BOOK_PAGE"
+	actionProposedListPagePanelType = "PROPOSED_LIST_PAGE"
+	actionPublisherListPanelType    = "PUBLISHER_LIST"
+	actionNewsListPanelType         = "NEWS_LIST"
+)
 
-	return &BaseAction{
-		Type:      action.ClientType,
+func (acs ActionCS) getAction() (ba *BaseAction) {
+	ba = &BaseAction{
+		Type:      acs.Type,
 		Input:     acs.Setup.getInputActions(),
 		ExtraData: nil,
-		Method:    action.Method,
 	}
+
+	switch acs.Type {
+	case actionContentListPanelType:
+		ba.Method = "/v2/general/list/book"
+	case actionBookPanelType:
+		ba.Method = "/"
+	case actionProposedListPagePanelType:
+		ba.Method = "/general/proposed-list/get"
+	case actionPublisherListPanelType:
+		ba.Method = "/v2/general/list/publisher"
+	case actionNewsListPanelType:
+		ba.Method = "/v2/general/list/news"
+	default:
+		ba.Method = "/"
+	}
+
+	return
 }

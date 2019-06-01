@@ -21,7 +21,7 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 		Title:        cs.Elements.Title.Value.Static,
 	}
 
-	a := getAction(cs.Elements.MoreTitle.Action)
+	a := cs.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
 		com.Action = a
 	}

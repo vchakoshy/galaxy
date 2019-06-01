@@ -41,7 +41,7 @@ func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) Out
 		Title:        cs.Elements.Title.Value.Static,
 	}
 
-	a := getAction(cs.Elements.MoreTitle.Action)
+	a := cs.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
 		com.Action = a
 	}
