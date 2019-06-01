@@ -65,6 +65,8 @@ func GetActionByPanelType(t string) (action Action) {
 		action = ProposedListPageAction()
 	case ActionPublisherListPanelType:
 		action = PublisherListAction()
+	case ActionNewsListPanelType:
+		action = NewsListAction()
 	default:
 		action = Action{}
 	}
