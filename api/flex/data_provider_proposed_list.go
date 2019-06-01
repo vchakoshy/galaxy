@@ -8,9 +8,9 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
-type DataProvidersProposedList struct{}
+type ProposedListDataProvider struct{}
 
-func (b DataProvidersProposedList) getGeneric(cs ComponentSettings, t string) OutputComponent {
+func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	com := OutputComponent{
 		Type:         t,
 		ResourceType: "PROPOSED_LIST",

@@ -4,12 +4,16 @@ func handleListComponent(cs ComponentSettings, t string) OutputComponent {
 
 	switch cs.Settings.DataProvider {
 	case "BOOK":
-		com := DataProvidersBook{}
-		return com.getGeneric(cs, t)
+		var com BookDataProvider
+		return com.getOutputComponent(cs, t)
 
 	case "PROPOSED_LIST":
-		com := DataProvidersProposedList{}
-		return com.getGeneric(cs, t)
+		var com ProposedListDataProvider
+		return com.getOutputComponent(cs, t)
+
+	case "PUBLISHER":
+		var com PublisherDataProvider
+		return com.getOutputComponent(cs, t)
 	}
 
 	return OutputComponent{}

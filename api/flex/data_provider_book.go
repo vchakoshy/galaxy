@@ -18,9 +18,9 @@ const (
 	sortTypeMostCommented  = "MOST_COMMENTED"
 )
 
-type DataProvidersBook struct{}
+type BookDataProvider struct{}
 
-func (b DataProvidersBook) getGeneric(cs ComponentSettings, t string) OutputComponent {
+func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	com := OutputComponent{
 		Type:         t,
 		ResourceType: "BOOK",
