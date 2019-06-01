@@ -30,19 +30,19 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 
 	catIds := cs.Settings.Setup.Category.GetIdis()
 	if len(catIds) > 0 {
-		qm.InnerJoin("general_category_assign ON general_category_assign.item_id = propose_book_list.id AND item_type='ProposeBookList'")
-		qm.WhereIn("general_category_assign.category_id", catIds)
+		queries = append(queries, qm.InnerJoin("general_category_assign ON general_category_assign.item_id = propose_book_list.id AND item_type='ProposeBookList'"))
+		queries = append(queries, qm.WhereIn("general_category_assign.category_id = ?", catIds))
 	}
 
 	authorIDs := cs.Settings.Setup.Author.GetIdis()
 	if len(authorIDs) > 0 {
-		qm.InnerJoin("book ON book.id = propose_book_list_item.book_id")
-		qm.WhereIn("book.author_id", authorIDs)
+		queries = append(queries, qm.InnerJoin("book ON book.id = propose_book_list_item.book_id"))
+		queries = append(queries, qm.WhereIn("book.author_id in ?", authorIDs))
 	}
 
 	plIDs := cs.Settings.Setup.ProposedList.GetIdis()
 	if len(plIDs) > 0 {
-		qm.WhereIn("propose_book_list.id", plIDs)
+		queries = append(queries, qm.WhereIn("propose_book_list.id in ?", plIDs))
 	}
 
 	queries = append(queries, qm.Limit(10))

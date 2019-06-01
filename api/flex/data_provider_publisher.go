@@ -28,17 +28,17 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 
 	queries := []qm.QueryMod{}
 
-	qm.Where("content_provider_type='BOOK'")
+	queries = append(queries, qm.Where("content_provider_type=?", "BOOK"))
 
 	publisherIDs := cs.Settings.Setup.Publisher.GetIdis()
 	if len(publisherIDs) > 0 {
-		qm.WhereIn("publisher.id", publisherIDs)
+		queries = append(queries, qm.WhereIn("publisher.id in ?", publisherIDs))
 	}
 
 	channelIDs := cs.Settings.Setup.ProposedList.GetIdis()
 	if len(channelIDs) > 0 {
-		qm.InnerJoin("channel ON channel.publisher_id = publisher.id")
-		qm.WhereIn("channel.id", channelIDs)
+		queries = append(queries, qm.InnerJoin("channel ON channel.publisher_id = publisher.id"))
+		queries = append(queries, qm.WhereIn("channel.id in ?", channelIDs))
 	}
 
 	queries = append(queries, qm.Limit(10))
