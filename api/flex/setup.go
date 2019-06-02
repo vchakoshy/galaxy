@@ -74,6 +74,7 @@ func (s Setup) getInputActions() []InputAction {
 		s.Size.getInputAction("size"),
 		s.Subscription.getInputAction("subscription"),
 		s.Category.getInputAction("category"),
+		s.Filter.getInputAction("filter"),
 
 		// TODO: @ali this line not working
 		s.Sort.getInputAction("sort"),
