@@ -45,7 +45,7 @@ type BookDataProvider struct {
 func NewBookDataProvider(cs ComponentSettings) BookDataProvider {
 	return BookDataProvider{
 		ComponentSettings: cs,
-		Type:              "book",
+		ComponentType:     "book",
 	}
 }
 
