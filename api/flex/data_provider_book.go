@@ -204,6 +204,8 @@ func (d BookDataProvider) newGenericByModel(b *models.Book) Generic {
 		if b.R.Publisher != nil {
 			fb.IconText = b.R.Publisher.Title
 		}
+	case "HL_BOOKS_WIDE":
+		fb.SubTitle = b.Description
 	}
 
 	return fb
