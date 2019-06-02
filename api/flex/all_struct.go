@@ -41,7 +41,7 @@ type OutputComponent struct {
 
 type Output struct {
 	Components []OutputComponent `json:"components,"`
-	Items      []interface{}     `json:"model"`
+	Items      []interface{}     `json:"items"`
 	FlexErrors []string          `json:"flexErrors"`
 	IsLastPage bool              `json:"isLastPage"`
 	Setting    Setting           `json:"setting"`
