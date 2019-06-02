@@ -159,7 +159,7 @@ func (d BookDataProvider) newGenericByModel(b *models.Book) Generic {
 		BookID:      bookIDStr,
 		Image:       modext.GetBookNormalImage(b),
 		Icon:        modext.GetBookNormalImage(b),
-		Format:      strings.ToUpper(b.Format),
+		Format:      strings.ToLower(b.Format),
 		ContentType: strings.ToLower(b.ContentType),
 		Rate:        fmt.Sprintf("%.2f", b.Rate),
 		Action: &Action{
