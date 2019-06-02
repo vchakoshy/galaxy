@@ -2,6 +2,8 @@ package rest
 
 import (
 	"encoding/json"
+	"io/ioutil"
+	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -13,10 +15,19 @@ type pageReqData struct {
 	PageID      string   `json:"pageId"`
 	Page        int      `json:"page"`
 	CategoryIds []string `json:"categoryId"`
+	Sort        string   `json:"sort"`
 }
 
 func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
-	err = json.NewDecoder(c.Request.Body).Decode(&d)
+	b, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		return
+	}
+
+	log.Println(string(b))
+
+	// err = json.NewDecoder(c.Request.Body).Decode(&d)
+	err = json.Unmarshal(b, &d)
 
 	// fix default zero page number
 	if d.Page == 0 {

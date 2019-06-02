@@ -81,7 +81,6 @@ func (d BookDataProvider) getOutputComponent() OutputComponent {
 	for i, bk := range bs {
 		com.Data.Items.Generic[i] = d.newGenericByModel(bk)
 		com.Data.Items.Model[i] = newBookByModel(bk)
-
 	}
 
 	return com
@@ -124,7 +123,7 @@ func (d BookDataProvider) Models() (r models.BookSlice, err error) {
 		return
 	}
 
-	bookIdis := QueryIdis{}
+	bookIdis := queryIdis{}
 
 	for _, item := range esres.Hits.Hits {
 		itemID := strings.Replace(item.Id, "book-", "", 1)
