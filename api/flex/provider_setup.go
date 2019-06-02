@@ -23,8 +23,8 @@ func (ps ProviderSetup) GetKeyID() string {
 	return ""
 }
 
-func (ps ProviderSetup) getInputAction(key string) ComponentAction {
-	action := ComponentAction{}
+func (ps ProviderSetup) getInputAction(key string) InputAction {
+	action := InputAction{}
 
 	switch ps.Type {
 	case "STATIC":

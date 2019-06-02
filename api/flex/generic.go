@@ -78,12 +78,12 @@ func newGenericByModel(b *models.Book) Generic {
 		Rate:        fmt.Sprintf("%.2f", b.Rate),
 		Action: &Action{
 			Type: "book",
-			Input: []ComponentAction{
-				ComponentAction{
+			Input: []InputAction{
+				InputAction{
 					Key:   "bookId",
 					Value: bookIDStr,
 				},
-				ComponentAction{
+				InputAction{
 					Key:   "pageName",
 					Value: "BOOK_OVERVIEW_PAGE",
 				},
@@ -92,12 +92,12 @@ func newGenericByModel(b *models.Book) Generic {
 		},
 		ChildAction: &Action{
 			Type: "book",
-			Input: []ComponentAction{
-				ComponentAction{
+			Input: []InputAction{
+				InputAction{
 					Key:   "bookId",
 					Value: bookIDStr,
 				},
-				ComponentAction{
+				InputAction{
 					Key:   "pageName",
 					Value: "BOOK_OVERVIEW_PAGE",
 				},

@@ -67,10 +67,10 @@ func (s Setup) GetQueries() *elastic.BoolQuery {
 	return q
 }
 
-func (s Setup) getInputActions() []ComponentAction {
-	q := make([]ComponentAction, 0)
+func (s Setup) getInputActions() []InputAction {
+	q := make([]InputAction, 0)
 
-	f := []ComponentAction{
+	f := []InputAction{
 		s.Book.getInputAction("book"),
 		s.Free.getInputAction("free"),
 		s.Size.getInputAction("size"),

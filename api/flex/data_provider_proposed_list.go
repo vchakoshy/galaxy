@@ -71,12 +71,12 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 			Action: &Action{ // TODO fix actions
 				Type:   "proposed_list_page",
 				Method: "/general/proposed-list/get",
-				Input: []ComponentAction{
-					ComponentAction{
+				Input: []InputAction{
+					InputAction{
 						Key:   "proposedListId",
 						Value: v.ID,
 					},
-					ComponentAction{
+					InputAction{
 						Key:   "pageName",
 						Value: "READING_LIST_PAGE",
 					},
@@ -85,12 +85,12 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 			ChildAction: &Action{
 				Type:   "proposed_list_page",
 				Method: "/general/proposed-list/get",
-				Input: []ComponentAction{
-					ComponentAction{
+				Input: []InputAction{
+					InputAction{
 						Key:   "proposedListId",
 						Value: v.ID,
 					},
-					ComponentAction{
+					InputAction{
 						Key:   "pageName",
 						Value: "READING_LIST_PAGE",
 					},

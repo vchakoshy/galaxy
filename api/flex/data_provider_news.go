@@ -55,12 +55,12 @@ func (b NewsDataProvider) getOutputComponent(cs ComponentSettings, t string) Out
 			Action: &Action{ // TODO fix actions
 				Type:   "news_page",
 				Method: "/general/news/get",
-				Input: []ComponentAction{
-					ComponentAction{
+				Input: []InputAction{
+					InputAction{
 						Key:   "newsId",
 						Value: v.ID,
 					},
-					ComponentAction{
+					InputAction{
 						Key:   "pageName",
 						Value: "NEWS_DETAIL_PAGE",
 					},

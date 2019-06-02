@@ -40,8 +40,8 @@ func PageBlank(c *gin.Context) {
 		settings.Tabs[index].Action = flex.Action{
 			Method: "/flex/page/blank",
 			Type:   "flex_blank_page",
-			Input: []flex.ComponentAction{
-				flex.ComponentAction{
+			Input: []flex.InputAction{
+				flex.InputAction{
 					Key:   "pageId",
 					Value: tabs.PageID,
 				},

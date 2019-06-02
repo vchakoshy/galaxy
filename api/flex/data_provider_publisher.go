@@ -65,12 +65,12 @@ func (b PublisherDataProvider) getOutputComponent(cs ComponentSettings, t string
 			Action: &Action{ // TODO fix actions
 				Type:   "publisher_page",
 				Method: "/general/profile/publisher/get",
-				Input: []ComponentAction{
-					ComponentAction{
+				Input: []InputAction{
+					InputAction{
 						Key:   "publisherId",
 						Value: v.ID,
 					},
-					ComponentAction{
+					InputAction{
 						Key:   "pageName",
 						Value: "PUBLISHER_PAGE",
 					},

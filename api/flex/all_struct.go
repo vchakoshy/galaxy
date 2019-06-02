@@ -16,7 +16,7 @@ type Setting struct {
 	Tabs []Tabs `json:"tabs"`
 }
 
-type ComponentAction struct {
+type InputAction struct {
 	Key        string      `json:"key"`
 	ArrayValue []string    `json:"arrayValue,omitempty"`
 	Value      interface{} `json:"value,omitempty"`
@@ -24,7 +24,7 @@ type ComponentAction struct {
 
 type Action struct {
 	Type      string            `json:"type"`
-	Input     []ComponentAction `json:"input"`
+	Input     []InputAction `json:"input"`
 	ExtraData interface{}       `json:"extraData,omitempty"`
 	Method    string            `json:"method"`
 }

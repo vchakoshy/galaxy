@@ -5,7 +5,7 @@ type ProviderSimpleSetup struct {
 	Value interface{} `json:"value"`
 }
 
-func (ps ProviderSimpleSetup) getInputAction(key string) (action ComponentAction) {
+func (ps ProviderSimpleSetup) getInputAction(key string) (action InputAction) {
 	if ps.Type == "" {
 		return
 	}
