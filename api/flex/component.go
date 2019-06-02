@@ -60,7 +60,7 @@ func (c *Component) GetData(pageid int) []OutputComponent {
 			"HL_LOGOS", "VL_CARDS_BIG", "VL_CARDS_FULL", "VL_CONTENT_LIST_MORE",
 			"HL_TAGS", "VL_CARDS_ARROWED", "VL_CARDS_BOOKMARKABLE",
 			"VL_CARDS_SIMPLE_MORE", "VL_CARDS_FULL_MORE", "HL_GRID_SIMPLE",
-			"VL_BOOKS_DESCRIPTION":
+			"VL_BOOKS_DESCRIPTION", "VL_GRID_SIMPLE":
 			componenets = append(componenets, handleListComponent(cs, compModel.Type))
 		case "SINGLE_BANNER_SIMPLE", "SINGLE_BUTTON_SIMPLE", "SINGLE_TEXT_LINK",
 			"SINGLE_TEXT_SIMPLE", "SERVER_BOOK_REQUEST":
