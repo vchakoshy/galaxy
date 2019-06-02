@@ -59,6 +59,7 @@ func (d BookDataProvider) getOutputComponent() OutputComponent {
 		Type:         d.ComponentType,
 		ResourceType: dataProviderTypeBook,
 		Title:        d.ComponentSettings.Elements.Title.Value.Static,
+		SubTitle:     d.ComponentSettings.Elements.SubTitle.Value.Static,
 	}
 
 	a := d.ComponentSettings.Elements.MoreTitle.Action.getAction()

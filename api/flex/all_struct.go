@@ -25,18 +25,19 @@ type Action struct {
 }
 
 type OutputComponent struct {
-	Title string `json:"title,omitempty"`
-	Icon  string `json:"icon,omitempty"`
-	Data  struct {
+	Title        string  `json:"title,omitempty"`
+	Icon         string  `json:"icon,omitempty"`
+	SubTitle     string  `json:"subTitle,omitempty"`
+	Type         string  `json:"type,omitempty"`
+	ResourceType string  `json:"resource_type,omitempty"`
+	Action       *Action `json:"action,omitempty"`
+	ActionTitle  string  `json:"actionTitle,omitempty"`
+	Data         struct {
 		Items struct {
 			Generic []Generic     `json:"generic"`
 			Model   []interface{} `json:"model"`
 		} `json:"items"`
 	} `json:"data,omitempty"`
-	Type         string  `json:"type,omitempty"`
-	ResourceType string  `json:"resource_type,omitempty"`
-	Action       *Action `json:"action,omitempty"`
-	ActionTitle  string  `json:"actionTitle,omitempty"`
 }
 
 type Output struct {
