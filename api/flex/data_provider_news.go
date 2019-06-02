@@ -15,12 +15,12 @@ const (
 // NewsDataProvider struct
 type NewsDataProvider struct {
 	ComponentSettings ComponentSettings
-	Type              string
+	ComponentType     string
 }
 
 func (b NewsDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
-		Type:         b.Type,
+		Type:         b.ComponentType,
 		ResourceType: dataProviderTypeNews,
 		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}

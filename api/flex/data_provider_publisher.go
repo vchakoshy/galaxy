@@ -17,12 +17,12 @@ const (
 // PublisherDataProvider struct
 type PublisherDataProvider struct {
 	ComponentSettings ComponentSettings
-	Type              string
+	ComponentType     string
 }
 
 func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
-		Type:         b.Type,
+		Type:         b.ComponentType,
 		ResourceType: dataProviderTypePublisher,
 		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}

@@ -15,12 +15,12 @@ const (
 // ProposedListDataProvider struct
 type ProposedListDataProvider struct {
 	ComponentSettings ComponentSettings
-	Type              string
+	ComponentType     string
 }
 
 func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
-		Type:         b.Type,
+		Type:         b.ComponentType,
 		ResourceType: dataProviderTypeProposedList,
 		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}

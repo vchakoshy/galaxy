@@ -38,7 +38,7 @@ const (
 // BookDataProvider struct
 type BookDataProvider struct {
 	ComponentSettings ComponentSettings
-	Type              string
+	ComponentType     string
 }
 
 func (b BookDataProvider) GetOutputComponent() OutputComponent {
@@ -47,7 +47,7 @@ func (b BookDataProvider) GetOutputComponent() OutputComponent {
 
 func (b BookDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
-		Type:         b.Type,
+		Type:         b.ComponentType,
 		ResourceType: dataProviderTypeBook,
 		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}
