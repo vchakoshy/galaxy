@@ -43,13 +43,6 @@ func (ps Format) getInputAction(key string) (action InputAction) {
 		return
 	}
 
-	// switch ps.Value.(type) {
-	// case string:
-	// 	if ps.Value == "" {
-	// 		return
-	// 	}
-	// }
-
 	action.Key = key
 	action.Value = ps.Value
 
