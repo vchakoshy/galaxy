@@ -11,12 +11,12 @@ import (
 )
 
 type pageReqData struct {
-	PageName    string   `json:"pageName"`
-	PageID      string   `json:"pageId"`
-	Page        int      `json:"page"`
-	CategoryIds []string `json:"categoryId"`
-	Sort        string   `json:"sort"`
-	Filter      string   `json:"filter"`
+	PageName    string      `json:"pageName"`
+	PageID      string      `json:"pageId"`
+	Page        int         `json:"page"`
+	CategoryIds []string    `json:"categoryId"`
+	Sort        string      `json:"sort"`
+	Filter      interface{} `json:"filter"`
 }
 
 func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
