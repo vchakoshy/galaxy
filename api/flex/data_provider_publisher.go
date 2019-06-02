@@ -18,6 +18,13 @@ type PublisherDataProvider struct {
 	ComponentType     string
 }
 
+func NewPublisherDataProvider(cs ComponentSettings) PublisherDataProvider {
+	return PublisherDataProvider{
+		ComponentSettings: cs,
+		ComponentType:     "publisher",
+	}
+}
+
 func (b PublisherDataProvider) GetOutputComponent() OutputComponent {
 	return b.getOutputComponent()
 }
@@ -38,11 +45,13 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
-	publishers, err := b.Models()
+	p, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
 		return com
 	}
+
+	publishers := p.(models.PublisherSlice)
 
 	com.Data.Items.Generic = make([]Generic, len(publishers))
 	for i, v := range publishers {
@@ -71,7 +80,7 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 	return com
 }
 
-func (b PublisherDataProvider) Models() (r models.PublisherSlice, err error) {
+func (b PublisherDataProvider) Models() (r interface{}, err error) {
 	queries := []qm.QueryMod{}
 
 	queries = append(queries, qm.Where("content_provider_type=?", "BOOK"))

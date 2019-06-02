@@ -18,6 +18,13 @@ type NewsDataProvider struct {
 	ComponentType     string
 }
 
+func NewNewsDataProvider(cs ComponentSettings) NewsDataProvider {
+	return NewsDataProvider{
+		ComponentSettings: cs,
+		ComponentType:     "news",
+	}
+}
+
 func (b NewsDataProvider) GetOutputComponent() OutputComponent {
 	return b.getOutputComponent()
 }
@@ -38,11 +45,13 @@ func (b NewsDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
-	news, err := b.Models()
+	n, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
 		return com
 	}
+
+	news := n.(models.NewsSlice)
 
 	com.Data.Items.Generic = make([]Generic, len(news))
 	for i, v := range news {
@@ -79,7 +88,7 @@ func (b NewsDataProvider) getOutputComponent() OutputComponent {
 	return com
 }
 
-func (b NewsDataProvider) Models() (r models.NewsSlice, err error) {
+func (b NewsDataProvider) Models() (r interface{}, err error) {
 	queries := []qm.QueryMod{}
 
 	newsIDs := b.ComponentSettings.Settings.Setup.News.GetIdis()

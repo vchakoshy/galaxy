@@ -71,11 +71,13 @@ func (d BookDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = d.ComponentSettings.Elements.MoreTitle.Value
 	}
 
-	bs, err := d.Models()
+	b, err := d.Models()
 	if err != nil {
 		log.Println(err.Error())
 		return com
 	}
+
+	bs := b.(models.BookSlice)
 
 	com.Data.Items.Generic = make([]Generic, len(bs))
 	com.Data.Items.Model = make([]interface{}, len(bs))
@@ -87,7 +89,7 @@ func (d BookDataProvider) getOutputComponent() OutputComponent {
 	return com
 }
 
-func (d BookDataProvider) Models() (r models.BookSlice, err error) {
+func (d BookDataProvider) Models() (r interface{}, err error) {
 	ss := esClient.Search(hubble.ProductIndexName)
 
 	switch d.ComponentSettings.Settings.Setup.Sort.Value {
