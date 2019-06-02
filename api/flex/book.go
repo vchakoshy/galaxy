@@ -1,6 +1,7 @@
 package flex
 
 import (
+	"strings"
 	"time"
 
 	"gitlab.fidibo.com/backend/galaxy/api/models"
@@ -65,8 +66,8 @@ func newBookByModel(b *models.Book) Book {
 		PaperPrice:      b.PaperPrice.Float32,
 		BookImage:       modext.GetBookNormalImage(b),
 		BookImageSquare: b.ImageSquare,
-		Format:          b.Format,
-		ContentType:     b.ContentType,
+		Format:          strings.ToLower(b.Format),
+		ContentType:     strings.ToLower(b.ContentType),
 		Free:            modext.IsFree(b),
 		PublisherID:     b.PublisherID.Int,
 		AuthorID:        b.AuthorID.Int,

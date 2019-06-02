@@ -4,8 +4,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/volatiletech/sqlboiler/boil"
-
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -74,7 +72,6 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 }
 
 func (b PublisherDataProvider) Models() (r models.PublisherSlice, err error) {
-	boil.DebugMode = true
 	queries := []qm.QueryMod{}
 
 	queries = append(queries, qm.Where("content_provider_type=?", "BOOK"))
