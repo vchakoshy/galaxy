@@ -13,6 +13,7 @@ type pageReqData struct {
 	PageID      string   `json:"pageId"`
 	Page        int      `json:"page"`
 	CategoryIds []string `json:"categoryId"`
+	Sort        string   `json:"sort"`
 }
 
 func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
