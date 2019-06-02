@@ -20,6 +20,10 @@ type PublisherDataProvider struct {
 	ComponentType     string
 }
 
+func (b PublisherDataProvider) GetOutputComponent() OutputComponent {
+	return b.getOutputComponent()
+}
+
 func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
 		Type:         b.ComponentType,

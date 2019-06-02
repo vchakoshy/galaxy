@@ -7,7 +7,8 @@ import (
 	"gitlab.fidibo.com/backend/galaxy/api/flex"
 )
 
-func GeneralListBook(c *gin.Context) {
+func GeneralList(c *gin.Context) {
+	provider := c.Param("provider")
 	rq, err := NewPageReqDataFromRequestBody(c)
 	if err != nil {
 		log.Println(err.Error())
@@ -27,11 +28,7 @@ func GeneralListBook(c *gin.Context) {
 		}
 	}
 
-	bp := flex.BookDataProvider{
-		ComponentSettings: cs,
-		ComponentType:     "book",
-	}
-	out := bp.GetOutputComponent()
+	out := flex.NewDataProviderByComponentSettings(cs, provider).GetOutputComponent()
 
 	fr := flex.NewResponse()
 	fr.Output.Items = out.Data.Items.Model
