@@ -3,7 +3,6 @@ package api
 import (
 	"log"
 	"os"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -55,18 +54,18 @@ func Run() {
 		}
 	}
 
-	r.NoRoute(func(c *gin.Context) {
-		if strings.HasPrefix(c.Request.URL.Path, "/") {
-			rest.PastVersion(c)
-			return
-		}
+	// r.NoRoute(func(c *gin.Context) {
+	// 	if strings.HasPrefix(c.Request.URL.Path, "/") {
+	// 		rest.PastVersion(c)
+	// 		return
+	// 	}
 
-		c.JSON(404, gin.H{
-			"code":    "PAGE_NOT_FOUND",
-			"message": "Page not found",
-			"url":     c.Request.URL.Path,
-		})
-	})
+	// 	c.JSON(404, gin.H{
+	// 		"code":    "PAGE_NOT_FOUND",
+	// 		"message": "Page not found",
+	// 		"url":     c.Request.URL.Path,
+	// 	})
+	// })
 
 	if os.Getenv("HUBBLE_REINDEXER") == "1" {
 		go func() {
