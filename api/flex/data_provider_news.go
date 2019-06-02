@@ -18,6 +18,10 @@ type NewsDataProvider struct {
 	Type              string
 }
 
+func (b NewsDataProvider) GetOutputComponent() OutputComponent {
+	return b.getOutputComponent()
+}
+
 func (b NewsDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
 		Type:         b.Type,

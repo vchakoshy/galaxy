@@ -41,6 +41,14 @@ type BookDataProvider struct {
 	Type              string
 }
 
+// NewBookDataProvider returns new subscription
+func NewBookDataProvider(cs ComponentSettings) BookDataProvider {
+	return BookDataProvider{
+		ComponentSettings: cs,
+		Type:              "book",
+	}
+}
+
 func (b BookDataProvider) GetOutputComponent() OutputComponent {
 	return b.getOutputComponent()
 }

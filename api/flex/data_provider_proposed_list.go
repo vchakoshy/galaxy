@@ -18,6 +18,10 @@ type ProposedListDataProvider struct {
 	Type              string
 }
 
+func (b ProposedListDataProvider) GetOutputComponent() OutputComponent {
+	return b.getOutputComponent()
+}
+
 func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
 		Type:         b.Type,
