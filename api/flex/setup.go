@@ -70,12 +70,14 @@ func (s Setup) GetQueries() *elastic.BoolQuery {
 func (s Setup) getInputActions() []InputAction {
 	q := make([]InputAction, 0)
 
+	// TODO: complete input actions
 	f := []InputAction{
 		s.Book.getInputAction("book"),
 		s.Free.getInputAction("free"),
 		s.Size.getInputAction("size"),
 		s.Subscription.getInputAction("subscription"),
 		s.Category.getInputAction("category"),
+		s.Sort.getInputAction("sort"),
 	}
 
 	for _, ca := range f {
