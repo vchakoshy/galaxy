@@ -52,6 +52,11 @@ func Run() {
 		{
 			flexy.POST("/page/blank", rest.PageBlank)
 		}
+
+		glist := v1.Group("/general/list/")
+		{
+			glist.POST("/book/", rest.GeneralListBook)
+		}
 	}
 
 	if os.Getenv("HUBBLE_REINDEXER") == "1" {

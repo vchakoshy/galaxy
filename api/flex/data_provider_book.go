@@ -34,6 +34,10 @@ const (
 // BookDataProvider struct
 type BookDataProvider struct{}
 
+func (b BookDataProvider) GetOutputComponent(cs ComponentSettings, t string) OutputComponent {
+	return b.getOutputComponent(cs, t)
+}
+
 func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	com := OutputComponent{
 		Type:         t,

@@ -9,9 +9,10 @@ import (
 )
 
 type pageReqData struct {
-	PageName string `json:"pageName"`
-	PageID   string `json:"pageId"`
-	Page     int    `json:"page"`
+	PageName    string   `json:"pageName"`
+	PageID      string   `json:"pageId"`
+	Page        int      `json:"page"`
+	CategoryIds []string `json:"categoryId"`
 }
 
 func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
