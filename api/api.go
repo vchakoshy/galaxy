@@ -3,7 +3,6 @@ package api
 import (
 	"log"
 	"os"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -29,7 +28,7 @@ func Run() {
 	boil.SetDB(db)
 
 	r := gin.Default()
-	r.Use(CORSMiddleware())
+	r.Use(corsMiddleware())
 
 	ping := r.Group("/ping/")
 	{
@@ -55,19 +54,6 @@ func Run() {
 		}
 	}
 
-	r.NoRoute(func(c *gin.Context) {
-		if strings.HasPrefix(c.Request.URL.Path, "/") {
-			rest.PastVersion(c)
-			return
-		}
-
-		c.JSON(404, gin.H{
-			"code":    "PAGE_NOT_FOUND",
-			"message": "Page not found",
-			"url":     c.Request.URL.Path,
-		})
-	})
-
 	if os.Getenv("HUBBLE_REINDEXER") == "1" {
 		go func() {
 			hubble.Run()
@@ -83,7 +69,7 @@ func Run() {
 	log.Println(err.Error())
 }
 
-func CORSMiddleware() gin.HandlerFunc {
+func corsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")

@@ -22,7 +22,6 @@ func AuthorItem(c *gin.Context) {
 		return
 	}
 	c.JSON(200, author)
-
 }
 
 func AuthorItemUpdate(c *gin.Context) {
