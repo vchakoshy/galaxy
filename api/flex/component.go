@@ -90,7 +90,7 @@ func (acs ActionCS) getAction() (a *Action) {
 
 	switch acs.Type {
 	case actionContentListPanelType:
-		a.Method = "/galaxy/api/v1/general/list/book/"
+		a.Method = "/v2/general/list/book"
 	case actionBookPanelType:
 		a.Method = "/"
 	case actionProposedListPagePanelType:
