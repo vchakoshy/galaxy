@@ -17,6 +17,7 @@ type pageReqData struct {
 }
 
 func NewPageReqDataFromRequestBody(c *gin.Context) (d pageReqData, err error) {
+
 	err = json.NewDecoder(c.Request.Body).Decode(&d)
 
 	// fix default zero page number
