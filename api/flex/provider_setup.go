@@ -30,6 +30,7 @@ func (ps ProviderSetup) getInputAction(key string) InputAction {
 	case "STATIC":
 		action.Key = ps.GetKeyID()
 		action.ArrayValue = ps.Ids
+	case "DYNAMIC":
 	}
 
 	return action

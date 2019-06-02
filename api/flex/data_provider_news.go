@@ -13,27 +13,30 @@ const (
 )
 
 // NewsDataProvider struct
-type NewsDataProvider struct{}
+type NewsDataProvider struct {
+	ComponentSettings ComponentSettings
+	Type              string
+}
 
-func (b NewsDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
+func (b NewsDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
-		Type:         t,
+		Type:         b.Type,
 		ResourceType: dataProviderTypeNews,
-		Title:        cs.Elements.Title.Value.Static,
+		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}
 
-	a := cs.Elements.MoreTitle.Action.getAction()
+	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
 		com.Action = a
 	}
 
-	if cs.Elements.MoreTitle.Value != "" {
-		com.ActionTitle = cs.Elements.MoreTitle.Value
+	if b.ComponentSettings.Elements.MoreTitle.Value != "" {
+		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
 	queries := []qm.QueryMod{}
 
-	newsIDs := cs.Settings.Setup.News.GetIdis()
+	newsIDs := b.ComponentSettings.Settings.Setup.News.GetIdis()
 	if len(newsIDs) > 0 {
 		queries = append(queries, qm.WhereIn("news.id in ?", newsIDs...))
 	}

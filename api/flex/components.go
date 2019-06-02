@@ -3,16 +3,16 @@ package flex
 func handleListComponent(cs ComponentSettings, t string) OutputComponent {
 	switch cs.Settings.DataProvider {
 	case dataProviderTypeBook:
-		return getOutputComponent(BookDataProvider{}, cs, t)
+		return getOutputComponent(BookDataProvider{cs, t})
 
 	case dataProviderTypeProposedList:
-		return getOutputComponent(ProposedListDataProvider{}, cs, t)
+		return getOutputComponent(ProposedListDataProvider{cs, t})
 
 	case dataProviderTypePublisher:
-		return getOutputComponent(PublisherDataProvider{}, cs, t)
+		return getOutputComponent(PublisherDataProvider{cs, t})
 
 	case dataProviderTypeNews:
-		return getOutputComponent(NewsDataProvider{}, cs, t)
+		return getOutputComponent(NewsDataProvider{cs, t})
 	}
 
 	return OutputComponent{}

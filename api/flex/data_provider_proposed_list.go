@@ -13,39 +13,42 @@ const (
 )
 
 // ProposedListDataProvider struct
-type ProposedListDataProvider struct{}
+type ProposedListDataProvider struct {
+	ComponentSettings ComponentSettings
+	Type              string
+}
 
-func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
+func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
-		Type:         t,
+		Type:         b.Type,
 		ResourceType: dataProviderTypeProposedList,
-		Title:        cs.Elements.Title.Value.Static,
+		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}
 
-	a := cs.Elements.MoreTitle.Action.getAction()
+	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
 		com.Action = a
 	}
 
-	if cs.Elements.MoreTitle.Value != "" {
-		com.ActionTitle = cs.Elements.MoreTitle.Value
+	if b.ComponentSettings.Elements.MoreTitle.Value != "" {
+		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
 	queries := []qm.QueryMod{}
 
-	catIds := cs.Settings.Setup.Category.GetIdis()
+	catIds := b.ComponentSettings.Settings.Setup.Category.GetIdis()
 	if len(catIds) > 0 {
 		queries = append(queries, qm.InnerJoin("general_category_assign ON general_category_assign.item_id = propose_book_list.id AND item_type='ProposeBookList'"))
 		queries = append(queries, qm.WhereIn("general_category_assign.category_id = ?", catIds...))
 	}
 
-	authorIDs := cs.Settings.Setup.Author.GetIdis()
+	authorIDs := b.ComponentSettings.Settings.Setup.Author.GetIdis()
 	if len(authorIDs) > 0 {
 		queries = append(queries, qm.InnerJoin("book ON book.id = propose_book_list_item.book_id"))
 		queries = append(queries, qm.WhereIn("book.author_id in ?", authorIDs...))
 	}
 
-	plIDs := cs.Settings.Setup.ProposedList.GetIdis()
+	plIDs := b.ComponentSettings.Settings.Setup.ProposedList.GetIdis()
 	if len(plIDs) > 0 {
 		queries = append(queries, qm.WhereIn("propose_book_list.id in ?", plIDs...))
 	}
@@ -67,7 +70,7 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 			Image:     v.CoverImage.String,
 			IconTitle: v.R.Author.Name,
 			Icon:      v.R.Author.Logo.String,
-			// FooterText: v.R.ProposeBookListItems, // Count proposeBookListItems
+			// FooterText: v.R.ProposeBookListItems, // TODO Count proposeBookListItems
 			Action: &Action{ // TODO fix actions
 				Type:   "proposed_list_page",
 				Method: "/general/proposed-list/get",
@@ -102,4 +105,8 @@ func (b ProposedListDataProvider) getOutputComponent(cs ComponentSettings, t str
 	}
 
 	return com
+}
+
+func (b ProposedListDataProvider) Models() {
+
 }

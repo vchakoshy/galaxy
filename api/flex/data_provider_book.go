@@ -32,27 +32,30 @@ const (
 )
 
 // BookDataProvider struct
-type BookDataProvider struct{}
+type BookDataProvider struct {
+	ComponentSettings ComponentSettings
+	Type              string
+}
 
-func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
+func (b BookDataProvider) getOutputComponent() OutputComponent {
 	com := OutputComponent{
-		Type:         t,
+		Type:         b.Type,
 		ResourceType: dataProviderTypeBook,
-		Title:        cs.Elements.Title.Value.Static,
+		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}
 
-	a := cs.Elements.MoreTitle.Action.getAction()
+	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
 		com.Action = a
 	}
 
-	if cs.Elements.MoreTitle.Value != "" {
-		com.ActionTitle = cs.Elements.MoreTitle.Value
+	if b.ComponentSettings.Elements.MoreTitle.Value != "" {
+		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
 	ss := esClient.Search(hubble.ProductIndexName)
 
-	switch cs.Settings.Setup.Sort.Value {
+	switch b.ComponentSettings.Settings.Setup.Sort.Value {
 	case sortTypeRecent:
 		ss.Sort(elasticFieldID, false)
 	case sortTypeRecentPublish:
@@ -71,7 +74,7 @@ func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) Out
 		ss.Sort(elasticFieldPublishTime, false)
 	}
 
-	q := cs.Settings.Setup.GetQueries()
+	q := b.ComponentSettings.Settings.Setup.GetQueries()
 
 	// TODO: enable this in future
 	// q.Must(elastic.NewTermQuery("publish", 1))
