@@ -36,7 +36,7 @@ func GeneralList(c *gin.Context) {
 	cs.Settings.Setup.Filter.Type = "filter"
 	cs.Settings.Setup.Filter.Value = rq.Filter
 
-	out := flex.NewDataProviderByComponentSettings(cs, provider).GetOutputComponent()
+	out := flex.NewDataProvider(cs, provider).GetOutputComponent()
 
 	fr := flex.NewResponse()
 	fr.Output.Items = out.Data.Items.Model

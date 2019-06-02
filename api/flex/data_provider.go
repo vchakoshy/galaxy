@@ -10,8 +10,7 @@ func getOutputComponent(p DataProvider) OutputComponent {
 	return p.GetOutputComponent()
 }
 
-func NewDataProviderByComponentSettings(cs ComponentSettings, typ string) (d DataProvider) {
-
+func NewDataProvider(cs ComponentSettings, typ string) (d DataProvider) {
 	switch typ {
 	case "book":
 		d = NewBookDataProvider(cs)
