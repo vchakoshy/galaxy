@@ -40,7 +40,7 @@ type OutputComponent struct {
 }
 
 type Output struct {
-	Components []OutputComponent `json:"components"`
+	Components []OutputComponent `json:"components,"`
 	Items      []interface{}     `json:"model"`
 	FlexErrors []string          `json:"flexErrors"`
 	IsLastPage bool              `json:"isLastPage"`
@@ -49,9 +49,23 @@ type Output struct {
 	Result     bool              `json:"result"`
 }
 
+func NewOutput() Output {
+	return Output{
+		Components: make([]OutputComponent, 0),
+		Items:      make([]interface{}, 0),
+		FlexErrors: make([]string, 0),
+	}
+}
+
 type Response struct {
 	Output     Output `json:"output"`
 	Error      string `json:"error"`
 	Message    string `json:"message"`
 	IsPlusMode bool   `json:"isPlusMode"`
+}
+
+func NewResponse() Response {
+	return Response{
+		Output: NewOutput(),
+	}
 }
