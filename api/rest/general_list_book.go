@@ -3,6 +3,7 @@ package rest
 import (
 	"log"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
 	"gitlab.fidibo.com/backend/galaxy/api/flex"
 )
@@ -15,6 +16,7 @@ func GeneralList(c *gin.Context) {
 		c.JSON(400, gin.H{"error": "bad data"})
 		return
 	}
+	spew.Dump(rq)
 
 	cs := flex.ComponentSettings{
 		Settings: flex.Settings{
