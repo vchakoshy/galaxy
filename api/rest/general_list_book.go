@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"io/ioutil"
 	"log"
 
 	"github.com/davecgh/go-spew/spew"
@@ -10,6 +11,9 @@ import (
 
 func GeneralList(c *gin.Context) {
 	provider := c.Param("provider")
+	b := c.Request.Body
+	by, _ := ioutil.ReadAll(b)
+	log.Println(string(by))
 	rq, err := NewPageReqDataFromRequestBody(c)
 	if err != nil {
 		log.Println(err.Error())
@@ -29,6 +33,7 @@ func GeneralList(c *gin.Context) {
 			Ids: rq.CategoryIds,
 		}
 	}
+	// cs.Settings.Setup.Sort
 
 	out := flex.NewDataProviderByComponentSettings(cs, provider).GetOutputComponent()
 
