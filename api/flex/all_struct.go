@@ -1,10 +1,5 @@
 package flex
 
-type ActionInput struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
-}
-
 type Tabs struct {
 	Title  string `json:"title"`
 	PageID string `json:"pageId"`
@@ -23,10 +18,10 @@ type InputAction struct {
 }
 
 type Action struct {
-	Type      string            `json:"type"`
+	Type      string        `json:"type"`
 	Input     []InputAction `json:"input"`
-	ExtraData interface{}       `json:"extraData,omitempty"`
-	Method    string            `json:"method"`
+	ExtraData interface{}   `json:"extraData,omitempty"`
+	Method    string        `json:"method"`
 }
 
 type OutputComponent struct {
