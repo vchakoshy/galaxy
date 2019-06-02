@@ -4,8 +4,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/volatiletech/sqlboiler/boil"
-
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
@@ -26,7 +24,6 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 		ResourceType: dataProviderTypePublisher,
 		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}
-	boil.DebugMode = true
 
 	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
