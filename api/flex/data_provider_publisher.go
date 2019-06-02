@@ -26,7 +26,6 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 		ResourceType: dataProviderTypePublisher,
 		Title:        b.ComponentSettings.Elements.Title.Value.Static,
 	}
-	boil.DebugMode = true
 
 	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
@@ -37,24 +36,7 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
-	queries := []qm.QueryMod{}
-
-	queries = append(queries, qm.Where("content_provider_type=?", "BOOK"))
-
-	publisherIDs := b.ComponentSettings.Settings.Setup.Publisher.GetIdis()
-	if len(publisherIDs) > 0 {
-		queries = append(queries, qm.WhereIn("publisher.id in ?", publisherIDs...))
-	}
-
-	channelIDs := b.ComponentSettings.Settings.Setup.ProposedList.GetIdis()
-	if len(channelIDs) > 0 {
-		queries = append(queries, qm.InnerJoin("channel ON channel.publisher_id = publisher.id"))
-		queries = append(queries, qm.WhereIn("channel.id in ?", channelIDs...))
-	}
-
-	queries = append(queries, qm.Limit(10))
-
-	publishers, err := models.Publishers(queries...).AllG(context.Background())
+	publishers, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
 		return com
@@ -85,4 +67,28 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 	}
 
 	return com
+}
+
+func (b PublisherDataProvider) Models() (r models.PublisherSlice, err error) {
+	boil.DebugMode = true
+	queries := []qm.QueryMod{}
+
+	queries = append(queries, qm.Where("content_provider_type=?", "BOOK"))
+
+	publisherIDs := b.ComponentSettings.Settings.Setup.Publisher.GetIdis()
+	if len(publisherIDs) > 0 {
+		queries = append(queries, qm.WhereIn("publisher.id in ?", publisherIDs...))
+	}
+
+	channelIDs := b.ComponentSettings.Settings.Setup.ProposedList.GetIdis()
+	if len(channelIDs) > 0 {
+		queries = append(queries, qm.InnerJoin("channel ON channel.publisher_id = publisher.id"))
+		queries = append(queries, qm.WhereIn("channel.id in ?", channelIDs...))
+	}
+
+	queries = append(queries, qm.Limit(10))
+
+	r, err = models.Publishers(queries...).AllG(context.Background())
+
+	return
 }

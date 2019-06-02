@@ -1,12 +1,11 @@
 package flex
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
-
-	"context"
-	"log"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"

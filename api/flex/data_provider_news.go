@@ -34,16 +34,7 @@ func (b NewsDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
-	queries := []qm.QueryMod{}
-
-	newsIDs := b.ComponentSettings.Settings.Setup.News.GetIdis()
-	if len(newsIDs) > 0 {
-		queries = append(queries, qm.WhereIn("news.id in ?", newsIDs...))
-	}
-
-	queries = append(queries, qm.Limit(10), qm.Load("Publisher"))
-
-	news, err := models.AllNews(queries...).AllG(context.Background())
+	news, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
 		return com
@@ -82,4 +73,19 @@ func (b NewsDataProvider) getOutputComponent() OutputComponent {
 	}
 
 	return com
+}
+
+func (b NewsDataProvider) Models() (r models.NewsSlice, err error) {
+	queries := []qm.QueryMod{}
+
+	newsIDs := b.ComponentSettings.Settings.Setup.News.GetIdis()
+	if len(newsIDs) > 0 {
+		queries = append(queries, qm.WhereIn("news.id in ?", newsIDs...))
+	}
+
+	queries = append(queries, qm.Limit(10), qm.Load("Publisher"))
+
+	r, err = models.AllNews(queries...).AllG(context.Background())
+
+	return
 }

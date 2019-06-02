@@ -2,9 +2,13 @@ package flex
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"strconv"
 	"strings"
 
+	"github.com/volatiletech/sqlboiler/queries/qm"
+	"gitlab.fidibo.com/backend/galaxy/api/models"
 	"gitlab.fidibo.com/backend/galaxy/hubble"
 )
 
@@ -57,6 +61,24 @@ func (b BookDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
+	bs, err := b.Models()
+	if err != nil {
+		log.Println(err.Error())
+		return com
+	}
+
+	com.Data.Items.Generic = make([]Generic, len(bs))
+	com.Data.Items.Model = make([]interface{}, len(bs))
+	for i, bk := range bs {
+		com.Data.Items.Generic[i] = newGenericByModel(bk)
+		com.Data.Items.Model[i] = newBookByModel(bk)
+
+	}
+
+	return com
+}
+
+func (b BookDataProvider) Models() (r models.BookSlice, err error) {
 	ss := esClient.Search(hubble.ProductIndexName)
 
 	switch b.ComponentSettings.Settings.Setup.Sort.Value {
@@ -90,7 +112,7 @@ func (b BookDataProvider) getOutputComponent() OutputComponent {
 		Do(context.Background())
 	if err != nil {
 		log.Println(err.Error())
-		return OutputComponent{}
+		return
 	}
 
 	bookIdis := QueryIdis{}
@@ -100,14 +122,23 @@ func (b BookDataProvider) getOutputComponent() OutputComponent {
 		bookIdis = append(bookIdis, itemID)
 	}
 
-	gens, mods := newBooksByIds(bookIdis.getInts())
+	ids := bookIdis.getInts()
 
-	com.Data.Items.Generic = make([]Generic, len(gens))
-	com.Data.Items.Model = make([]interface{}, len(gens))
-	for i, v := range gens {
-		com.Data.Items.Generic[i] = v
-		com.Data.Items.Model[i] = mods[i]
+	iids := make([]interface{}, len(ids))
+	idStrs := make([]string, len(ids))
+	for index, num := range ids {
+		iids[index] = num
+		idStrs[index] = strconv.Itoa(num)
 	}
 
-	return com
+	orderByIdid := fmt.Sprintf("FIELD(id,%s)", strings.Join(idStrs, ","))
+
+	r, err = models.Books(
+		qm.WhereIn("id in ?", iids...),
+		qm.OrderBy(orderByIdid),
+		qm.Load("Publisher"),
+		qm.Load("Author")).
+		AllG(context.Background())
+
+	return
 }

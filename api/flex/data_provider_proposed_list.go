@@ -34,29 +34,7 @@ func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
-	queries := []qm.QueryMod{}
-
-	catIds := b.ComponentSettings.Settings.Setup.Category.GetIdis()
-	if len(catIds) > 0 {
-		queries = append(queries, qm.InnerJoin("general_category_assign ON general_category_assign.item_id = propose_book_list.id AND item_type='ProposeBookList'"))
-		queries = append(queries, qm.WhereIn("general_category_assign.category_id = ?", catIds...))
-	}
-
-	authorIDs := b.ComponentSettings.Settings.Setup.Author.GetIdis()
-	if len(authorIDs) > 0 {
-		queries = append(queries, qm.InnerJoin("book ON book.id = propose_book_list_item.book_id"))
-		queries = append(queries, qm.WhereIn("book.author_id in ?", authorIDs...))
-	}
-
-	plIDs := b.ComponentSettings.Settings.Setup.ProposedList.GetIdis()
-	if len(plIDs) > 0 {
-		queries = append(queries, qm.WhereIn("propose_book_list.id in ?", plIDs...))
-	}
-
-	queries = append(queries, qm.Limit(10))
-	queries = append(queries, qm.Load("Author"))
-
-	proposeLists, err := models.ProposeBookLists(queries...).AllG(context.Background())
+	proposeLists, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
 		return com
@@ -107,6 +85,30 @@ func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 	return com
 }
 
-func (b ProposedListDataProvider) Models() {
+func (b ProposedListDataProvider) Models() (r models.ProposeBookListSlice, err error) {
+	queries := []qm.QueryMod{}
 
+	catIds := b.ComponentSettings.Settings.Setup.Category.GetIdis()
+	if len(catIds) > 0 {
+		queries = append(queries, qm.InnerJoin("general_category_assign ON general_category_assign.item_id = propose_book_list.id AND item_type='ProposeBookList'"))
+		queries = append(queries, qm.WhereIn("general_category_assign.category_id = ?", catIds...))
+	}
+
+	authorIDs := b.ComponentSettings.Settings.Setup.Author.GetIdis()
+	if len(authorIDs) > 0 {
+		queries = append(queries, qm.InnerJoin("book ON book.id = propose_book_list_item.book_id"))
+		queries = append(queries, qm.WhereIn("book.author_id in ?", authorIDs...))
+	}
+
+	plIDs := b.ComponentSettings.Settings.Setup.ProposedList.GetIdis()
+	if len(plIDs) > 0 {
+		queries = append(queries, qm.WhereIn("propose_book_list.id in ?", plIDs...))
+	}
+
+	queries = append(queries, qm.Limit(10))
+	queries = append(queries, qm.Load("Author"))
+
+	r, err = models.ProposeBookLists(queries...).AllG(context.Background())
+
+	return
 }
