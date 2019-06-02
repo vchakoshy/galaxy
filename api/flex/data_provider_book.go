@@ -37,15 +37,11 @@ type BookDataProvider struct {
 	Type              string
 }
 
-<<<<<<< HEAD
 func (b BookDataProvider) GetOutputComponent(cs ComponentSettings, t string) OutputComponent {
 	return b.getOutputComponent(cs, t)
 }
 
 func (b BookDataProvider) getOutputComponent(cs ComponentSettings, t string) OutputComponent {
-=======
-func (b BookDataProvider) getOutputComponent() OutputComponent {
->>>>>>> ab49303a1173700375deef523053f7befae29a06
 	com := OutputComponent{
 		Type:         b.Type,
 		ResourceType: dataProviderTypeBook,
