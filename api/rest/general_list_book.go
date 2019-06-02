@@ -25,8 +25,11 @@ func GeneralListBook(c *gin.Context) {
 		},
 	}
 
-	bp := flex.BookDataProvider{}
-	out := bp.GetOutputComponent(cs, "book")
+	bp := flex.BookDataProvider{
+		ComponentSettings: cs,
+		Type:              "book",
+	}
+	out := bp.GetOutputComponent()
 
 	fs := flex.Response{
 		Output: flex.Output{
