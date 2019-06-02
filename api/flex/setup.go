@@ -29,11 +29,31 @@ type Setup struct {
 		Type         string      `json:"type"`
 		Value        queryIdis   `json:"value"`
 	} `json:"contentType"`
-	Format struct {
-		DataProvider interface{} `json:"dataProvider"`
-		Type         string      `json:"type"`
-		Value        queryIdis   `json:"value"`
-	} `json:"format"`
+	Format Format `json:"format"`
+}
+
+type Format struct {
+	DataProvider interface{} `json:"dataProvider"`
+	Type         string      `json:"type"`
+	Value        queryIdis   `json:"value"`
+}
+
+func (ps Format) getInputAction(key string) (action InputAction) {
+	if ps.Type == "" {
+		return
+	}
+
+	// switch ps.Value.(type) {
+	// case string:
+	// 	if ps.Value == "" {
+	// 		return
+	// 	}
+	// }
+
+	action.Key = key
+	action.Value = ps.Value
+
+	return
 }
 
 // GetQueries of setup
@@ -75,6 +95,7 @@ func (s Setup) getInputActions() []InputAction {
 		s.Subscription.getInputAction("subscription"),
 		s.Category.getInputAction("category"),
 		s.Filter.getInputAction("filter"),
+		s.Format.getInputAction("format"),
 
 		// TODO: @ali this line not working
 		s.Sort.getInputAction("sort"),
