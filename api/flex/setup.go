@@ -1,9 +1,6 @@
 package flex
 
 import (
-	"strconv"
-	"strings"
-
 	"github.com/olivere/elastic"
 )
 
@@ -30,12 +27,12 @@ type Setup struct {
 	ContentType struct {
 		DataProvider interface{} `json:"dataProvider"`
 		Type         string      `json:"type"`
-		Value        QueryIdis   `json:"value"`
+		Value        queryIdis   `json:"value"`
 	} `json:"contentType"`
 	Format struct {
 		DataProvider interface{} `json:"dataProvider"`
 		Type         string      `json:"type"`
-		Value        QueryIdis   `json:"value"`
+		Value        queryIdis   `json:"value"`
 	} `json:"format"`
 }
 
@@ -77,6 +74,8 @@ func (s Setup) getInputActions() []InputAction {
 		s.Size.getInputAction("size"),
 		s.Subscription.getInputAction("subscription"),
 		s.Category.getInputAction("category"),
+
+		// TODO: @ali this line not working
 		s.Sort.getInputAction("sort"),
 	}
 
@@ -87,44 +86,4 @@ func (s Setup) getInputActions() []InputAction {
 	}
 
 	return q
-}
-
-type QueryIdis []interface{}
-
-func (q QueryIdis) getInts() []int {
-	r := make([]int, 0)
-	for _, id := range q {
-		switch id.(type) {
-		case string:
-			intval, err := strconv.Atoi(id.(string))
-			if err == nil {
-				r = append(r, intval)
-			}
-
-		case int:
-			r = append(r, id.(int))
-		}
-
-	}
-
-	return r
-}
-
-func (q QueryIdis) getInterfaceList() []interface{} {
-	qidis := make([]interface{}, 0)
-	for _, id := range q {
-		qidis = append(qidis, id)
-	}
-
-	return qidis
-}
-
-func (q QueryIdis) getInterfaceStringLowerList() []interface{} {
-	contentTypeList := q.getInterfaceList()
-
-	for index, ct := range contentTypeList {
-		contentTypeList[index] = strings.ToLower(ct.(string))
-	}
-
-	return contentTypeList
 }
