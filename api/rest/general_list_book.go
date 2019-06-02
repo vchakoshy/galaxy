@@ -17,12 +17,14 @@ func GeneralListBook(c *gin.Context) {
 
 	cs := flex.ComponentSettings{
 		Settings: flex.Settings{
-			Setup: flex.Setup{
-				Category: flex.ProviderSetup{
-					Ids: rq.CategoryIds,
-				},
-			},
+			Setup: flex.Setup{},
 		},
+	}
+
+	if len(rq.CategoryIds) > 0 {
+		cs.Settings.Setup.Category = flex.ProviderSetup{
+			Ids: rq.CategoryIds,
+		}
 	}
 
 	bp := flex.BookDataProvider{
@@ -31,16 +33,12 @@ func GeneralListBook(c *gin.Context) {
 	}
 	out := bp.GetOutputComponent()
 
-	fs := flex.Response{
-		Output: flex.Output{
-			Items:      out.Data.Items.Model,
-			FlexErrors: []string{},
-			Title:      "not set ",
-			Result:     true,
-			IsLastPage: false,
-		},
-	}
+	fr := flex.NewResponse()
+	fr.Output.Items = out.Data.Items.Model
+	fr.Output.Title = "not set "
+	fr.Output.Result = true
+	fr.Output.IsLastPage = false
 
-	c.JSON(200, fs)
+	c.JSON(200, fr)
 
 }
