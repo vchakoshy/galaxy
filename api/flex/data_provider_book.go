@@ -199,6 +199,11 @@ func (d BookDataProvider) newGenericByModel(b *models.Book) Generic {
 	switch d.ComponentType {
 	case "HL_BOOKS_MAGAZINE":
 		fb.SubTitle = b.PublishDate.Time.String() // TODO handle shamsi date
+	case "VL_BOOKS_DESCRIPTION":
+		fb.Text = b.Description
+		if b.R.Publisher != nil {
+			fb.IconText = b.R.Publisher.Title
+		}
 	}
 
 	return fb
