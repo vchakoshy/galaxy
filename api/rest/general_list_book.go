@@ -29,8 +29,12 @@ func GeneralList(c *gin.Context) {
 			Ids: rq.CategoryIds,
 		}
 	}
+
 	cs.Settings.Setup.Sort.Type = "sort"
 	cs.Settings.Setup.Sort.Value = rq.Sort
+
+	cs.Settings.Setup.Filter.Type = "filter"
+	cs.Settings.Setup.Filter.Value = rq.Filter
 
 	out := flex.NewDataProviderByComponentSettings(cs, provider).GetOutputComponent()
 
