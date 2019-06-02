@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"strings"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
@@ -83,7 +84,7 @@ const (
 
 func (acs ActionCS) getAction() (a *Action) {
 	a = &Action{
-		Type:      acs.Type,
+		Type:      strings.ToLower(acs.Type),
 		Input:     acs.Setup.getInputActions(),
 		ExtraData: nil,
 	}
