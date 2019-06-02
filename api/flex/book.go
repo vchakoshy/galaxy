@@ -62,7 +62,6 @@ func newBookByModel(b *models.Book) Book {
 	rs := Book{
 		BookID:          b.ID,
 		BookTitle:       b.Title,
-		Price:           b.Price,
 		PaperPrice:      b.PaperPrice.Float32,
 		BookImage:       modext.GetBookNormalImage(b),
 		BookImageSquare: b.ImageSquare,
@@ -71,6 +70,7 @@ func newBookByModel(b *models.Book) Book {
 		Free:            modext.IsFree(b),
 		PublisherID:     b.PublisherID.Int,
 		AuthorID:        b.AuthorID.Int,
+		// Price:           b.Price,
 		// Translator:      nil,
 		// TranslatorID:    b.TranslatorID,
 		// Narrator:        nil,
