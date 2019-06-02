@@ -7,13 +7,11 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 )
 
 func AuthorItem(c *gin.Context) {
-	boil.DebugMode = true
 	id := c.Param("id")
 	log.Println(id)
 	author, err := models.Authors(qm.Where("id=?", id)).
@@ -24,7 +22,6 @@ func AuthorItem(c *gin.Context) {
 		return
 	}
 	c.JSON(200, author)
-	boil.DebugMode = true
 }
 
 func AuthorItemUpdate(c *gin.Context) {
