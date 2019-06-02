@@ -8,6 +8,8 @@ type Generic struct {
 	Icon         string  `json:"icon,omitempty"`
 	IconSubtitle string  `json:"iconSubtitle,omitempty"`
 	IconTitle    string  `json:"iconTitle,omitempty"`
+	IconText     string  `json:"iconText,omitempty"`
+	Text         string  `json:"text,omitempty"`
 	FooterText   string  `json:"footerText,omitempty"`
 	Image        string  `json:"image,omitempty"`
 	Ratio        string  `json:"ratio,omitempty"`
