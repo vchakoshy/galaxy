@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/volatiletech/sqlboiler/boil"
+
 	"github.com/volatiletech/sqlboiler/queries/qm"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
@@ -142,12 +144,21 @@ func (d BookDataProvider) Models() (r models.BookSlice, err error) {
 
 	orderByIdid := fmt.Sprintf("FIELD(id,%s)", strings.Join(idStrs, ","))
 
-	r, err = models.Books(
+	boil.DebugMode = true
+
+	queries := []qm.QueryMod{}
+	queries = append(queries,
 		qm.WhereIn("id in ?", iids...),
 		qm.OrderBy(orderByIdid),
 		qm.Load("Publisher"),
-		qm.Load("Author")).
-		AllG(context.Background())
+		qm.Load("Author"))
+
+	switch d.ComponentType {
+	case "HL_CARDS_FULL":
+		queries = append(queries, qm.Load("BookCategoryAssigns.Category"))
+	}
+
+	r, err = models.Books(queries...).AllG(context.Background())
 
 	return
 }
@@ -206,6 +217,10 @@ func (d BookDataProvider) newGenericByModel(b *models.Book) Generic {
 		}
 	case "HL_BOOKS_WIDE":
 		fb.SubTitle = b.Description
+	case "HL_CARDS_FULL":
+		if b.R.BookCategoryAssigns != nil && b.R.BookCategoryAssigns[0].R.Category != nil {
+			fb.FooterText = b.R.BookCategoryAssigns[0].R.Category.Title
+		}
 	}
 
 	return fb
