@@ -4,6 +4,9 @@ import (
 	"log"
 	"os"
 
+	// Do not remove this line
+	_ "github.com/go-sql-driver/mysql"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"github.com/volatiletech/sqlboiler/boil"

@@ -18,6 +18,13 @@ type ProposedListDataProvider struct {
 	ComponentType     string
 }
 
+func NewProposedListDataProvider(cs ComponentSettings) ProposedListDataProvider {
+	return ProposedListDataProvider{
+		ComponentSettings: cs,
+		ComponentType:     "proposed_list",
+	}
+}
+
 func (b ProposedListDataProvider) GetOutputComponent() OutputComponent {
 	return b.getOutputComponent()
 }
@@ -38,11 +45,13 @@ func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 		com.ActionTitle = b.ComponentSettings.Elements.MoreTitle.Value
 	}
 
-	proposeLists, err := b.Models()
+	p, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
 		return com
 	}
+
+	proposeLists := p.(models.ProposeBookListSlice)
 
 	com.Data.Items.Generic = make([]Generic, len(proposeLists))
 	for i, v := range proposeLists {
@@ -89,7 +98,7 @@ func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 	return com
 }
 
-func (b ProposedListDataProvider) Models() (r models.ProposeBookListSlice, err error) {
+func (b ProposedListDataProvider) Models() (r interface{}, err error) {
 	queries := []qm.QueryMod{}
 
 	catIds := b.ComponentSettings.Settings.Setup.Category.GetIdis()
