@@ -10,6 +10,7 @@ import (
 	"github.com/volatiletech/sqlboiler/boil"
 
 	"github.com/volatiletech/sqlboiler/queries/qm"
+	ptime "github.com/yaa110/go-persian-calendar"
 	"gitlab.fidibo.com/backend/galaxy/api/models"
 	"gitlab.fidibo.com/backend/galaxy/api/modext"
 	"gitlab.fidibo.com/backend/galaxy/hubble"
@@ -222,7 +223,8 @@ func (d BookDataProvider) newGenericByModel(b *models.Book) Generic {
 
 	switch d.ComponentType {
 	case "HL_BOOKS_MAGAZINE":
-		fb.SubTitle = b.PublishDate.Time.String() // TODO handle shamsi date
+		pt := ptime.New(b.PublishDate.Time)
+		fb.SubTitle = pt.Format("yyyy/MM/dd")
 	case "VL_BOOKS_DESCRIPTION":
 		fb.Text = b.Description
 		if b.R.Publisher != nil {
