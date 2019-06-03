@@ -50,17 +50,27 @@ func NewBookDataProvider(cs ComponentSettings) BookDataProvider {
 	}
 }
 
-func (b BookDataProvider) GetOutputComponent() OutputComponent {
-	return b.getOutputComponent()
+// GetOutputComponent returns getOutputComponent
+func (d BookDataProvider) GetOutputComponent() OutputComponent {
+	return d.getOutputComponent()
 }
 
+// getOutputComponent returns output component
 func (d BookDataProvider) getOutputComponent() OutputComponent {
-	com := OutputComponent{
-		Type:         d.ComponentType,
-		ResourceType: dataProviderTypeBook,
-		Title:        d.ComponentSettings.Elements.Title.Value.Static,
-		SubTitle:     d.ComponentSettings.Elements.SubTitle.Value.Static,
-	}
+	// TODO: Dear @ali please look at the difference between this line
+	com, err := NewOutputComponent(
+		OutputComponentSetTitle(d.ComponentSettings.Elements.Title.Value.Static),
+		OutputComponentSetSubTitle(d.ComponentSettings.Elements.SubTitle.Value.Static),
+		OutputComponentSetType(d.ComponentType),
+		OutputComponentSetResourceType(dataProviderTypeBook),
+	)
+
+	// com := OutputComponent{
+	// 	Type:         d.ComponentType,
+	// 	ResourceType: dataProviderTypeBook,
+	// 	Title:        d.ComponentSettings.Elements.Title.Value.Static,
+	// 	SubTitle:     d.ComponentSettings.Elements.SubTitle.Value.Static,
+	// }
 
 	a := d.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
@@ -74,7 +84,7 @@ func (d BookDataProvider) getOutputComponent() OutputComponent {
 	b, err := d.Models()
 	if err != nil {
 		log.Println(err.Error())
-		return com
+		return *com
 	}
 
 	bs := b.(models.BookSlice)
@@ -86,9 +96,10 @@ func (d BookDataProvider) getOutputComponent() OutputComponent {
 		com.Data.Items.Model[i] = newBookByModel(bk)
 	}
 
-	return com
+	return *com
 }
 
+// Models returns models data of dataprovider
 func (d BookDataProvider) Models() (r interface{}, err error) {
 	ss := esClient.Search(hubble.ProductIndexName)
 
@@ -211,38 +222,4 @@ func (d BookDataProvider) newGenericByModel(b *models.Book) Generic {
 	}
 
 	return fb
-}
-
-func (d BookDataProvider) newBooksByIds(ids []int) (gens []Generic, books []Book) {
-	gens = make([]Generic, 0)
-	books = make([]Book, 0)
-
-	iids := make([]interface{}, len(ids))
-	idStrs := make([]string, len(ids))
-	for index, num := range ids {
-		iids[index] = num
-		idStrs[index] = strconv.Itoa(num)
-	}
-
-	orderByIdid := fmt.Sprintf("FIELD(id,%s)", strings.Join(idStrs, ","))
-
-	bs, err := models.Books(
-		qm.WhereIn("id in ?", iids...),
-		qm.OrderBy(orderByIdid),
-		qm.Load("Publisher"),
-		qm.Load("Author")).
-		AllG(context.Background())
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
-
-	for _, b := range bs {
-		gen := d.newGenericByModel(b)
-		book := newBookByModel(b)
-		gens = append(gens, gen)
-		books = append(books, book)
-	}
-
-	return
 }
