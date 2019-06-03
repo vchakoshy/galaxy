@@ -1,5 +1,8 @@
 package flex
 
+// for more information please look at:
+// https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis
+
 // OutputComponent struct
 type OutputComponent struct {
 	Title        string  `json:"title,omitempty"`
