@@ -30,11 +30,18 @@ func (b NewsDataProvider) GetOutputComponent() OutputComponent {
 }
 
 func (b NewsDataProvider) getOutputComponent() OutputComponent {
-	com := OutputComponent{
-		Type:         b.ComponentType,
-		ResourceType: dataProviderTypeNews,
-		Title:        b.ComponentSettings.Elements.Title.Value.Static,
-	}
+
+	com, _ := NewOutputComponent(
+		OutputComponentSetTitle(b.ComponentSettings.Elements.Title.Value.Static),
+		OutputComponentSetType(b.ComponentType),
+		OutputComponentSetResourceType(dataProviderTypeNews),
+	)
+
+	// com := OutputComponent{
+	// 	Type:         b.ComponentType,
+	// 	ResourceType: dataProviderTypeNews,
+	// 	Title:        b.ComponentSettings.Elements.Title.Value.Static,
+	// }
 
 	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
@@ -48,13 +55,10 @@ func (b NewsDataProvider) getOutputComponent() OutputComponent {
 	n, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
-		return com
+		return *com
 	}
 
-	news := n.(models.NewsSlice)
-
-	com.Data.Items.Generic = make([]Generic, len(news))
-	for i, v := range news {
+	for i, v := range n.(models.NewsSlice) {
 		g := Generic{
 			Title: v.Title,
 			Image: v.Thumbnail.String,
@@ -85,7 +89,7 @@ func (b NewsDataProvider) getOutputComponent() OutputComponent {
 		// com.Data.Items.Model = append(com.Data.Items.Model, v)
 	}
 
-	return com
+	return *com
 }
 
 func (b NewsDataProvider) Models() (r interface{}, err error) {

@@ -89,11 +89,7 @@ func (d BookDataProvider) getOutputComponent() OutputComponent {
 		return *com
 	}
 
-	bs := b.(models.BookSlice)
-
-	com.Data.Items.Generic = make([]Generic, len(bs))
-	com.Data.Items.Model = make([]interface{}, len(bs))
-	for i, bk := range bs {
+	for i, bk := range b.(models.BookSlice) {
 		com.Data.Items.Generic[i] = d.newGenericByModel(bk)
 		com.Data.Items.Model[i] = newBookByModel(bk)
 	}

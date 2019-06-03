@@ -2,6 +2,7 @@ package flex
 
 // for more information please look at:
 // https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis
+// https://www.reddit.com/r/golang/comments/6mtbx9/useful_constructors_in_go/
 
 // OutputComponent struct
 type OutputComponent struct {
@@ -31,6 +32,9 @@ func NewOutputComponent(options ...OutputComponentOptionFunc) (*OutputComponent,
 			return o, err
 		}
 	}
+
+	o.Data.Items.Generic = make([]Generic, 0)
+	o.Data.Items.Model = make([]interface{}, 0)
 
 	return o, nil
 }

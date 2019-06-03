@@ -30,11 +30,11 @@ func (b ProposedListDataProvider) GetOutputComponent() OutputComponent {
 }
 
 func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
-	com := OutputComponent{
-		Type:         b.ComponentType,
-		ResourceType: dataProviderTypeProposedList,
-		Title:        b.ComponentSettings.Elements.Title.Value.Static,
-	}
+	com, _ := NewOutputComponent(
+		OutputComponentSetTitle(b.ComponentSettings.Elements.Title.Value.Static),
+		OutputComponentSetType(b.ComponentType),
+		OutputComponentSetResourceType(dataProviderTypeProposedList),
+	)
 
 	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
@@ -48,13 +48,10 @@ func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 	p, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
-		return com
+		return *com
 	}
 
-	proposeLists := p.(models.ProposeBookListSlice)
-
-	com.Data.Items.Generic = make([]Generic, len(proposeLists))
-	for i, v := range proposeLists {
+	for i, v := range p.(models.ProposeBookListSlice) {
 		com.Data.Items.Generic[i] = Generic{
 			Title:     v.Title.String,
 			SubTitle:  v.SubTitle.String,
@@ -95,7 +92,7 @@ func (b ProposedListDataProvider) getOutputComponent() OutputComponent {
 		// com.Data.Items.Model = append(com.Data.Items.Model, v)
 	}
 
-	return com
+	return *com
 }
 
 func (b ProposedListDataProvider) Models() (r interface{}, err error) {
