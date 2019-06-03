@@ -30,11 +30,17 @@ func (b PublisherDataProvider) GetOutputComponent() OutputComponent {
 }
 
 func (b PublisherDataProvider) getOutputComponent() OutputComponent {
-	com := OutputComponent{
-		Type:         b.ComponentType,
-		ResourceType: dataProviderTypePublisher,
-		Title:        b.ComponentSettings.Elements.Title.Value.Static,
-	}
+	com, _ := NewOutputComponent(
+		OutputComponentSetTitle(b.ComponentSettings.Elements.Title.Value.Static),
+		OutputComponentSetType(b.ComponentType),
+		OutputComponentSetResourceType(dataProviderTypePublisher),
+	)
+
+	// com := OutputComponent{
+	// 	Type:         b.ComponentType,
+	// 	ResourceType: dataProviderTypePublisher,
+	// 	Title:        b.ComponentSettings.Elements.Title.Value.Static,
+	// }
 
 	a := b.ComponentSettings.Elements.MoreTitle.Action.getAction()
 	if a.Type != "" {
@@ -48,12 +54,11 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 	p, err := b.Models()
 	if err != nil {
 		log.Println(err.Error())
-		return com
+		return *com
 	}
 
 	publishers := p.(models.PublisherSlice)
 
-	com.Data.Items.Generic = make([]Generic, len(publishers))
 	for i, v := range publishers {
 		com.Data.Items.Generic[i] = Generic{
 			Title: v.Title,
@@ -77,7 +82,7 @@ func (b PublisherDataProvider) getOutputComponent() OutputComponent {
 		// com.Data.Items.Model = append(com.Data.Items.Model, v)
 	}
 
-	return com
+	return *com
 }
 
 func (b PublisherDataProvider) Models() (r interface{}, err error) {
